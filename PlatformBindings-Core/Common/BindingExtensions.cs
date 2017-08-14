@@ -1,7 +1,4 @@
-﻿using System;
-using PlatformBindings.Services;
-
-namespace PlatformBindings.Common
+﻿namespace PlatformBindings.Common
 {
     public static class BindingExtensions
     {

@@ -3,6 +3,13 @@
   <PropertyGroup>
     <TargetFramework>netstandard1.4</TargetFramework>
     <RootNamespace>PlatformBindings</RootNamespace>
+    <Authors>William Bradley</Authors>
+    <Company>WilliamABradley</Company>
+    <Description>.NET Core/Console Head for the .NET Platform Bindings Framework</Description>
+    <Copyright>Copyright © William Bradley 2017</Copyright>
+    <PackageLicenseUrl>https://github.com/WilliamABradley/PlatformBindingsFramework/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/WilliamABradley/PlatformBindingsFramework</PackageProjectUrl>
+    <PackageTags>.NET CrossPlatform .NETCore Console .NETStandard PlatformBindings</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

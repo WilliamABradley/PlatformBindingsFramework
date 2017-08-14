@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using PlatformBindings.Common;
-using PlatformBindings.Controls.Generic.MenuLayout;
 using PlatformBindings.Enums;
 using PlatformBindings.Services;
+using PlatformBindings.Controls.MenuLayout;
 
 namespace PlatformBindings.ConsoleTools
 {
@@ -11,9 +10,9 @@ namespace PlatformBindings.ConsoleTools
     {
         public InteractionManagerBase InteractionManager => null;
 
-        public INavigationManager NavigationManager => null;
-
         public IUIBindingInfo DefaultUIBinding => new ConsoleUIBindingInfo();
+
+        INavigationManager IUIBindings.NavigationManager { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public void OpenChangelog()
         {

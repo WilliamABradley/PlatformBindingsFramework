@@ -1,12 +1,8 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using PlatformBindings.Common;
 using PlatformBindings.Enums;
-using Windows.UI.Text;
 using Windows.UI.ViewManagement;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Documents;
 using System;
 using Windows.UI.Core;
 using PlatformBindings.Controls.MenuLayout;

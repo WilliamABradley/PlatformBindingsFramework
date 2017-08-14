@@ -3,7 +3,6 @@ using Android.OS;
 using Android.Content;
 using Test_Android.Views;
 using PlatformBindings;
-using PlatformBindings.Services;
 using PlatformBindings.Models.Settings;
 
 namespace Test_Android

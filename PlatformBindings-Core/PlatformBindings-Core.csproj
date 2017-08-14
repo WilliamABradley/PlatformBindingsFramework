@@ -5,6 +5,13 @@
     <PackageTargetFallback>$(PackageTargetFallback);portable-net45+win8+wp8+wpa81;</PackageTargetFallback>
     <DebugType>Full</DebugType>
     <RootNamespace>PlatformBindings</RootNamespace>
+    <Authors>William Bradley</Authors>
+    <Company>WilliamABradley</Company>
+    <Description>A Framework for creating code that performs Platform Dependent Tasks in a Generic, OS Independent manner.</Description>
+    <PackageProjectUrl>https://github.com/WilliamABradley/PlatformBindingsFramework</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/WilliamABradley/PlatformBindingsFramework/blob/master/LICENSE</PackageLicenseUrl>
+    <Copyright>Copyright © William Bradley 2017</Copyright>
+    <PackageTags>.NET CrossPlatform UWP Android .NETCore Console Xamarin</PackageTags>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
