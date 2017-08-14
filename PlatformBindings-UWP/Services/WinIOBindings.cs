@@ -31,8 +31,6 @@ namespace PlatformBindings.Services
 
         public override bool SupportsOpenFile => true;
 
-        public const string LogLocation = "BackgroundTaskLogs";
-
         public override async Task<IFolderContainer> GetFolder(FolderPath Path)
         {
             var folder = (GetBaseFolder(Path.Root) as WinFolderContainer).Folder;
