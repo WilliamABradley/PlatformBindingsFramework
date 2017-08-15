@@ -8,33 +8,33 @@ namespace PlatformBindings.Services
 {
     public abstract partial class IOBindings
     {
-        public abstract Task<IFileContainer> GetFile(string Path);
+        public abstract Task<FileContainerBase> GetFile(string Path);
 
-        public abstract Task<IFileContainer> GetFile(FilePath Path);
+        public abstract Task<FileContainerBase> GetFile(FilePath Path);
 
-        public abstract Task<IFileContainer> CreateFile(FilePath Path);
+        public abstract Task<FileContainerBase> CreateFile(FilePath Path);
 
-        public abstract Task<IFolderContainer> GetFolder(string Path);
+        public abstract Task<FolderContainerBase> GetFolder(string Path);
 
-        public abstract Task<IFolderContainer> GetFolder(FolderPath Path);
+        public abstract Task<FolderContainerBase> GetFolder(FolderPath Path);
 
-        public abstract IFolderContainer GetBaseFolder(PathRoot Root);
+        public abstract FolderContainerBase GetBaseFolder(PathRoot Root);
 
-        public abstract Task<IReadOnlyList<IFileContainer>> PickFiles(FilePickerProperties Properties);
+        public abstract Task<IReadOnlyList<FileContainerBase>> PickFiles(FilePickerProperties Properties);
 
-        public abstract Task<IFileContainer> PickFile(FilePickerProperties Properties);
+        public abstract Task<FileContainerBase> PickFile(FilePickerProperties Properties);
 
-        public abstract Task<IFolderContainer> PickFolder(FolderPickerProperties Properties);
+        public abstract Task<FolderContainerBase> PickFolder(FolderPickerProperties Properties);
 
-        public abstract Task<bool> OpenFolder(IFolderContainer Folder, FolderOpenOptions Options);
+        public abstract Task<bool> OpenFolder(FolderContainerBase Folder, FolderOpenOptions Options);
 
-        public abstract Task<bool> OpenFile(IFileContainer File);
+        public abstract Task<bool> OpenFile(FileContainerBase File);
 
         public abstract ISettingsContainer GetRoamingSettingsContainer();
 
         public abstract ISettingsContainer GetLocalSettingsContainer();
 
-        public abstract string GetFutureAccessToken(IFolderContainer Folder);
+        public abstract string GetFutureAccessToken(FolderContainerBase Folder);
 
         public abstract void RemoveFutureAccessToken(string Token);
 

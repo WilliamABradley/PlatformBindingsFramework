@@ -25,7 +25,7 @@ namespace PlatformBindings.Services
         }
 
         public bool HasUI { get; }
-        public IUIBindings UI { get; private set; }
+        public UIBindingsBase UI { get; private set; }
 
         public IOBindings IO => new WinIOBindings();
         public ICredentialManager Credentials => new WinCredentialManager();

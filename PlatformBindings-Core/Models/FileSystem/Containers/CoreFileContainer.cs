@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace PlatformBindings.Models.FileSystem
 {
-    public class CoreFileContainer : IFileContainer
+    public class CoreFileContainer : FileContainerBase
     {
         public CoreFileContainer(FileInfo File)
         {
@@ -17,7 +17,7 @@ namespace PlatformBindings.Models.FileSystem
             Name = System.IO.Path.GetFileName(Path);
         }
 
-        public Task<bool> Delete()
+        public override Task<bool> DeleteAsync()
         {
             bool Success = false;
             try
@@ -29,7 +29,7 @@ namespace PlatformBindings.Models.FileSystem
             return Task.FromResult(Success);
         }
 
-        public Task<Stream> OpenAsStream(bool CanWrite)
+        public override Task<Stream> OpenAsStream(bool CanWrite)
         {
             Stream result = null;
             if (CanWrite) result = File.OpenWrite(Path);
@@ -38,7 +38,7 @@ namespace PlatformBindings.Models.FileSystem
             return Task.FromResult(result);
         }
 
-        public Task<string> ReadFileAsText()
+        public override Task<string> ReadFileAsText()
         {
             try
             {
@@ -50,7 +50,7 @@ namespace PlatformBindings.Models.FileSystem
             catch { return Task.FromResult((string)null); }
         }
 
-        public Task<bool> SaveText(string Text)
+        public override Task<bool> SaveText(string Text)
         {
             bool success = false;
             try
@@ -66,7 +66,21 @@ namespace PlatformBindings.Models.FileSystem
             return Task.FromResult(success);
         }
 
-        public string Name { get; set; }
-        public string Path { get; set; }
+        public override Task<bool> RenameAsync(string NewName)
+        {
+            return Task.Run(() =>
+            {
+                try
+                {
+                    string Directory = System.IO.Path.GetDirectoryName(Path);
+                    File.Move(Path, System.IO.Path.Combine(Directory, NewName));
+                    return true;
+                }
+                catch { return false; }
+            });
+        }
+
+        public override string Name { get; }
+        public override string Path { get; }
     }
 }

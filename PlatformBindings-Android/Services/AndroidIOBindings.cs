@@ -23,42 +23,42 @@ namespace PlatformBindings.Services
 
         public override bool SupportsOpenFile => true;
 
-        public override async Task<IFileContainer> CreateFile(FilePath Path)
+        public override async Task<FileContainerBase> CreateFile(FilePath Path)
         {
             var folder = await GetFolder(Path);
-            return await folder.CreateFile(Path.FileName);
+            return await folder.CreateFileAsync(Path.FileName);
         }
 
-        public override Task<IFileContainer> GetFile(string Path)
+        public override Task<FileContainerBase> GetFile(string Path)
         {
-            return Task.FromResult((IFileContainer)new CoreFileContainer(Path));
+            return Task.FromResult((FileContainerBase)new CoreFileContainer(Path));
         }
 
-        public override async Task<IFileContainer> GetFile(FilePath Path)
+        public override async Task<FileContainerBase> GetFile(FilePath Path)
         {
             var folder = await GetFolder(Path);
-            return await folder.GetFile(Path.FileName);
+            return await folder.GetFileAsync(Path.FileName);
         }
 
-        public override Task<IFolderContainer> GetFolder(string Path)
+        public override Task<FolderContainerBase> GetFolder(string Path)
         {
-            return Task.FromResult((IFolderContainer)new CoreFolderContainer(Path));
+            return Task.FromResult((FolderContainerBase)new CoreFolderContainer(Path));
         }
 
-        public override async Task<IFolderContainer> GetFolder(FolderPath Path)
+        public override async Task<FolderContainerBase> GetFolder(FolderPath Path)
         {
-            IFolderContainer Folder = GetBaseFolder(Path.Root);
+            FolderContainerBase Folder = GetBaseFolder(Path.Root);
 
-            foreach (var piece in IOHelpers.GetPathPieces(Path.Path))
+            foreach (var piece in PlatformBindingHelpers.GetPathPieces(Path.Path))
             {
-                Folder = await Folder.GetFolder(piece);
+                Folder = await Folder.GetFolderAsync(piece);
             }
             return Folder;
         }
 
-        public override IFolderContainer GetBaseFolder(PathRoot Root)
+        public override FolderContainerBase GetBaseFolder(PathRoot Root)
         {
-            IFolderContainer Folder = null;
+            FolderContainerBase Folder = null;
             switch (Root)
             {
                 case PathRoot.TempAppStorage:
@@ -86,7 +86,7 @@ namespace PlatformBindings.Services
             return new AndroidSettingsContainer(name, null);
         }
 
-        public override Task<bool> OpenFile(IFileContainer File)
+        public override Task<bool> OpenFile(FileContainerBase File)
         {
             bool success = false;
             try
@@ -107,7 +107,7 @@ namespace PlatformBindings.Services
             return Task.FromResult(success);
         }
 
-        public override Task<bool> OpenFolder(IFolderContainer Folder, FolderOpenOptions Options)
+        public override Task<bool> OpenFolder(FolderContainerBase Folder, FolderOpenOptions Options)
         {
             throw new NotImplementedException();
         }
@@ -154,7 +154,7 @@ namespace PlatformBindings.Services
             return result.RequestCode == requestCode ? result : null;
         }
 
-        public override async Task<IFileContainer> PickFile(FilePickerProperties Properties)
+        public override async Task<FileContainerBase> PickFile(FilePickerProperties Properties)
         {
             var result = await CreateFilePicker(Properties, false);
             if (result != null && result.ResultCode == Result.Ok && result.Data != null)
@@ -164,15 +164,15 @@ namespace PlatformBindings.Services
             else return null;
         }
 
-        private IFileContainer ResolveToFile(Android.Net.Uri Uri)
+        private FileContainerBase ResolveToFile(Android.Net.Uri Uri)
         {
             var path = PathResolver.ResolveFile(Application.Context, Uri);
             return new CoreFileContainer(path);
         }
 
-        public override async Task<IReadOnlyList<IFileContainer>> PickFiles(FilePickerProperties Properties)
+        public override async Task<IReadOnlyList<FileContainerBase>> PickFiles(FilePickerProperties Properties)
         {
-            List<IFileContainer> Files = new List<IFileContainer>();
+            List<FileContainerBase> Files = new List<FileContainerBase>();
 
             var result = await CreateFilePicker(Properties, true);
             if (result != null && result.ResultCode == Result.Ok && result.Data != null)
@@ -195,7 +195,7 @@ namespace PlatformBindings.Services
             return null;
         }
 
-        public override async Task<IFolderContainer> PickFolder(FolderPickerProperties Properties)
+        public override async Task<FolderContainerBase> PickFolder(FolderPickerProperties Properties)
         {
             AppServices.Services.UI.PromptUser("Error", "Folder resolving fails", "OK", null);
 
@@ -218,17 +218,12 @@ namespace PlatformBindings.Services
 
         //NOT SUPPORTED
 
-        public void DeleteCredentials()
-        {
-            throw new NotImplementedException();
-        }
-
         public override ISettingsContainer GetRoamingSettingsContainer()
         {
             throw new NotImplementedException();
         }
 
-        public override string GetFutureAccessToken(IFolderContainer Folder)
+        public override string GetFutureAccessToken(FolderContainerBase Folder)
         {
             throw new NotImplementedException();
         }

@@ -29,7 +29,7 @@ namespace PlatformBindings.Services
             {
                 _ShowBackButton = value;
                 BackButtonStateChanged?.Invoke(this, value);
-                CoreHelpers.OnUIThread(() =>
+                PlatformBindingHelpers.OnUIThread(() =>
                 {
                     if (ShowBackButton)
                     {

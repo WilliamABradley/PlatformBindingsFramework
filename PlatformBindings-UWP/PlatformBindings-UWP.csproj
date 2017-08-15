@@ -108,7 +108,6 @@
     <Compile Include="Common\WinListSupportsIncrementalLoading.cs" />
     <Compile Include="Common\WinSupportsIncrementalLoading.cs" />
     <Compile Include="Models\FileSystem\WinFileContainer.cs" />
-    <Compile Include="Models\FileSystem\WinFileSystemContainer.cs" />
     <Compile Include="Models\FileSystem\WinFolderContainer.cs" />
     <Compile Include="Models\Settings\WinSettingsContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

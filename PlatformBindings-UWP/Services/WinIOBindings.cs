@@ -31,14 +31,14 @@ namespace PlatformBindings.Services
 
         public override bool SupportsOpenFile => true;
 
-        public override async Task<IFolderContainer> GetFolder(FolderPath Path)
+        public override async Task<FolderContainerBase> GetFolder(FolderPath Path)
         {
             var folder = (GetBaseFolder(Path.Root) as WinFolderContainer).Folder;
             string path = Path.Path;
 
-            foreach (var piece in IOHelpers.GetPathPieces(path))
+            foreach (var piece in PlatformBindingHelpers.GetPathPieces(path))
             {
-                var task = folder.CreateFolderAsync(piece, CreationCollisionOption.OpenIfExists).AsTask();
+                var task = folder.CreateFolderAsync(piece, Windows.Storage.CreationCollisionOption.OpenIfExists).AsTask();
                 await task;
                 if (task.Exception != null)
                     throw task.Exception;
@@ -47,16 +47,16 @@ namespace PlatformBindings.Services
             return new WinFolderContainer(folder);
         }
 
-        public override async Task<IFileContainer> GetFile(FilePath Path)
+        public override async Task<FileContainerBase> GetFile(FilePath Path)
         {
             var folder = await GetFolder(Path);
-            return await folder.GetFile(Path.FileName);
+            return await folder.GetFileAsync(Path.FileName);
         }
 
-        public override async Task<IFileContainer> CreateFile(FilePath Path)
+        public override async Task<FileContainerBase> CreateFile(FilePath Path)
         {
             var folder = await GetFolder(Path);
-            return await folder.CreateFile(Path.FileName);
+            return await folder.CreateFileAsync(Path.FileName);
         }
 
         public override ISettingsContainer GetLocalSettingsContainer()
@@ -69,7 +69,7 @@ namespace PlatformBindings.Services
             return new WinSettingsContainer(ApplicationData.Current.RoamingSettings, null);
         }
 
-        public override IFolderContainer GetBaseFolder(PathRoot Root)
+        public override FolderContainerBase GetBaseFolder(PathRoot Root)
         {
             switch (Root)
             {
@@ -100,14 +100,14 @@ namespace PlatformBindings.Services
             return new WinFolderContainer(ApplicationData.Current.RoamingFolder);
         }
 
-        public override async Task<IReadOnlyList<IFileContainer>> PickFiles(FilePickerProperties Properties = null)
+        public override async Task<IReadOnlyList<FileContainerBase>> PickFiles(FilePickerProperties Properties = null)
         {
             var picker = GetFilePicker(Properties);
             var files = await picker.PickMultipleFilesAsync();
             return files?.Select(item => new WinFileContainer(item)).ToList();
         }
 
-        public override async Task<IFileContainer> PickFile(FilePickerProperties Properties = null)
+        public override async Task<FileContainerBase> PickFile(FilePickerProperties Properties = null)
         {
             var picker = GetFilePicker(Properties);
             var file = await picker.PickSingleFileAsync();
@@ -151,7 +151,7 @@ namespace PlatformBindings.Services
             }
         }
 
-        public override async Task<IFolderContainer> PickFolder(FolderPickerProperties Properties = null)
+        public override async Task<FolderContainerBase> PickFolder(FolderPickerProperties Properties = null)
         {
             var picker = new FolderPicker();
             if (Properties != null)
@@ -170,7 +170,7 @@ namespace PlatformBindings.Services
             return folder != null ? new WinFolderContainer(folder) : null;
         }
 
-        public override string GetFutureAccessToken(IFolderContainer Folder)
+        public override string GetFutureAccessToken(FolderContainerBase Folder)
         {
             var folder = Folder as WinFolderContainer;
             return StorageApplicationPermissions.FutureAccessList.Add(folder.Folder);
@@ -181,19 +181,19 @@ namespace PlatformBindings.Services
             StorageApplicationPermissions.FutureAccessList.Remove(Token);
         }
 
-        public override async Task<IFileContainer> GetFile(string Path)
+        public override async Task<FileContainerBase> GetFile(string Path)
         {
             var file = await StorageFile.GetFileFromPathAsync(Path);
             return new WinFileContainer(file);
         }
 
-        public override async Task<IFolderContainer> GetFolder(string Path)
+        public override async Task<FolderContainerBase> GetFolder(string Path)
         {
             var folder = await StorageFolder.GetFolderFromPathAsync(Path);
             return new WinFolderContainer(folder);
         }
 
-        public override async Task<bool> OpenFolder(IFolderContainer Folder, FolderOpenOptions Options = null)
+        public override async Task<bool> OpenFolder(FolderContainerBase Folder, FolderOpenOptions Options = null)
         {
             var container = Folder as WinFolderContainer;
             var folder = container.Folder;
@@ -201,16 +201,20 @@ namespace PlatformBindings.Services
             var LaunchOptions = new FolderLauncherOptions();
             if (Options != null)
             {
-                foreach (WinFileSystemContainer item in Options.ItemsToSelect)
+                foreach (FileSystemContainerBase FileSystemItem in Options.ItemsToSelect)
                 {
-                    LaunchOptions.ItemsToSelect.Add(item.Item);
+                    IStorageItem Item = null;
+                    if (FileSystemItem is WinFolderContainer winfolder) Item = winfolder.Folder;
+                    else if (FileSystemItem is WinFileContainer winfile) Item = winfile.File;
+
+                    LaunchOptions.ItemsToSelect.Add(Item);
                 }
             }
 
             return await Launcher.LaunchFolderAsync(folder, LaunchOptions);
         }
 
-        public override async Task<bool> OpenFile(IFileContainer File)
+        public override async Task<bool> OpenFile(FileContainerBase File)
         {
             var container = File as WinFileContainer;
             var file = container.File;

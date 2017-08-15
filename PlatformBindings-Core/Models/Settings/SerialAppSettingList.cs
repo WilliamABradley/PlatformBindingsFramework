@@ -11,7 +11,7 @@ namespace PlatformBindings.Models.Settings
             this.IsLocal = IsLocal;
 
             //Will Throw if Settings Containers unwired.
-            Attach(CoreHelpers.GetSettingsContainer(IsLocal));
+            Attach(PlatformBindingHelpers.GetSettingsContainer(IsLocal));
         }
 
         public bool IsLocal { get; private set; }

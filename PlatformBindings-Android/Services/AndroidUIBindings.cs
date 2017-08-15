@@ -3,37 +3,36 @@ using System;
 using System.Threading.Tasks;
 using PlatformBindings.Enums;
 using PlatformBindings.Controls.MenuLayout;
+using Android.Content;
+using PlatformBindings.Common;
 
 namespace PlatformBindings.Services
 {
-    public class AndroidUIBindings : IUIBindings
+    public class AndroidUIBindings : UIBindingsBase
     {
         public AndroidUIBindings()
         {
             DefaultUIBinding = new AndroidUIBindingInfo();
         }
 
-        public InteractionManagerBase InteractionManager => throw new NotImplementedException();
+        public override InteractionManagerBase InteractionManager => throw new NotImplementedException();
 
-        public IUIBindingInfo DefaultUIBinding { get; }
-        public INavigationManager NavigationManager { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public override IUIBindingInfo DefaultUIBinding { get; }
+        public override INavigationManager NavigationManager { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        public void OpenLink(Uri Uri)
+        public override void OpenLink(Uri Uri)
         {
-            throw new NotImplementedException();
+            var activity = AndroidHelpers.GetCurrentActivity(null);
+            Intent browserIntent = new Intent(Intent.ActionView, Android.Net.Uri.Parse(Uri.ToString()));
+            activity.StartActivity(browserIntent);
         }
 
-        public async void PromptUser(string Title, string Message, string PrimaryButtonText, IUIBindingInfo UIBinding)
-        {
-            await PromptUserAsync(Title, Message, PrimaryButtonText, null, UIBinding);
-        }
-
-        public async Task<DialogResult> PromptUserAsync(string Title, string Message, string PrimaryButtonText, string SecondaryButtonText, IUIBindingInfo UIBinding)
+        public override async Task<DialogResult> PromptUserAsync(string Title, string Message, string PrimaryButtonText, string SecondaryButtonText, IUIBindingInfo UIBinding)
         {
             TaskCompletionSource<DialogResult> Waiter = new TaskCompletionSource<DialogResult>();
 
-            var uibinding = (UIBinding ?? AppServices.Services.UI.DefaultUIBinding) as AndroidUIBindingInfo;
-            var builder = new AlertDialog.Builder(uibinding.Activity);
+            var activity = AndroidHelpers.GetCurrentActivity(UIBinding);
+            var builder = new AlertDialog.Builder(activity);
 
             builder.SetTitle(Title);
             builder.SetMessage(Message);
@@ -49,20 +48,15 @@ namespace PlatformBindings.Services
             return await Waiter.Task;
         }
 
-        public void SetTitlebarText(string Text)
+        //Unsupported
+        public override void SetTitlebarText(string Text)
         {
-            throw new NotImplementedException();
         }
 
-        public void ShowMenu(Menu Menu, IMenuBinding Binding)
+        public override void ShowMenu(Menu Menu, IMenuBinding Binding)
         {
             var context = Binding as AndroidContextMenuBinding;
             context.Activity.OpenContextMenuForDisplay(Menu, context);
-        }
-
-        public void UpdateTheme()
-        {
-            throw new NotImplementedException();
         }
     }
 }

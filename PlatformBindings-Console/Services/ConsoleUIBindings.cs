@@ -6,35 +6,20 @@ using PlatformBindings.Controls.MenuLayout;
 
 namespace PlatformBindings.ConsoleTools
 {
-    public class ConsoleUIBindings : IUIBindings
+    public class ConsoleUIBindings : UIBindingsBase
     {
-        public InteractionManagerBase InteractionManager => null;
+        public override InteractionManagerBase InteractionManager => null;
 
-        public IUIBindingInfo DefaultUIBinding => new ConsoleUIBindingInfo();
+        public override IUIBindingInfo DefaultUIBinding => new ConsoleUIBindingInfo();
 
-        INavigationManager IUIBindings.NavigationManager { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public override INavigationManager NavigationManager { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        public void OpenChangelog()
+        public override void OpenLink(Uri Uri)
         {
             throw new NotImplementedException();
         }
 
-        public void OpenFeedback()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void OpenLink(Uri Uri)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async void PromptUser(string Title, string Message, string PrimaryButtonText = null, IUIBindingInfo UIBinding = null)
-        {
-            await PromptUserAsync(Title, Message, PrimaryButtonText, null, UIBinding);
-        }
-
-        public Task<DialogResult> PromptUserAsync(string Title, string Message, string PrimaryButtonText = null, string SecondaryButtonText = null, IUIBindingInfo UIBinding = null)
+        public override Task<DialogResult> PromptUserAsync(string Title, string Message, string PrimaryButtonText = null, string SecondaryButtonText = null, IUIBindingInfo UIBinding = null)
         {
             Console.WriteLine(Title);
             Console.WriteLine(Message);
@@ -53,18 +38,14 @@ namespace PlatformBindings.ConsoleTools
             return Task.FromResult(result);
         }
 
-        public void SetTitlebarText(string Text = "")
+        public override void SetTitlebarText(string Text = "")
         {
             Console.Title = Text;
         }
 
-        public void ShowMenu(Menu Menu, IMenuBinding Binding)
+        public override void ShowMenu(Menu Menu, IMenuBinding Binding)
         {
             throw new NotImplementedException();
-        }
-
-        public void UpdateTheme()
-        {
         }
     }
 }

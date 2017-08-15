@@ -9,7 +9,7 @@ using PlatformBindings.Controls.MenuLayout;
 
 namespace PlatformBindings.Services
 {
-    public class WinUIBindings : IUIBindings
+    public class WinUIBindings : UIBindingsBase
     {
         public static WinUIBindings Current;
 
@@ -20,12 +20,7 @@ namespace PlatformBindings.Services
             InteractionManager = new InteractionManager(DefaultUIBinding);
         }
 
-        public async void PromptUser(string Title, string Message, string PrimaryButtonText = null, IUIBindingInfo UIBinding = null)
-        {
-            await PromptUserAsync(Title, Message, PrimaryButtonText, null, UIBinding);
-        }
-
-        public async Task<DialogResult> PromptUserAsync(string Title, string Message, string PrimaryButtonText = null, string SecondaryButtonText = null, IUIBindingInfo UIBinding = null)
+        public override async Task<DialogResult> PromptUserAsync(string Title, string Message, string PrimaryButtonText = null, string SecondaryButtonText = null, IUIBindingInfo UIBinding = null)
         {
             var binding = UIBinding as WinUIBindingInfo;
 
@@ -46,12 +41,12 @@ namespace PlatformBindings.Services
             }
         }
 
-        public void SetTitlebarText(string Text = "")
+        public override void SetTitlebarText(string Text = "")
         {
             ApplicationView.GetForCurrentView().Title = Text;
         }
 
-        public void ShowMenu(Menu Menu, IMenuBinding Binding)
+        public override void ShowMenu(Menu Menu, IMenuBinding Binding)
         {
             switch (Binding)
             {
@@ -65,15 +60,15 @@ namespace PlatformBindings.Services
             }
         }
 
-        public async void OpenLink(Uri Uri)
+        public override async void OpenLink(Uri Uri)
         {
             await Windows.System.Launcher.LaunchUriAsync(Uri);
         }
 
-        public InteractionManagerBase InteractionManager { get; }
+        public override InteractionManagerBase InteractionManager { get; }
 
-        public INavigationManager NavigationManager { get; set; }
+        public override INavigationManager NavigationManager { get; set; }
 
-        public IUIBindingInfo DefaultUIBinding { get; }
+        public override IUIBindingInfo DefaultUIBinding { get; }
     }
 }

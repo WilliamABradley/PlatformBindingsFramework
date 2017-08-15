@@ -13,7 +13,7 @@ namespace PlatformBindings.Services
 
         public bool HasUI { get; }
 
-        public IUIBindings UI { get; }
+        public UIBindingsBase UI { get; }
 
         public IOBindings IO => new AndroidIOBindings();
 

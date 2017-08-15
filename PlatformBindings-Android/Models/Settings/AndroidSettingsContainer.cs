@@ -71,7 +71,7 @@ namespace PlatformBindings.Models.Settings
 
         public T GetValue<T>(string Key)
         {
-            var type = CoreHelpers.DetermineGeneric<T>();
+            var type = PlatformBindingHelpers.DetermineGeneric<T>();
             object result = null;
             switch (type)
             {

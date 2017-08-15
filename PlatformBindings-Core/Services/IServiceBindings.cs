@@ -7,7 +7,7 @@ namespace PlatformBindings.Services
         Version GetAppVersion();
 
         bool HasUI { get; }
-        IUIBindings UI { get; }
+        UIBindingsBase UI { get; }
 
         IOBindings IO { get; }
         ICredentialManager Credentials { get; }

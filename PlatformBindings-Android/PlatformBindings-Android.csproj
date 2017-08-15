@@ -45,6 +45,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AndroidAppServices.cs" />
+    <Compile Include="Common\AndroidExtensions.cs" />
+    <Compile Include="Common\AndroidHelpers.cs" />
     <Compile Include="LibActivity.cs" />
     <Compile Include="Models\ActivityResult.cs" />
     <Compile Include="Models\Settings\AndroidSettingsContainer.cs" />

@@ -3,11 +3,56 @@ using System.Threading.Tasks;
 using PlatformBindings.Enums;
 using PlatformBindings.Models.Settings;
 using PlatformBindings.Services;
+using System.IO;
+using System.Collections.Generic;
+using System.Linq;
+using PlatformBindings.Models.FileSystem;
 
 namespace PlatformBindings.Common
 {
-    public static class CoreHelpers
+    public static class PlatformBindingHelpers
     {
+        public static string ResolvePath(FolderPath Path)
+        {
+            char separator = System.IO.Path.DirectorySeparatorChar;
+
+            var path = AppServices.Services.IO.GetBaseFolder(Path.Root).Path;
+
+            foreach (var piece in GetPathPieces(Path.Path))
+            {
+                path += separator + piece;
+            }
+
+            if (Path is FilePath file)
+            {
+                path += separator + file.FileName;
+            }
+
+            return path;
+        }
+
+        public static List<string> GetPathPieces(string path)
+        {
+            if (string.IsNullOrWhiteSpace(path)) return new List<string>();
+
+            path = path.Replace('/', '\\').TrimEnd('\\');
+            return path.Split('\\').ToList();
+        }
+
+        public static byte[] GetByteArrayFromStream(this Stream Stream)
+        {
+            byte[] buffer = new byte[16 * 1024];
+            using (MemoryStream ms = new MemoryStream())
+            {
+                int read;
+                while ((read = Stream.Read(buffer, 0, buffer.Length)) > 0)
+                {
+                    ms.Write(buffer, 0, read);
+                }
+                return ms.ToArray();
+            }
+        }
+
         public static async void OnUIThread(Action action)
         {
             await OnUIThreadAsync(action);

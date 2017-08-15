@@ -7,7 +7,7 @@ namespace PlatformBindings.ConsoleTools
     {
         public bool HasUI => true;
 
-        public IUIBindings UI => new ConsoleUIBindings();
+        public UIBindingsBase UI => new ConsoleUIBindings();
 
         public IOBindings IO => new ConsoleIOBindings();
 
