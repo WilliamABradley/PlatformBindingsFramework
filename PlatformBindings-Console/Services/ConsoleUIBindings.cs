@@ -38,7 +38,7 @@ namespace PlatformBindings.ConsoleTools
             return Task.FromResult(result);
         }
 
-        public override void SetTitlebarText(string Text = "")
+        public override void SetWindowText(string Text = "")
         {
             Console.Title = Text;
         }

@@ -38,7 +38,7 @@ namespace PlatformBindings.Services
             }
         }
 
-        public override void SetTitlebarText(string Text = "")
+        public override void SetWindowText(string Text = "")
         {
             ApplicationView.GetForCurrentView().Title = Text;
         }
