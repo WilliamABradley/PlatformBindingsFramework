@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace PlatformBindings.Enums
+﻿namespace PlatformBindings.Enums
 {
     public enum CreationCollisionOption
     {

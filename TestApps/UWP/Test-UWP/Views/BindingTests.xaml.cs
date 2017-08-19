@@ -24,7 +24,7 @@ namespace Tests_UWP.Views
 
         private void ShowBack()
         {
-            AppServices.Services.UI.NavigationManager.ShowBackButton = true;
+            AppServices.UI.NavigationManager.ShowBackButton = true;
         }
 
         private void PickerTest_Click(object sender, RoutedEventArgs e)

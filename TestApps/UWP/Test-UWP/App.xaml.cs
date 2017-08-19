@@ -1,5 +1,4 @@
 ﻿using PlatformBindings;
-using PlatformBindings.Services;
 using System;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
@@ -14,7 +13,7 @@ namespace Test_UWP
     /// </summary>
     sealed partial class App : Application
     {
-        private static WinServiceBindings Services = new WinServiceBindings();
+        private static UWPAppServices Services = new UWPAppServices(true);
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -24,7 +23,6 @@ namespace Test_UWP
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
-            new UWPAppServices(Services);
         }
 
         /// <summary>

@@ -14,7 +14,7 @@ namespace PlatformBindings
     {
         protected override void OnCreate(Bundle bundle)
         {
-            var uibinding = AppServices.Services.UI.DefaultUIBinding as AndroidUIBindingInfo;
+            var uibinding = AppServices.UI.DefaultUIBinding as AndroidUIBindingInfo;
             uibinding.Activity = this;
             base.OnCreate(bundle);
         }

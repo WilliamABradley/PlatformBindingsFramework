@@ -6,7 +6,7 @@ namespace PlatformBindings.Common
     {
         public static LibActivity GetCurrentActivity(IUIBindingInfo UIBinding)
         {
-            var uibinding = (UIBinding ?? AppServices.Services.UI.DefaultUIBinding) as AndroidUIBindingInfo;
+            var uibinding = (UIBinding ?? AppServices.UI.DefaultUIBinding) as AndroidUIBindingInfo;
             return uibinding.Activity;
         }
     }

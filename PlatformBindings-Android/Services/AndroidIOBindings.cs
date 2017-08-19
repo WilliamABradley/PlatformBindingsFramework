@@ -97,7 +97,7 @@ namespace PlatformBindings.Services
 
                 TaskCompletionSource<ActivityResult> Waiter = new TaskCompletionSource<ActivityResult>();
 
-                var uibinding = AppServices.Services.UI.DefaultUIBinding as AndroidUIBindingInfo;
+                var uibinding = AppServices.UI.DefaultUIBinding as AndroidUIBindingInfo;
                 uibinding.Activity.StartActivityForResult(intent, 24);
 
                 success = true;
@@ -146,7 +146,7 @@ namespace PlatformBindings.Services
 
             int requestCode = 42;
             TaskCompletionSource<ActivityResult> Waiter = new TaskCompletionSource<ActivityResult>();
-            var uibinding = AppServices.Services.UI.DefaultUIBinding as AndroidUIBindingInfo;
+            var uibinding = AppServices.UI.DefaultUIBinding as AndroidUIBindingInfo;
             uibinding.Activity.StartActivityForResult(intent, requestCode);
             uibinding.Activity.ActivityReturned += (s, e) => Waiter.TrySetResult(e);
 
@@ -197,13 +197,13 @@ namespace PlatformBindings.Services
 
         public override async Task<FolderContainerBase> PickFolder(FolderPickerProperties Properties)
         {
-            AppServices.Services.UI.PromptUser("Error", "Folder resolving fails", "OK", null);
+            AppServices.UI.PromptUser("Error", "Folder resolving fails", "OK", null);
 
             Intent intent = new Intent(Intent.ActionOpenDocumentTree);
 
             int requestCode = 42;
             TaskCompletionSource<ActivityResult> Waiter = new TaskCompletionSource<ActivityResult>();
-            var uibinding = AppServices.Services.UI.DefaultUIBinding as AndroidUIBindingInfo;
+            var uibinding = AppServices.UI.DefaultUIBinding as AndroidUIBindingInfo;
             uibinding.Activity.StartActivityForResult(intent, requestCode);
             uibinding.Activity.ActivityReturned += (s, e) => Waiter.TrySetResult(e);
 

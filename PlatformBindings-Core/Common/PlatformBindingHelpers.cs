@@ -16,7 +16,7 @@ namespace PlatformBindings.Common
         {
             char separator = System.IO.Path.DirectorySeparatorChar;
 
-            var path = AppServices.Services.IO.GetBaseFolder(Path.Root).Path;
+            var path = AppServices.IO.GetBaseFolder(Path.Root).Path;
 
             foreach (var piece in GetPathPieces(Path.Path))
             {
@@ -60,7 +60,7 @@ namespace PlatformBindings.Common
 
         public static async Task OnUIThreadAsync(Action action)
         {
-            await AppServices.Services.UI.DefaultUIBinding.ExecuteAsync(action);
+            await AppServices.UI.DefaultUIBinding.ExecuteAsync(action);
         }
 
         public static void OnUIThread(IUIBindingInfo UIBinding, Action action)
@@ -75,7 +75,7 @@ namespace PlatformBindings.Common
 
         public static ISettingsContainer GetSettingsContainer(bool GetLocal)
         {
-            return GetLocal || !AppServices.Services.IO.SupportsRoaming ? AppServices.Services.IO.GetLocalSettingsContainer() : AppServices.Services.IO.GetRoamingSettingsContainer();
+            return GetLocal || !AppServices.IO.SupportsRoaming ? AppServices.IO.GetLocalSettingsContainer() : AppServices.IO.GetRoamingSettingsContainer();
         }
 
         public static ObjectType DetermineGeneric<T>()

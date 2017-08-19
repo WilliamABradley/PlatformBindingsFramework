@@ -115,11 +115,11 @@
     <Compile Include="Services\ContextMenuBinding.cs" />
     <Compile Include="Services\InteractionManager.cs" />
     <Compile Include="Services\MenuRenderer.cs" />
+    <Compile Include="Services\WinConnectionTest.cs" />
     <Compile Include="Services\WinCredentialManager.cs" />
     <Compile Include="Services\WinIOBindings.cs" />
     <Compile Include="Services\WinNavigationManager.cs" />
     <Compile Include="Services\WinOAuthBroker.cs" />
-    <Compile Include="Services\WinServiceBindings.cs" />
     <Compile Include="Services\WinUIBindingInfo.cs" />
     <Compile Include="Services\WinUIBindings.cs" />
     <Compile Include="UWPAppServices.cs" />

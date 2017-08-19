@@ -10,7 +10,7 @@ namespace Tests.Tests
         {
             void Selected(MenuItem Item)
             {
-                AppServices.Services.UI.PromptUser("Selected", $"{Item.Label} Pressed", "OK", null);
+                AppServices.UI.PromptUser("Selected", $"{Item.Label} Pressed", "OK", null);
                 if (Item is ToggleMenuItem tog)
                 {
                     tog.IsToggled = tog.IsToggled != true;
@@ -33,7 +33,7 @@ namespace Tests.Tests
 
         public void ShowMenu(IMenuBinding Binding)
         {
-            AppServices.Services.UI.ShowMenu(Menu, Binding);
+            AppServices.UI.ShowMenu(Menu, Binding);
         }
 
         public Menu Menu { get; }

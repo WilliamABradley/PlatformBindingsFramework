@@ -8,7 +8,7 @@ namespace PlatformBindings.ViewModels
     {
         public ViewModelBase(IUIBindingInfo UIBinding = null)
         {
-            this.UIBinding = UIBinding ?? AppServices.Services.UI.DefaultUIBinding;
+            this.UIBinding = UIBinding ?? AppServices.UI.DefaultUIBinding;
         }
 
         public IUIBindingInfo UIBinding { get; }

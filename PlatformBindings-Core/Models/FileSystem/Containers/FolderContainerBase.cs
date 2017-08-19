@@ -1,10 +1,7 @@
-﻿using PlatformBindings.Common;
-using PlatformBindings.Enums;
+﻿using PlatformBindings.Enums;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System;
-using System.IO;
 
 namespace PlatformBindings.Models.FileSystem
 {

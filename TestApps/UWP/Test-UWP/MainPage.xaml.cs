@@ -15,7 +15,7 @@ namespace Test_UWP
         public MainPage()
         {
             this.InitializeComponent();
-            AppServices.Services.UI.NavigationManager = new TestNavigationManager(MainFrame);
+            AppServices.UI.NavigationManager = new TestNavigationManager(MainFrame);
             MainFrame.Navigate(typeof(BindingTests));
         }
     }

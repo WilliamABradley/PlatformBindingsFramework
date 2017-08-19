@@ -6,6 +6,9 @@ using PlatformBindings.Models.Settings;
 
 namespace PlatformBindings.Services
 {
+    /// <summary>
+    /// Methods for handling IO through the File System, and Settings Clusters
+    /// </summary>
     public abstract partial class IOBindings
     {
         public abstract Task<FileContainerBase> GetFile(string Path);

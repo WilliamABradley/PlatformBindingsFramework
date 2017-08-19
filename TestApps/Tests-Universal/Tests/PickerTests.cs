@@ -8,13 +8,13 @@ namespace Tests.Tests
     {
         public async void PickFile()
         {
-            var file = await AppServices.Services.IO.PickFile(null);
+            var file = await AppServices.IO.PickFile(null);
             if (file != null)
             {
-                var result = await AppServices.Services.UI.PromptUserAsync("File", file.Path, "Open", "Close", null);
+                var result = await AppServices.UI.PromptUserAsync("File", file.Path, "Open", "Close", null);
                 if (result == DialogResult.Primary)
                 {
-                    await AppServices.Services.IO.OpenFile(file);
+                    await AppServices.IO.OpenFile(file);
                 }
             }
             else PickerCancelled();
@@ -22,7 +22,7 @@ namespace Tests.Tests
 
         public async void PickFiles()
         {
-            var files = await AppServices.Services.IO.PickFiles(null);
+            var files = await AppServices.IO.PickFiles(null);
             if (files != null)
             {
                 string fileList = "";
@@ -31,12 +31,12 @@ namespace Tests.Tests
                     fileList += file.Path + Environment.NewLine;
                 }
 
-                var result = await AppServices.Services.UI.PromptUserAsync("Files", fileList, "Open", "Close", null);
+                var result = await AppServices.UI.PromptUserAsync("Files", fileList, "Open", "Close", null);
                 if (result == DialogResult.Primary)
                 {
                     foreach (var file in files)
                     {
-                        await AppServices.Services.IO.OpenFile(file);
+                        await AppServices.IO.OpenFile(file);
                     }
                 }
             }
@@ -45,13 +45,13 @@ namespace Tests.Tests
 
         public async void PickFolder()
         {
-            var folder = await AppServices.Services.IO.PickFolder(null);
+            var folder = await AppServices.IO.PickFolder(null);
             if (folder != null)
             {
-                var result = await AppServices.Services.UI.PromptUserAsync("Folder", folder.Path, "Open", "Close", null);
+                var result = await AppServices.UI.PromptUserAsync("Folder", folder.Path, "Open", "Close", null);
                 if (result == DialogResult.Primary)
                 {
-                    await AppServices.Services.IO.OpenFolder(folder, null);
+                    await AppServices.IO.OpenFolder(folder, null);
                 }
             }
             else PickerCancelled();
@@ -59,7 +59,7 @@ namespace Tests.Tests
 
         private void PickerCancelled()
         {
-            AppServices.Services.UI.PromptUser("Warning", "Picker Cancelled", "OK", null);
+            AppServices.UI.PromptUser("Warning", "Picker Cancelled", "OK", null);
         }
     }
 }

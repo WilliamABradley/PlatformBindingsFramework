@@ -10,10 +10,10 @@ namespace Test_Android
     [Activity(Label = "Test_Android", MainLauncher = true, Icon = "@drawable/icon")]
     public class MainActivity : LibActivity
     {
+        public static AndroidAppServices Services = new AndroidAppServices(true);
+
         protected override void OnCreate(Bundle bundle)
         {
-            new AndroidAppServices(true);
-
             // Build App Services before calling base, to allow binding.
             base.OnCreate(bundle);
 

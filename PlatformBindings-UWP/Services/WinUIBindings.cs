@@ -11,11 +11,8 @@ namespace PlatformBindings.Services
 {
     public class WinUIBindings : UIBindingsBase
     {
-        public static WinUIBindings Current;
-
         public WinUIBindings(CoreDispatcher MainDispatcher)
         {
-            Current = this;
             DefaultUIBinding = new WinUIBindingInfo(MainDispatcher);
             InteractionManager = new InteractionManager(DefaultUIBinding);
         }

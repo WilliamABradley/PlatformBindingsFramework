@@ -18,7 +18,7 @@ namespace PlatformBindings.Common
 
         public static async void ContinueOnUIThread(this Task Task, Action action)
         {
-            await ContinueOnUIThreadAsync(Task, AppServices.Services.UI.DefaultUIBinding, action);
+            await ContinueOnUIThreadAsync(Task, AppServices.UI.DefaultUIBinding, action);
         }
 
         public static async void ContinueOnUIThread(this Task Task, IUIBindingInfo UIBinding, Action<Task> action)
@@ -28,7 +28,7 @@ namespace PlatformBindings.Common
 
         public static async void ContinueOnUIThread<T>(this Task<T> Task, Action<Task<T>> action)
         {
-            await ContinueOnUIThreadAsync(Task, AppServices.Services.UI.DefaultUIBinding, action);
+            await ContinueOnUIThreadAsync(Task, AppServices.UI.DefaultUIBinding, action);
         }
 
         public static async void ContinueOnUIThread<T>(this Task<T> Task, IUIBindingInfo UIBinding, Action<Task<T>> action)
@@ -38,7 +38,7 @@ namespace PlatformBindings.Common
 
         public static async Task ContinueOnUIThreadAsync(this Task Task, Action<Task> action)
         {
-            await ContinueOnUIThreadAsync(Task, AppServices.Services.UI.DefaultUIBinding, () => action(Task));
+            await ContinueOnUIThreadAsync(Task, AppServices.UI.DefaultUIBinding, () => action(Task));
         }
 
         public static async Task ContinueOnUIThreadAsync(this Task Task, IUIBindingInfo UIBinding, Action<Task> action)
@@ -48,7 +48,7 @@ namespace PlatformBindings.Common
 
         public static async Task ContinueOnUIThreadAsync<T>(this Task<T> Task, Action<Task<T>> action)
         {
-            await ContinueOnUIThreadAsync(Task, AppServices.Services.UI.DefaultUIBinding, () => action(Task));
+            await ContinueOnUIThreadAsync(Task, AppServices.UI.DefaultUIBinding, () => action(Task));
         }
 
         public static async Task ContinueOnUIThreadAsync<T>(this Task<T> Task, IUIBindingInfo UIBinding, Action<Task<T>> action)
