@@ -34,7 +34,7 @@ namespace PlatformBindings.Models.Settings
 
         public bool ContainsKey(string Key)
         {
-            var file = Directory.GetFileAsync(Key);
+            var file = Directory.GetFileAsync(Key).Result;
             return file != null;
         }
 
@@ -89,7 +89,7 @@ namespace PlatformBindings.Models.Settings
         public T GetValue<T>(string Key)
         {
             var file = GetFile(Key);
-            if(file != null)
+            if (file != null)
             {
                 var raw = GetFileText(file);
                 return typeof(T) == typeof(string) ? (T)(object)raw : JsonConvert.DeserializeObject<T>(raw);
