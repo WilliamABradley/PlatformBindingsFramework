@@ -49,8 +49,9 @@ namespace PlatformBindings.Services
         }
 
         //Unsupported
-        public override void SetTitlebarText(string Text)
+        public override void SetWindowText(string Text)
         {
+            throw new NotImplementedException();
         }
 
         public override void ShowMenu(Menu Menu, IMenuBinding Binding)

@@ -15,13 +15,17 @@ namespace PlatformBindings.Services
 {
     public class AndroidIOBindings : IOBindings
     {
-        public override bool SupportsFutureAccess => false;
+        public override bool RequiresFutureAccessToken => false;
 
         public override bool SupportsRoaming => false;
 
         public override bool SupportsOpenFolder => false;
 
         public override bool SupportsOpenFile => true;
+
+        public override bool SupportsPickFile => true;
+
+        public override bool SupportsPickFolder => false;
 
         public override async Task<FileContainerBase> CreateFile(FilePath Path)
         {
@@ -223,7 +227,7 @@ namespace PlatformBindings.Services
             throw new NotImplementedException();
         }
 
-        public override string GetFutureAccessToken(FolderContainerBase Folder)
+        public override string GetFutureAccessToken(FileSystemContainerBase Item)
         {
             throw new NotImplementedException();
         }

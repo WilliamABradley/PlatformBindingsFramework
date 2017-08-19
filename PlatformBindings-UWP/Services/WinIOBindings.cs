@@ -23,13 +23,17 @@ namespace PlatformBindings.Services
 
         public static WinIOBindings Current { get; private set; }
 
-        public override bool SupportsFutureAccess => true;
+        public override bool RequiresFutureAccessToken => true;
 
         public override bool SupportsRoaming => true;
 
         public override bool SupportsOpenFolder => true;
 
         public override bool SupportsOpenFile => true;
+
+        public override bool SupportsPickFile => true;
+
+        public override bool SupportsPickFolder => true;
 
         public override async Task<FolderContainerBase> GetFolder(FolderPath Path)
         {
@@ -170,10 +174,22 @@ namespace PlatformBindings.Services
             return folder != null ? new WinFolderContainer(folder) : null;
         }
 
-        public override string GetFutureAccessToken(FolderContainerBase Folder)
+        public override string GetFutureAccessToken(FileSystemContainerBase Item)
         {
-            var folder = Folder as WinFolderContainer;
-            return StorageApplicationPermissions.FutureAccessList.Add(folder.Folder);
+            IStorageItem ItemToStore = null;
+            if(Item is WinFileContainer file)
+            {
+                ItemToStore = file.File;
+            }
+            else if (Item is WinFolderContainer folder)
+            {
+                ItemToStore = folder.Folder;
+            }
+            if(ItemToStore != null)
+            {
+                return StorageApplicationPermissions.FutureAccessList.Add(ItemToStore);
+            }
+            return null;
         }
 
         public override void RemoveFutureAccessToken(string Token)

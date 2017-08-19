@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <RootNamespace>PlatformBindings</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PlatformBindings-Console\PlatformBindings-Console.csproj" />
+    <ProjectReference Include="..\PlatformBindings-Core\PlatformBindings-Core.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 using PlatformBindings.Enums;
 using PlatformBindings.Models.FileSystem;
 using PlatformBindings.Models.Settings;
-using PlatformBindings.Services;
+using System.Reflection;
 
-namespace PlatformBindings.ConsoleTools
+namespace PlatformBindings.Services
 {
-    public class ConsoleIOBindings : IOBindings
+    public class CoreIOBindings : IOBindings
     {
-        public override bool SupportsFutureAccess => false;
+        public override bool RequiresFutureAccessToken => false;
 
         public override bool SupportsRoaming => false;
 
@@ -19,10 +19,14 @@ namespace PlatformBindings.ConsoleTools
 
         public override bool SupportsOpenFile => false;
 
-        private DirectoryInfo GetSettingsCluster()
+        public override bool SupportsPickFile => false;
+
+        public override bool SupportsPickFolder => false;
+
+        private CoreFolderContainer GetSettingsCluster()
         {
-            var root = Path.GetDirectoryName(ConsoleServices.EntryAssembly);
-            var settings = new DirectoryInfo(root).CreateSubdirectory("Settings");
+            var root = GetBaseFolder(PathRoot.Application);
+            var settings = root.CreateFolderAsync("Settings").Result as CoreFolderContainer;
             return settings;
         }
 
@@ -64,7 +68,14 @@ namespace PlatformBindings.ConsoleTools
 
         public override FolderContainerBase GetBaseFolder(PathRoot Root)
         {
-            throw new NotImplementedException();
+            switch (Root)
+            {
+                case PathRoot.Application:
+                    return new CoreFolderContainer(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location));
+
+                default:
+                    return null;
+            }
         }
 
         public override Task<IReadOnlyList<FileContainerBase>> PickFiles(FilePickerProperties Properties)
@@ -92,7 +103,7 @@ namespace PlatformBindings.ConsoleTools
             throw new NotImplementedException();
         }
 
-        public override string GetFutureAccessToken(FolderContainerBase Folder)
+        public override string GetFutureAccessToken(FileSystemContainerBase Item)
         {
             throw new NotImplementedException();
         }

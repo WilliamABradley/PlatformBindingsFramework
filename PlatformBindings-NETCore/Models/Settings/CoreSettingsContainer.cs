@@ -1,10 +1,8 @@
 ﻿using Newtonsoft.Json;
+using PlatformBindings.Models.FileSystem;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using PlatformBindings.Models.Settings;
 
-namespace PlatformBindings.ConsoleTools
+namespace PlatformBindings.Models.Settings
 {
     public class CoreSettingsContainer : ISettingsContainer
     {
@@ -15,7 +13,7 @@ namespace PlatformBindings.ConsoleTools
             CreateDirectory();
         }
 
-        internal CoreSettingsContainer(DirectoryInfo Directory, CoreSettingsContainer Parent)
+        internal CoreSettingsContainer(CoreFolderContainer Directory, CoreSettingsContainer Parent)
         {
             this.Directory = Directory;
             this.Parent = Parent;
@@ -25,19 +23,19 @@ namespace PlatformBindings.ConsoleTools
         private void CreateDirectory()
         {
             var parent = Parent as CoreSettingsContainer;
-            Directory = parent.Directory.CreateSubdirectory(Name);
+            Directory = parent.Directory.CreateFolderAsync(Name).Result as CoreFolderContainer;
         }
 
         public void Clear()
         {
-            Directory.Delete(true);
+            Directory.DeleteAsync().RunSynchronously();
             CreateDirectory();
         }
 
         public bool ContainsKey(string Key)
         {
-            var files = Directory.GetFiles(Key);
-            return files.FirstOrDefault(item => item.Name == Key) != null;
+            var file = Directory.GetFileAsync(Key);
+            return file != null;
         }
 
         public ISettingsContainer CreateContainer(string ContainerName)
@@ -47,58 +45,63 @@ namespace PlatformBindings.ConsoleTools
 
         public void RemoveContainer(string ContainerName)
         {
-            var folders = Directory.GetDirectories(ContainerName);
-            var folder = folders.FirstOrDefault(item => item.Name == ContainerName);
-            folder?.Delete();
+            try
+            {
+                var folder = Directory.GetFolderAsync(ContainerName).Result;
+                folder?.Delete();
+            }
+            catch { }
         }
 
         public IReadOnlyList<ISettingsContainer> GetContainers()
         {
             List<ISettingsContainer> Directories = new List<ISettingsContainer>();
-            var folders = Directory.GetDirectories();
-            foreach (var folder in folders)
+            var folders = Directory.GetFoldersAsync().Result;
+            foreach (CoreFolderContainer folder in folders)
             {
                 Directories.Add(new CoreSettingsContainer(folder, this));
             }
             return Directories;
         }
 
-        public FileInfo GetFile(string Key)
+        public CoreFileContainer GetFile(string Key)
         {
-            var files = Directory.GetFiles(Key);
-            return files.FirstOrDefault(item => item.Name == Key);
+            try
+            {
+                return Directory.GetFileAsync(Key).Result as CoreFileContainer;
+            }
+            catch { return null; }
         }
 
-        public string GetFileText(FileInfo File)
+        public string GetFileText(CoreFileContainer File)
         {
-            using (var reader = File.OpenText())
-            {
-                return reader.ReadToEnd();
-            }
+            return File.ReadFileAsText().Result;
         }
 
         public void SetValue<T>(string Key, T Value)
         {
             string raw = Value.GetType() == typeof(string) ? Value as string : JsonConvert.SerializeObject(Value);
 
-            using (var writer = File.CreateText($"{Directory.FullName}\\{Key}"))
-            {
-                writer.Write(raw);
-            }
+            var file = Directory.CreateFileAsync(Key).Result;
+            file.SaveText(raw).RunSynchronously();
         }
 
         public T GetValue<T>(string Key)
         {
             var file = GetFile(Key);
-            var raw = GetFileText(file);
-            return typeof(T) == typeof(string) ? (T)(object)raw : JsonConvert.DeserializeObject<T>(raw);
+            if(file != null)
+            {
+                var raw = GetFileText(file);
+                return typeof(T) == typeof(string) ? (T)(object)raw : JsonConvert.DeserializeObject<T>(raw);
+            }
+            return (T)(object)null;
         }
 
         public Dictionary<string, object> GetValues()
         {
             Dictionary<string, object> Vals = new Dictionary<string, object>();
-            var files = Directory.GetFiles();
-            foreach (var file in files)
+            var files = Directory.GetFilesAsync().Result;
+            foreach (CoreFileContainer file in files)
             {
                 var raw = GetFileText(file);
                 Vals.Add(file.Name, raw);
@@ -114,11 +117,11 @@ namespace PlatformBindings.ConsoleTools
 
         public void Remove()
         {
-            Directory.Delete(true);
+            Directory.DeleteAsync().RunSynchronously();
         }
 
         public string Name { get; }
         public ISettingsContainer Parent { get; }
-        public DirectoryInfo Directory { get; set; }
+        public CoreFolderContainer Directory { get; set; }
     }
 }

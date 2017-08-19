@@ -21,10 +21,12 @@ var CoreProj = "..\\PlatformBindings-Core\\PlatformBindings-Core.csproj";
 var ConsoleProj = "..\\PlatformBindings-Console\\PlatformBindings-Console.csproj";
 var UWPProj = ".\\PlatformBindings-UWP.nuspec";
 var AndroidProj = ".\\PlatformBindings-Android.nuspec";
+var NetCoreProj = "..\\PlatformBindings-NETCore\\PlatformBindings-NETCore.csproj";
+var XamarinFormsProj = "..\\PlatformBindings-XamarinForms\\PlatformBindings-XamarinForms.csproj";
 
 var RootFolder = "../";
 
-var DotNetProjs = new string[] { CoreProj, ConsoleProj };
+var DotNetProjs = new string[] { CoreProj, ConsoleProj, NetCoreProj };
 var NugetProjs = new string[] { UWPProj, AndroidProj };
 
 //////////////////////////////////////////////////////////////////////
