@@ -70,11 +70,8 @@ namespace PlatformBindings.Services
         {
             switch (Root)
             {
-                case PathRoot.Application:
-                    return new CoreFolderContainer(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location));
-
                 default:
-                    return null;
+                    return new CoreFolderContainer(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location));
             }
         }
 
