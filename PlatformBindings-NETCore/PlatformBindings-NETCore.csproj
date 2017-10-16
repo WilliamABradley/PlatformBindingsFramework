@@ -3,11 +3,21 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp1.1</TargetFramework>
     <RootNamespace>PlatformBindings</RootNamespace>
+    <Title>PlatformBindings-NETCore</Title>
+    <Description>.NET Core Head for the .NET Platform Bindings Framework</Description>
+    <Copyright>Copyright © William Bradley 2017</Copyright>
+    <PackageLicenseUrl>https://github.com/WilliamABradley/PlatformBindingsFramework/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/WilliamABradley/PlatformBindingsFramework</PackageProjectUrl>
+    <PackageTags>.NET CrossPlatform .NETCore .NETStandard PlatformBindings</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\PlatformBindings-Console\PlatformBindings-Console.csproj" />
     <ProjectReference Include="..\PlatformBindings-Core\PlatformBindings-Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="Nerdbank.GitVersioning" Version="2.0.41" />
   </ItemGroup>
 
 </Project>

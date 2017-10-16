@@ -5,13 +5,13 @@
     <PackageTargetFallback>$(PackageTargetFallback);portable-net45+win8+wp8+wpa81;</PackageTargetFallback>
     <DebugType>Full</DebugType>
     <RootNamespace>PlatformBindings</RootNamespace>
+    <Title>PlatformBindings-Core</Title>
     <Authors>William Bradley</Authors>
-    <Company>WilliamABradley</Company>
     <Description>A Framework for creating code that performs Platform Dependent Tasks in a Generic, OS Independent manner.</Description>
     <PackageProjectUrl>https://github.com/WilliamABradley/PlatformBindingsFramework</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/WilliamABradley/PlatformBindingsFramework/blob/master/LICENSE</PackageLicenseUrl>
     <Copyright>Copyright © William Bradley 2017</Copyright>
-    <PackageTags>.NET CrossPlatform UWP Android .NETCore Console Xamarin</PackageTags>
+    <PackageTags>.NET CrossPlatform UWP Android IOS .NETCore Console Xamarin</PackageTags>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
@@ -20,5 +20,9 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="Nerdbank.GitVersioning" Version="2.0.41" />
   </ItemGroup>
 </Project>

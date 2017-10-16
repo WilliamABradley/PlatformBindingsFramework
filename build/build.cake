@@ -1,5 +1,4 @@
-#tool nuget:?package=NUnit.ConsoleRunner&version=3.4.0
-#tool "nuget:?package=GitVersion.CommandLine"
+#addin "Cake.Powershell"
 
 using System;
 //////////////////////////////////////////////////////////////////////
@@ -7,27 +6,21 @@ using System;
 //////////////////////////////////////////////////////////////////////
 
 var target = Argument("target", "Default");
-var configuration = Argument("configuration", "Release");
 
 //////////////////////////////////////////////////////////////////////
 // PREPARATION
 //////////////////////////////////////////////////////////////////////
 
-// Define directories.
-var Solution = "..\\PlatformBindingsFramework.sln";
-var PackgeOutput = ".\\nupkg";
+var baseDir = MakeAbsolute(Directory("../")).ToString();
+var buildDir = baseDir + "/build";
+var toolsDir = buildDir + "/tools";
 
-var CoreProj = "..\\PlatformBindings-Core\\PlatformBindings-Core.csproj";
-var ConsoleProj = "..\\PlatformBindings-Console\\PlatformBindings-Console.csproj";
-var UWPProj = ".\\PlatformBindings-UWP.nuspec";
-var AndroidProj = ".\\PlatformBindings-Android.nuspec";
-var NetCoreProj = "..\\PlatformBindings-NETCore\\PlatformBindings-NETCore.csproj";
-var XamarinFormsProj = "..\\PlatformBindings-XamarinForms\\PlatformBindings-XamarinForms.csproj";
+var Solution = baseDir + "/PlatformBindingsFramework.sln";
+var nupkgDir = buildDir + "/nupkg";
 
-var RootFolder = "../";
-
-var DotNetProjs = new string[] { CoreProj, ConsoleProj, NetCoreProj };
-var NugetProjs = new string[] { UWPProj, AndroidProj };
+var gitVersioningVersion = "2.0.41";
+var versionClient = toolsDir + "/nerdbank.gitversioning/tools/Get-Version.ps1";
+string Version = null;
 
 //////////////////////////////////////////////////////////////////////
 // TASKS
@@ -36,14 +29,8 @@ var NugetProjs = new string[] { UWPProj, AndroidProj };
 Task("Clean")
     .Does(() =>
 {
-    Information("\nCleaning Solution");
-    MSBuild(Solution, configurator =>
-        configurator.SetConfiguration(configuration)
-            .SetVerbosity(Verbosity.Quiet)
-            .SetMSBuildPlatform(MSBuildPlatform.x86)
-            .WithTarget("Clean"));
-
-        Information("\n");
+    Information("\nCleaning Package Directory");
+    CleanDirectory(nupkgDir);
 });
 
 Task("Restore-NuGet-Packages")
@@ -53,51 +40,55 @@ Task("Restore-NuGet-Packages")
     NuGetRestore(Solution);
 });
 
-Task("Build")
+Task("Version")
+    .Description("Updates the version information in all Projects")
     .IsDependentOn("Restore-NuGet-Packages")
     .Does(() =>
 {
-    Information("\nBuilding Solution");
-    MSBuild(Solution, configurator =>
-        configurator.SetConfiguration(configuration)
-            .SetVerbosity(Verbosity.Quiet)
-            .SetMSBuildPlatform(MSBuildPlatform.x86)
-            .WithTarget("Build")
-            .WithProperty("GenerateSolutionSpecificOutputFolder", "true")
-            .WithProperty("GenerateLibraryLayout", "true"));
-});
-
-Task("Nuget-Package")
-    .IsDependentOn("Build")
-    .Does(() =>
-{
-    Information("\n Building DotNetCore Packages");
-    var dotPackSettings = new DotNetCorePackSettings
-    {
-        OutputDirectory = PackgeOutput,
-        ArgumentCustomization = args => args.Append("--include-symbols")
+    Information("\nDownloading NerdBank GitVersioning...");
+    var installSettings = new NuGetInstallSettings {
+        ExcludeVersion  = true,
+        Version = gitVersioningVersion,
+        OutputDirectory = toolsDir
     };
     
-    foreach(var proj in DotNetProjs)
-    {
-        DotNetCorePack(proj, dotPackSettings);
-    }
+    NuGetInstall(new []{"nerdbank.gitversioning"}, installSettings);
 
-    Information("\n Building Nuget Packages");
-    var nuGetPackSettings = new NuGetPackSettings
-    {
-        OutputDirectory = PackgeOutput,
-        Symbols = true,
-        Properties = new Dictionary<string, string>
-        {
-            { "root", RootFolder }
-        }
-    };
+    Information("\nRetrieving version...");
+    var results = StartPowershellFile(versionClient);
+    Version = results[1].Properties["NuGetPackageVersion"].Value.ToString();
+    Information("\nBuild Version: " + Version);
+});
 
-    foreach(var proj in NugetProjs)
+Task("Build")
+    .IsDependentOn("Version")
+    .Does(() =>
+{
+    Information("\nBuilding Solution");
+    var buildSettings = new MSBuildSettings
     {
-        NuGetPack(proj, nuGetPackSettings);
+        MaxCpuCount = 0
     }
+    .SetConfiguration("Release")
+    .WithTarget("Restore");
+
+    // Force a restore again to get proper version numbers https://github.com/NuGet/Home/issues/4337
+    MSBuild(Solution, buildSettings);
+    MSBuild(Solution, buildSettings);
+
+    EnsureDirectoryExists(nupkgDir);
+
+    buildSettings = new MSBuildSettings
+    {
+        MaxCpuCount = 0
+    }
+    .SetConfiguration("Release")
+    .WithTarget("Build")
+    .WithProperty("GenerateLibraryLayout", "true")
+    .WithProperty("PackageOutputPath", nupkgDir)
+    .WithProperty("GeneratePackageOnBuild", "true");
+
+    MSBuild(Solution, buildSettings);
 });
 
 //////////////////////////////////////////////////////////////////////
@@ -105,7 +96,7 @@ Task("Nuget-Package")
 //////////////////////////////////////////////////////////////////////
 
 Task("Default")
-    .IsDependentOn("Nuget-Package");
+    .IsDependentOn("Build");
 
 //////////////////////////////////////////////////////////////////////
 // EXECUTION

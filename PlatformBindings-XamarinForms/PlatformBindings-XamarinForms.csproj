@@ -4,6 +4,13 @@
     <TargetFramework>netstandard1.4</TargetFramework>
     <PackageTargetFallback>$(PackageTargetFallback);portable-net45+win8+wp8+wpa81;</PackageTargetFallback>
     <RootNamespace>PlatformBindings</RootNamespace>
+    <Title>PlatformBindings-XamarinForms</Title>
+    <Authors>William Bradley</Authors>
+    <Description>Xamarin Forms Head for the .NET Platform Bindings Framework</Description>
+    <PackageProjectUrl>https://github.com/WilliamABradley/PlatformBindingsFramework</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/WilliamABradley/PlatformBindingsFramework/blob/master/LICENSE</PackageLicenseUrl>
+    <Copyright>Copyright © William Bradley 2017</Copyright>
+    <PackageTags>.NET CrossPlatform UWP Android IOS .NETCore Console Xamarin</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,5 +19,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PlatformBindings-Core\PlatformBindings-Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="Nerdbank.GitVersioning" Version="2.0.41" />
   </ItemGroup>
 </Project>

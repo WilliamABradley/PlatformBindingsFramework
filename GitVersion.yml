@@ -1,5 +1,0 @@
-assembly-versioning-scheme: MajorMinorPatchTag
-next-version: 0.1.0.0
-branches: {}
-ignore:
-  sha: []
