@@ -11,6 +11,8 @@ namespace PlatformBindings
             IO = new CoreIOBindings();
         }
 
+        public static bool UseGlobalAppData = true;
+
         public override Version GetAppVersion()
         {
             throw new NotImplementedException();

@@ -9,6 +9,7 @@
         Application,
         Downloads,
         Videos,
+        Pictures,
         Documents,
         Music
     }
