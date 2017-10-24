@@ -127,10 +127,10 @@ namespace PlatformBindings.Services
                 {
                     picker.FileTypeFilter.Add(property.FileExtension);
                 }
-                picker.SuggestedStartLocation = GetPickerLocation(Properties.StartingLocation.Value);
+                if(Properties.StartingLocation.HasValue) picker.SuggestedStartLocation = GetPickerLocation(Properties.StartingLocation);
             }
 
-            if (Properties == null || Properties.FileTypes.Any()) picker.FileTypeFilter.Add("*");
+            if (Properties == null || !Properties.FileTypes.Any()) picker.FileTypeFilter.Add("*");
             return picker;
         }
 
@@ -164,10 +164,10 @@ namespace PlatformBindings.Services
                 {
                     picker.FileTypeFilter.Add(property.FileExtension);
                 }
-                picker.SuggestedStartLocation = GetPickerLocation(Properties.StartingLocation.Value);
+                if(Properties.StartingLocation.HasValue) picker.SuggestedStartLocation = GetPickerLocation(Properties.StartingLocation);
             }
 
-            if (Properties == null || Properties.FileTypes.Any()) picker.FileTypeFilter.Add("*");
+            if (Properties == null || !Properties.FileTypes.Any()) picker.FileTypeFilter.Add("*");
 
             var folder = await picker.PickSingleFolderAsync();
 
@@ -177,7 +177,7 @@ namespace PlatformBindings.Services
         public override string GetFutureAccessToken(FileSystemContainerBase Item)
         {
             IStorageItem ItemToStore = null;
-            if(Item is WinFileContainer file)
+            if (Item is WinFileContainer file)
             {
                 ItemToStore = file.File;
             }
@@ -185,7 +185,7 @@ namespace PlatformBindings.Services
             {
                 ItemToStore = folder.Folder;
             }
-            if(ItemToStore != null)
+            if (ItemToStore != null)
             {
                 return StorageApplicationPermissions.FutureAccessList.Add(ItemToStore);
             }
