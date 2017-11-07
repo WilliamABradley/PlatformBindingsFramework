@@ -12,8 +12,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PlatformBindings-Console\PlatformBindings-Console.csproj" />
-    <ProjectReference Include="..\PlatformBindings-Core\PlatformBindings-Core.csproj" />
+    <ProjectReference Include="..\Console\PlatformBindings-Console.csproj" />
+    <ProjectReference Include="..\Core\PlatformBindings-Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

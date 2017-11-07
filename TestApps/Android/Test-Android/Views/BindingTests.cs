@@ -4,11 +4,12 @@ using Android.Content;
 using Android.OS;
 using Android.Widget;
 using PlatformBindings;
+using PlatformBindings.Activities;
 
 namespace Test_Android.Views
 {
     [Activity(Label = "Tests")]
-    public class BindingTests : LibActivity
+    public class BindingTests : PlatformBindingActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {

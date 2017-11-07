@@ -10,6 +10,7 @@ using PlatformBindings.Enums;
 using PlatformBindings.Models;
 using PlatformBindings.Models.FileSystem;
 using PlatformBindings.Models.Settings;
+using PlatformBindings.Activities;
 
 namespace PlatformBindings.Services
 {
@@ -95,14 +96,16 @@ namespace PlatformBindings.Services
             bool success = false;
             try
             {
+                Java.IO.File file = new Java.IO.File(File.Path);
+                file.SetReadable(true);
+                Android.Net.Uri uri = Android.Net.Uri.FromFile(file);
+
                 Intent intent = new Intent(Intent.ActionView);
                 var mimeType = URLConnection.GuessContentTypeFromName(File.Name);
-                intent.SetDataAndType(Android.Net.Uri.Parse(File.Path), mimeType);
-
-                TaskCompletionSource<ActivityResult> Waiter = new TaskCompletionSource<ActivityResult>();
+                intent.SetDataAndType(uri, mimeType);
 
                 var uibinding = AppServices.UI.DefaultUIBinding as AndroidUIBindingInfo;
-                uibinding.Activity.StartActivityForResult(intent, 24);
+                uibinding.Activity.StartActivity(intent);
 
                 success = true;
             }
@@ -147,15 +150,8 @@ namespace PlatformBindings.Services
             }
 
             if (HasNoTypes) intent.SetType("*/*");
-
-            int requestCode = 42;
-            TaskCompletionSource<ActivityResult> Waiter = new TaskCompletionSource<ActivityResult>();
             var uibinding = AppServices.UI.DefaultUIBinding as AndroidUIBindingInfo;
-            uibinding.Activity.StartActivityForResult(intent, requestCode);
-            uibinding.Activity.ActivityReturned += (s, e) => Waiter.TrySetResult(e);
-
-            var result = await Waiter.Task;
-            return result.RequestCode == requestCode ? result : null;
+            return await uibinding.Activity.StartActivityForResultAsync(intent);
         }
 
         public override async Task<FileContainerBase> PickFile(FilePickerProperties Properties)
@@ -204,14 +200,9 @@ namespace PlatformBindings.Services
             AppServices.UI.PromptUser("Error", "Folder resolving fails", "OK", null);
 
             Intent intent = new Intent(Intent.ActionOpenDocumentTree);
-
-            int requestCode = 42;
-            TaskCompletionSource<ActivityResult> Waiter = new TaskCompletionSource<ActivityResult>();
             var uibinding = AppServices.UI.DefaultUIBinding as AndroidUIBindingInfo;
-            uibinding.Activity.StartActivityForResult(intent, requestCode);
-            uibinding.Activity.ActivityReturned += (s, e) => Waiter.TrySetResult(e);
 
-            var result = await Waiter.Task;
+            var result = await uibinding.Activity.StartActivityForResultAsync(intent);
             if (result != null && result.ResultCode == Result.Ok && result.Data != null)
             {
                 var path = PathResolver.ResolveFile(Application.Context, result.Data.Data);
@@ -224,17 +215,17 @@ namespace PlatformBindings.Services
 
         public override ISettingsContainer GetRoamingSettingsContainer()
         {
-            throw new NotImplementedException();
+            return GetLocalSettingsContainer();
         }
 
         public override string GetFutureAccessToken(FileSystemContainerBase Item)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         public override void RemoveFutureAccessToken(string Token)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
     }
 }

@@ -32,7 +32,13 @@ namespace PlatformBindings.Services
             TaskCompletionSource<DialogResult> Waiter = new TaskCompletionSource<DialogResult>();
 
             var activity = AndroidHelpers.GetCurrentActivity(UIBinding);
-            var builder = new AlertDialog.Builder(activity);
+            var builder = new
+#if APPCOMPAT
+                Android.Support.V7.App.AlertDialog
+#else
+                AlertDialog
+#endif
+                .Builder(activity);
 
             builder.SetTitle(Title);
             builder.SetMessage(Message);
@@ -51,13 +57,13 @@ namespace PlatformBindings.Services
         //Unsupported
         public override void SetWindowText(string Text)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         public override void ShowMenu(Menu Menu, IMenuBinding Binding)
         {
             var context = Binding as AndroidContextMenuBinding;
-            context.Activity.OpenContextMenuForDisplay(Menu, context);
+            context.Activity.GetHandler().OpenContextMenuForDisplay(Menu, context);
         }
     }
 }

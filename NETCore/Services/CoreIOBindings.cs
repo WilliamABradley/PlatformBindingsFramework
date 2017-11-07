@@ -91,7 +91,7 @@ namespace PlatformBindings.Services
                     return new CoreFolderContainer(Environment.GetFolderPath(Environment.SpecialFolder.MyVideos));
 
                 case PathRoot.Music:
-                    return new CoreFolderContainer(Environment.GetFolderPath(Environment.SpecialFolder.MyMusic));        
+                    return new CoreFolderContainer(Environment.GetFolderPath(Environment.SpecialFolder.MyMusic));
 
                 case PathRoot.Downloads:
                     var path = Path.GetDirectoryName(Environment.GetFolderPath(Environment.SpecialFolder.Personal));
@@ -108,17 +108,17 @@ namespace PlatformBindings.Services
 
         public override Task<IReadOnlyList<FileContainerBase>> PickFiles(FilePickerProperties Properties)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         public override Task<FileContainerBase> PickFile(FilePickerProperties Properties)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         public override Task<FolderContainerBase> PickFolder(FolderPickerProperties Properties)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         public override Task<bool> OpenFolder(FolderContainerBase Folder, FolderOpenOptions Options)

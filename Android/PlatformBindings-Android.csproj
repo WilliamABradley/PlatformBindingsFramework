@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>monoandroid71</TargetFramework>
+    <TargetFramework>monoandroid80</TargetFramework>
     <RootNamespace>PlatformBindings</RootNamespace>
     <AssemblyName>PlatformBindings-Android</AssemblyName>
     <Title>PlatformBindings-Android</Title>
@@ -10,8 +10,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PlatformBindings-Core\PlatformBindings-Core.csproj" />
+    <ProjectReference Include="..\Core\PlatformBindings-Core.csproj" />
   </ItemGroup>
+
+  <Import Project="..\Android-Shared\PlatformBindings-Android-Shared.projitems" Label="Shared" />
 
   <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
 </Project>

@@ -27,12 +27,12 @@ namespace PlatformBindings.Services
                     string[] split = docId.Split(':');
                     string type = split[0];
 
-                    if ("primary".Equals(type, System.StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        return Environment.ExternalStorageDirectory + "/" + split[1];
-                    }
-
                     // TODO handle non-primary volumes
+                    //if ("primary".Equals(type, System.StringComparison.InvariantCultureIgnoreCase))
+                    //{
+                    //    return Environment.ExternalStorageDirectory + "/" + split[1];
+                    //}
+                    return Environment.ExternalStorageDirectory + "/" + split[1];
                 }
                 // DownloadsProvider
                 else if (IsDownloadsDocument(uri))

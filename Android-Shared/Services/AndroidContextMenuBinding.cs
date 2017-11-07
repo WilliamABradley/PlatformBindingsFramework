@@ -1,8 +1,10 @@
-﻿namespace PlatformBindings.Services
+﻿using Android.App;
+
+namespace PlatformBindings.Services
 {
     public class AndroidContextMenuBinding : IMenuBinding
     {
-        public AndroidContextMenuBinding(LibActivity Activity, Android.Views.View TargetElement)
+        public AndroidContextMenuBinding(Activity Activity, Android.Views.View TargetElement)
         {
             this.Activity = Activity;
             this.TargetElement = TargetElement;
@@ -10,7 +12,7 @@
 
         public object DataContext { get; set; }
 
-        public LibActivity Activity { get; }
+        public Activity Activity { get; }
         public Android.Views.View TargetElement { get; }
     }
 }

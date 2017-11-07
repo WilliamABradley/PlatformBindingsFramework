@@ -2,12 +2,13 @@
 using Android.OS;
 using Android.Widget;
 using PlatformBindings;
+using PlatformBindings.Activities;
 using Tests.Tests;
 
 namespace Test_Android.Views
 {
     [Activity(Label = "FilePickerTest")]
-    public class FilePickerTest : LibActivity
+    public class FilePickerTest : PlatformBindingActivity
     {
         public PickerTests Viewmodel { get; } = new PickerTests();
 

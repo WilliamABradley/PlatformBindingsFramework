@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>monoandroid80</TargetFramework>
+    <RootNamespace>PlatformBindings</RootNamespace>
+    <AssemblyName>PlatformBindings-Android-AppCompat</AssemblyName>
+    <Title>PlatformBindings-Android-AppCompat</Title>
+    <Description>Android Head using the Android Support V7 AppCompat Library for the .NET Platform Bindings Framework</Description>
+    <PackageTags>.NET CrossPlatform Android AppCompat V7Support SupportV7 Support MonoAndroid Xamarin.Android Xamarin PlatformBindings .NETPlatformBindingsFramework .NETPlatformBindings</PackageTags>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;DEBUG;MONOANDROID8_0;APPCOMPAT</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Xamarin.Android.Support.v7.AppCompat" Version="26.1.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Core\PlatformBindings-Core.csproj" />
+  </ItemGroup>
+
+  <Import Project="..\Android-Shared\PlatformBindings-Android-Shared.projitems" Label="Shared" />
+
+  <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
+</Project>

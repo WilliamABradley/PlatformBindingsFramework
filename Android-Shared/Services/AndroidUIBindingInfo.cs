@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Android.App;
+using System;
 using System.Threading.Tasks;
 
 namespace PlatformBindings.Services
@@ -21,6 +22,6 @@ namespace PlatformBindings.Services
             return Task.FromResult(0);
         }
 
-        public LibActivity Activity { get; set; }
+        public Activity Activity { get; set; }
     }
 }

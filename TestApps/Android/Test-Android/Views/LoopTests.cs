@@ -4,11 +4,12 @@ using Android.Widget;
 using Tests.Tests;
 using GalaSoft.MvvmLight.Helpers;
 using PlatformBindings;
+using PlatformBindings.Activities;
 
 namespace Test_Android.Views
 {
     [Activity(Label = "LoopTests")]
-    public class LoopTests : LibActivity
+    public class LoopTests : PlatformBindingActivity
     {
         public LoopTimerTests Viewmodel { get; } = new LoopTimerTests();
 

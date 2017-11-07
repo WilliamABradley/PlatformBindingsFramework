@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Android.App;
+using System;
 
 namespace PlatformBindings.Services
 {
@@ -23,6 +24,9 @@ namespace PlatformBindings.Services
 
         public virtual void Navigate(object PageRequest, object Parameter)
         {
+            //CurrentActivity.ActionBar.add
         }
+
+        private Activity CurrentActivity => ((AndroidUIBindingInfo)AppServices.UI.DefaultUIBinding).Activity;
     }
 }

@@ -4,13 +4,14 @@ using Android.OS;
 using Android.Views;
 using Android.Widget;
 using Tests.Tests;
-using PlatformBindings;
+using PlatformBindings.Common;
 using PlatformBindings.Services;
+using PlatformBindings.Activities;
 
 namespace Test_Android.Views
 {
     [Activity(Label = "ContextMenu")]
-    public class ContextMenuTest : LibActivity
+    public class ContextMenuTest : PlatformBindingActivity
     {
         public ContextMenuTests Viewmodel { get; } = new ContextMenuTests();
 
@@ -23,7 +24,7 @@ namespace Test_Android.Views
             MenuOpener.Click += MenuOpener_Click;
 
             var RegisteredOpener = FindViewById<Button>(Resource.Id.RegisteredContextMenu);
-            AttachContextMenu(Viewmodel.Menu, new AndroidContextMenuBinding(this, RegisteredOpener));
+            this.AttachContextMenu(Viewmodel.Menu, new AndroidContextMenuBinding(this, RegisteredOpener));
         }
 
         private void MenuOpener_Click(object sender, EventArgs e)

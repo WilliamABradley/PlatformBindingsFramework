@@ -4,11 +4,12 @@ using Android.Content;
 using Test_Android.Views;
 using PlatformBindings;
 using PlatformBindings.Models.Settings;
+using PlatformBindings.Activities;
 
 namespace Test_Android
 {
     [Activity(Label = "Test_Android", MainLauncher = true, Icon = "@drawable/icon")]
-    public class MainActivity : LibActivity
+    public class MainActivity : PlatformBindingActivity
     {
         public static AndroidAppServices Services = new AndroidAppServices(true);
 

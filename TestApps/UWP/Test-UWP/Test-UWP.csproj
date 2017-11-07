@@ -152,11 +152,11 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\PlatformBindings-Core\PlatformBindings-Core.csproj">
+    <ProjectReference Include="..\..\..\Core\PlatformBindings-Core.csproj">
       <Project>{49819b4e-2d4e-4fab-ba80-4dd2fb2081cf}</Project>
       <Name>PlatformBindings-Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\PlatformBindings-UWP\PlatformBindings-UWP.csproj">
+    <ProjectReference Include="..\..\..\UWP\PlatformBindings-UWP.csproj">
       <Project>{6fe4fedb-8c95-4cfb-bca7-06104afdceed}</Project>
       <Name>PlatformBindings-UWP</Name>
     </ProjectReference>
