@@ -12,7 +12,7 @@ var target = Argument("target", "Default");
 //////////////////////////////////////////////////////////////////////
 
 var baseDir = MakeAbsolute(Directory("../")).ToString();
-var buildDir = baseDir + "/build";
+var buildDir = baseDir + "/_build";
 var toolsDir = buildDir + "/tools";
 
 var Solution = baseDir + "/PlatformBindingsFramework.sln";
@@ -84,6 +84,7 @@ Task("Build")
     }
     .SetConfiguration("Release")
     .WithTarget("Build")
+    .WithProperty("IncludeSource", "true")
     .WithProperty("IncludeSymbols", "true")
     .WithProperty("GenerateLibraryLayout", "true")
     .WithProperty("PackageOutputPath", nupkgDir)

@@ -1,34 +1,34 @@
 ﻿using Android.App;
 using Android.Content;
-using Android.OS;
 using Android.Runtime;
 using Android.Views;
-using PlatformBindings.Models;
-using PlatformBindings.Services;
-using System;
-using System.Threading.Tasks;
 
 namespace PlatformBindings.Activities
 {
 #if APPCOMPAT
-    public class PlatformBindingActivity : Android.Support.V7.App.AppCompatActivity
+    public class PlatformBindingCompatActivity : Android.Support.V7.App.AppCompatActivity
+    {
+        public PlatformBindingCompatActivity()
+        {
 #else
     public class PlatformBindingActivity : Activity
-#endif
     {
         public PlatformBindingActivity()
         {
+#endif
+
             Handler = ActivityHandler.GetActivityHandler(this);
         }
 
-        protected override void OnCreate(Bundle bundle)
+        protected override void OnResume()
         {
-            Handler.OnCreate(bundle);
-            base.OnCreate(bundle);
+            Handler.UpdateCurrentActivity();
+            base.OnResume();
         }
 
         protected override void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
         {
+            Handler.UpdateCurrentActivity();
             Handler.OnActivityResult(requestCode, resultCode, data);
             base.OnActivityResult(requestCode, resultCode, data);
         }

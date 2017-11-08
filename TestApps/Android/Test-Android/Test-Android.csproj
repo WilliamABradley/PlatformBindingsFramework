@@ -60,6 +60,7 @@
     <Compile Include="Views\ContextMenuTest.cs" />
     <Compile Include="Views\FilePickerTest.cs" />
     <Compile Include="Views\LoopTests.cs" />
+    <Compile Include="Views\ReturnActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

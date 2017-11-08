@@ -1,6 +1,5 @@
 ﻿using Android.App;
 using Android.OS;
-using Android.Content;
 using Test_Android.Views;
 using PlatformBindings;
 using PlatformBindings.Models.Settings;
@@ -18,8 +17,7 @@ namespace Test_Android
             // Build App Services before calling base, to allow binding.
             base.OnCreate(bundle);
 
-            var intent = new Intent(this, typeof(BindingTests));
-            StartActivity(intent);
+            StartActivity(typeof(BindingTests));
 
             TimesRan.Value++;
 

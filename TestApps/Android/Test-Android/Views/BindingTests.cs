@@ -1,10 +1,10 @@
 ﻿using System;
 using Android.App;
-using Android.Content;
 using Android.OS;
 using Android.Widget;
-using PlatformBindings;
 using PlatformBindings.Activities;
+using PlatformBindings.Common;
+using PlatformBindings;
 
 namespace Test_Android.Views
 {
@@ -17,32 +17,28 @@ namespace Test_Android.Views
 
             SetContentView(Resource.Layout.BindingTests);
 
-            var picker = FindViewById<Button>(Resource.Id.TestFilePickerButton);
-            picker.Click += Picker_Click;
-
-            var context = FindViewById<Button>(Resource.Id.TestContextMenuButton);
-            context.Click += Context_Click;
-
-            var looptests = FindViewById<Button>(Resource.Id.LoopTests);
-            looptests.Click += Looptests_Click;
+            Pickers.Click += delegate { StartActivity(typeof(FilePickerTest)); };
+            Context.Click += delegate { StartActivity(typeof(ContextMenuTest)); };
+            LoopTests.Click += delegate { StartActivity(typeof(LoopTests)); };
+            TestAsyncActivity.Click += TestAsyncActivity_Click;
         }
 
-        private void Looptests_Click(object sender, EventArgs e)
+        private async void TestAsyncActivity_Click(object sender, EventArgs e)
         {
-            var intent = new Intent(this, typeof(LoopTests));
-            StartActivity(intent);
+            var result = await this.StartActivityForResultAsync(typeof(ReturnActivity));
+            AppServices.UI.PromptUser("Activity Returned", $"RequestCode: {result.RequestCode}\nResponse: {result.ResultCode}", "OK");
         }
 
-        private void Context_Click(object sender, EventArgs e)
-        {
-            var intent = new Intent(this, typeof(ContextMenuTest));
-            StartActivity(intent);
-        }
+        public Button Pickers { get { return _Pickers ?? (_Pickers = FindViewById<Button>(Resource.Id.TestFilePickerButton)); } }
+        private Button _Pickers;
 
-        private void Picker_Click(object sender, EventArgs e)
-        {
-            var intent = new Intent(this, typeof(FilePickerTest));
-            StartActivity(intent);
-        }
+        public Button Context { get { return _Context ?? (_Context = FindViewById<Button>(Resource.Id.TestContextMenuButton)); } }
+        private Button _Context;
+
+        public Button LoopTests { get { return _LoopTests ?? (_LoopTests = FindViewById<Button>(Resource.Id.LoopTests)); } }
+        private Button _LoopTests;
+
+        public Button TestAsyncActivity { get { return _TestAsyncActivity ?? (_TestAsyncActivity = FindViewById<Button>(Resource.Id.Test_AsyncAct)); } }
+        private Button _TestAsyncActivity;
     }
 }

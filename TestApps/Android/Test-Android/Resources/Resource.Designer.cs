@@ -60,38 +60,41 @@ namespace Test_Android
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f040003
-			public const int ContextMenuButton = 2130968579;
+			// aapt resource value: 0x7f040004
+			public const int ContextMenuButton = 2130968580;
 			
-			// aapt resource value: 0x7f040007
-			public const int LoopTest_Elapsed = 2130968583;
-			
-			// aapt resource value: 0x7f040005
-			public const int LoopTest_Start = 2130968581;
+			// aapt resource value: 0x7f040008
+			public const int LoopTest_Elapsed = 2130968584;
 			
 			// aapt resource value: 0x7f040006
-			public const int LoopTest_Stop = 2130968582;
+			public const int LoopTest_Start = 2130968582;
+			
+			// aapt resource value: 0x7f040007
+			public const int LoopTest_Stop = 2130968583;
 			
 			// aapt resource value: 0x7f040002
 			public const int LoopTests = 2130968578;
 			
-			// aapt resource value: 0x7f040008
-			public const int PickFileButton = 2130968584;
-			
 			// aapt resource value: 0x7f040009
-			public const int PickFilesButton = 2130968585;
+			public const int PickFileButton = 2130968585;
 			
 			// aapt resource value: 0x7f04000a
-			public const int PickFolderButton = 2130968586;
+			public const int PickFilesButton = 2130968586;
 			
-			// aapt resource value: 0x7f040004
-			public const int RegisteredContextMenu = 2130968580;
+			// aapt resource value: 0x7f04000b
+			public const int PickFolderButton = 2130968587;
+			
+			// aapt resource value: 0x7f040005
+			public const int RegisteredContextMenu = 2130968581;
 			
 			// aapt resource value: 0x7f040001
 			public const int TestContextMenuButton = 2130968577;
 			
 			// aapt resource value: 0x7f040000
 			public const int TestFilePickerButton = 2130968576;
+			
+			// aapt resource value: 0x7f040003
+			public const int Test_AsyncAct = 2130968579;
 			
 			static Id()
 			{

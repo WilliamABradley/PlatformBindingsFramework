@@ -1,7 +1,6 @@
 ﻿using Android.App;
 using Android.OS;
 using Android.Widget;
-using PlatformBindings;
 using PlatformBindings.Activities;
 using Tests.Tests;
 

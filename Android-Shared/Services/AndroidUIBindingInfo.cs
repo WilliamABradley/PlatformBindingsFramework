@@ -22,6 +22,10 @@ namespace PlatformBindings.Services
             return Task.FromResult(0);
         }
 
+#if APPCOMPAT
+        public Android.Support.V7.App.AppCompatActivity Activity { get; set; }
+#else
         public Activity Activity { get; set; }
+#endif
     }
 }

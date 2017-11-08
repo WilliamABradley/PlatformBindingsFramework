@@ -20,4 +20,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/LoopTests" />
+    <Button
+        android:text="Test StartActivityForResultAsync"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/Test_AsyncAct" />
 </LinearLayout>

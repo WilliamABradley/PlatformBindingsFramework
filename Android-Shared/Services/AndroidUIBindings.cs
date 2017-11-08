@@ -15,10 +15,9 @@ namespace PlatformBindings.Services
             DefaultUIBinding = new AndroidUIBindingInfo();
         }
 
-        public override InteractionManagerBase InteractionManager => throw new NotImplementedException();
-
+        public override InteractionManagerBase InteractionManager { get; }
         public override IUIBindingInfo DefaultUIBinding { get; }
-        public override INavigationManager NavigationManager { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public override INavigationManager NavigationManager { get; set; }
 
         public override void OpenLink(Uri Uri)
         {
@@ -54,16 +53,15 @@ namespace PlatformBindings.Services
             return await Waiter.Task;
         }
 
-        //Unsupported
-        public override void SetWindowText(string Text)
-        {
-            throw new NotSupportedException();
-        }
-
         public override void ShowMenu(Menu Menu, IMenuBinding Binding)
         {
             var context = Binding as AndroidContextMenuBinding;
             context.Activity.GetHandler().OpenContextMenuForDisplay(Menu, context);
+        }
+
+        //Unsupported
+        public override void SetWindowText(string Text)
+        {
         }
     }
 }

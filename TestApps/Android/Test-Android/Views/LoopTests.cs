@@ -3,7 +3,6 @@ using Android.OS;
 using Android.Widget;
 using Tests.Tests;
 using GalaSoft.MvvmLight.Helpers;
-using PlatformBindings;
 using PlatformBindings.Activities;
 
 namespace Test_Android.Views

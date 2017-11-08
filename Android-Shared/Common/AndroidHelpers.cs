@@ -6,13 +6,13 @@ namespace PlatformBindings.Common
 {
     public static class AndroidHelpers
     {
-        public static Activity GetCurrentActivity(IUIBindingInfo UIBinding)
+        public static Activity GetCurrentActivity(this IUIBindingInfo UIBinding)
         {
             var uibinding = (UIBinding ?? AppServices.UI.DefaultUIBinding) as AndroidUIBindingInfo;
             return uibinding.Activity;
         }
 
-        public static ActivityHandler GetCurrentActivityHandler(IUIBindingInfo UIBinding)
+        public static ActivityHandler GetCurrentActivityHandler(this IUIBindingInfo UIBinding)
         {
             var uibinding = (UIBinding ?? AppServices.UI.DefaultUIBinding) as AndroidUIBindingInfo;
             return ActivityHandler.GetActivityHandler(uibinding.Activity);

@@ -10,7 +10,6 @@ using PlatformBindings.Enums;
 using PlatformBindings.Models;
 using PlatformBindings.Models.FileSystem;
 using PlatformBindings.Models.Settings;
-using PlatformBindings.Activities;
 
 namespace PlatformBindings.Services
 {

@@ -26,7 +26,7 @@ namespace PlatformBindings.Activities
             return Handlers[Activity];
         }
 
-        public void OnCreate(Bundle bundle)
+        public void UpdateCurrentActivity()
         {
             if (AppServices.UI == null)
             {
@@ -34,7 +34,11 @@ namespace PlatformBindings.Activities
             }
 
             var uibinding = AppServices.UI.DefaultUIBinding as AndroidUIBindingInfo;
-            uibinding.Activity = Activity;
+            uibinding.Activity =
+#if APPCOMPAT
+                (Android.Support.V7.App.AppCompatActivity)
+#endif
+                Activity;
         }
 
         public Task<ActivityResult> StartActivityForResultAsync(Type ActivityType)
@@ -64,13 +68,16 @@ namespace PlatformBindings.Activities
             int requestCode = 0;
             do
             {
-                requestCode = rand.Next();
+                requestCode = rand.Next(short.MaxValue - 1);
             }
             while (ActivityResultWaiters.ContainsKey(requestCode));
 
             var task = new TaskCompletionSource<ActivityResult>();
             ActivityResultWaiters.Add(requestCode, task);
-            task.Task.ContinueWith(t => ActivityResultWaiters.Remove(requestCode));
+            task.Task.ContinueWith(t =>
+            {
+                ActivityResultWaiters.Remove(requestCode);
+            });
             return (requestCode, task);
         }
 

@@ -10,7 +10,11 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>TRACE;DEBUG;MONOANDROID8_0;APPCOMPAT</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;APPCOMPAT</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>TRACE;APPCOMPAT</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>

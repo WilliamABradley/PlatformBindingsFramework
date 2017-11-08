@@ -1,7 +1,6 @@
 ﻿using Android.App;
 using Android.Content;
 using Android.OS;
-using PlatformBindings.Common;
 using PlatformBindings.Models;
 using PlatformBindings.Services;
 using System;
