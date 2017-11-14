@@ -21,6 +21,7 @@ namespace Test_Android.Views
             Context.Click += delegate { StartActivity(typeof(ContextMenuTest)); };
             LoopTests.Click += delegate { StartActivity(typeof(LoopTests)); };
             TestAsyncActivity.Click += TestAsyncActivity_Click;
+            TestFiles.Click += delegate { StartActivity(typeof(FileTests)); };
         }
 
         private async void TestAsyncActivity_Click(object sender, EventArgs e)
@@ -40,5 +41,8 @@ namespace Test_Android.Views
 
         public Button TestAsyncActivity { get { return _TestAsyncActivity ?? (_TestAsyncActivity = FindViewById<Button>(Resource.Id.Test_AsyncAct)); } }
         private Button _TestAsyncActivity;
+
+        public Button TestFiles { get { return _TestFiles ?? (_TestFiles = FindViewById<Button>(Resource.Id.Tests_FileTests)); } }
+        private Button _TestFiles;
     }
 }

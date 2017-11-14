@@ -30,6 +30,9 @@
     <AndroidUseSharedRuntime>True</AndroidUseSharedRuntime>
     <AndroidLinkMode>None</AndroidLinkMode>
     <EmbedAssembliesIntoApk>False</EmbedAssembliesIntoApk>
+    <AotAssemblies>false</AotAssemblies>
+    <EnableLLVM>false</EnableLLVM>
+    <BundleAssemblies>false</BundleAssemblies>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>PdbOnly</DebugType>
@@ -59,6 +62,7 @@
     <Compile Include="Views\BindingTests.cs" />
     <Compile Include="Views\ContextMenuTest.cs" />
     <Compile Include="Views\FilePickerTest.cs" />
+    <Compile Include="Views\FileTests.cs" />
     <Compile Include="Views\LoopTests.cs" />
     <Compile Include="Views\ReturnActivity.cs" />
   </ItemGroup>

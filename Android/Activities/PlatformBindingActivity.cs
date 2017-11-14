@@ -1,23 +1,22 @@
 ﻿using Android.App;
 using Android.Content;
+using Android.OS;
 using Android.Runtime;
 using Android.Views;
 
 namespace PlatformBindings.Activities
 {
-#if APPCOMPAT
-    public class PlatformBindingCompatActivity : Android.Support.V7.App.AppCompatActivity
-    {
-        public PlatformBindingCompatActivity()
-        {
-#else
     public class PlatformBindingActivity : Activity
     {
         public PlatformBindingActivity()
         {
-#endif
-
             Handler = ActivityHandler.GetActivityHandler(this);
+        }
+
+        protected override void OnCreate(Bundle savedInstanceState)
+        {
+            Handler.UpdateCurrentActivity();
+            base.OnCreate(savedInstanceState);
         }
 
         protected override void OnResume()

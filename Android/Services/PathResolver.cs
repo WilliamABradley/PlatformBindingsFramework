@@ -8,11 +8,6 @@ namespace PlatformBindings.Services
 {
     public static class PathResolver
     {
-        public static string ResolveFolder(Context context, Uri uri)
-        {
-            return "";
-        }
-
         public static string ResolveFile(Context context, Uri uri)
         {
             var isKitKat = Build.VERSION.SdkInt >= BuildVersionCodes.Kitkat;
@@ -70,6 +65,10 @@ namespace PlatformBindings.Services
                     string[] selectionArgs = new string[] { split[1] };
 
                     return GetDataColumn(context, contentUri, selection, selectionArgs);
+                }
+                else
+                {
+                    return GetDataColumn(context, uri, null, null);
                 }
             }
             // MediaStore (and general)

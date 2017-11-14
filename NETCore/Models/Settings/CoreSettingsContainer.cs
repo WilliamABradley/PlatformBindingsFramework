@@ -43,12 +43,12 @@ namespace PlatformBindings.Models.Settings
             return new CoreSettingsContainer(ContainerName, this);
         }
 
-        public void RemoveContainer(string ContainerName)
+        public async void RemoveContainer(string ContainerName)
         {
             try
             {
                 var folder = Directory.GetFolderAsync(ContainerName).Result;
-                folder?.Delete();
+                await folder?.DeleteAsync();
             }
             catch { }
         }
@@ -109,10 +109,10 @@ namespace PlatformBindings.Models.Settings
             return Vals;
         }
 
-        public void RemoveKey(string Key)
+        public async void RemoveKey(string Key)
         {
             var file = GetFile(Key);
-            file?.Delete();
+            await file?.DeleteAsync();
         }
 
         public void Remove()

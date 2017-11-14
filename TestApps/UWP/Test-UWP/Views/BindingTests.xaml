@@ -10,6 +10,7 @@
     <StackPanel>
         <Button x:Name="ContextTest" Content="Test Context Menu" Click="ContextTest_Click" />
         <Button x:Name="PickerTest" Content="Test Pickers" Click="PickerTest_Click" />
+        <Button x:Name="FileTest" Content="Test File/Folders" Click="FileTest_Click" />
         <Button x:Name="LoopTest" Content="Test LoopTimer" Click="LoopTest_Click" />
     </StackPanel>
 </Page>

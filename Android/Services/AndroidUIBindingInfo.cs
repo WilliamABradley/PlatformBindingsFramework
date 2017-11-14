@@ -22,10 +22,11 @@ namespace PlatformBindings.Services
             return Task.FromResult(0);
         }
 
-#if APPCOMPAT
-        public Android.Support.V7.App.AppCompatActivity Activity { get; set; }
-#else
+        /// <summary>
+        /// AppCompatActivity Accessor to Access Extended Properties and Functions, will be null if not using a derivative of AppCompatActivity, such as <see cref="Activities.PlatformBindingCompatActivity"/>.
+        /// </summary>
+        public Android.Support.V7.App.AppCompatActivity CompatActivity { get; set; }
+
         public Activity Activity { get; set; }
-#endif
     }
 }

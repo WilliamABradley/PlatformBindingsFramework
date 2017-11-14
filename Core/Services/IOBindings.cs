@@ -16,48 +16,48 @@ namespace PlatformBindings.Services
         /// </summary>
         /// <param name="Path">OS Style Path</param>
         /// <returns>Specified File</returns>
-        public abstract Task<FileContainerBase> GetFile(string Path);
+        public abstract Task<FileContainer> GetFile(string Path);
 
         /// <summary>
         /// Gets a File from the FileSystem, the Path is Resolved and is OS Independent.
         /// </summary>
         /// <param name="Path">File Path</param>
         /// <returns>Specified File</returns>
-        public abstract Task<FileContainerBase> GetFile(FilePath Path);
+        public abstract Task<FileContainer> GetFile(FilePath Path);
 
         /// <summary>
         /// Creates a File from the Resolved Path.
         /// </summary>
         /// <param name="Path">File Path</param>
         /// <returns>Created File</returns>
-        public abstract Task<FileContainerBase> CreateFile(FilePath Path);
+        public abstract Task<FileContainer> CreateFile(FilePath Path);
 
         /// <summary>
         /// Gets a Folder from a Raw Path, this path must observe the Operating System's Path Structure to work correctly.
         /// </summary>
         /// <param name="Path">OS Style Path</param>
         /// <returns>Specified Folder</returns>
-        public abstract Task<FolderContainerBase> GetFolder(string Path);
+        public abstract Task<FolderContainer> GetFolder(string Path);
 
         /// <summary>
         /// Gets a Folder from the FileSystem, the Path is Resolved and is OS Independent.
         /// </summary>
         /// <param name="Path">Folder Path</param>
         /// <returns>Specified Folder</returns>
-        public abstract Task<FolderContainerBase> GetFolder(FolderPath Path);
+        public abstract Task<FolderContainer> GetFolder(FolderPath Path);
 
         /// <summary>
         /// Gets the closest OS Equivalent Folder from the provided PathRoot.
         /// </summary>
         /// <param name="Root">Requested Root Folder</param>
         /// <returns>Root Folder</returns>
-        public abstract FolderContainerBase GetBaseFolder(PathRoot Root);
+        public abstract FolderContainer GetBaseFolder(PathRoot Root);
 
         /// <summary>
         /// Opens a File Picker to Pick Files from the Operating System. See <see cref="SupportsPickFile"/> to ensure that this is Supported.
         /// </summary>
         /// <returns>A List of User Picked Files, or <see cref="null"/> if Cancelled</returns>
-        public Task<IReadOnlyList<FileContainerBase>> PickFiles()
+        public Task<IReadOnlyList<FileContainer>> PickFiles()
         {
             return PickFiles(null);
         }
@@ -67,13 +67,13 @@ namespace PlatformBindings.Services
         /// </summary>
         /// <param name="Properties">Filters to narrow down the Observable Files.</param>
         /// <returns>A List of User Picked Files, or <see cref="null"/> if Cancelled</returns>
-        public abstract Task<IReadOnlyList<FileContainerBase>> PickFiles(FilePickerProperties Properties);
+        public abstract Task<IReadOnlyList<FileContainer>> PickFiles(FilePickerProperties Properties);
 
         /// <summary>
         /// Opens a File Picker to Pick a File from the Operating System. See <see cref="SupportsPickFile"/> to ensure that this is Supported.
         /// </summary>
         /// <returns>A Picked File, or <see cref="null"/> if Cancelled</returns>
-        public Task<FileContainerBase> PickFile()
+        public Task<FileContainer> PickFile()
         {
             return PickFile(null);
         }
@@ -83,13 +83,13 @@ namespace PlatformBindings.Services
         /// </summary>
         /// <param name="Properties">Filters to narrow down the Observable Files.</param>
         /// <returns>A Picked File, or <see cref="null"/> if Cancelled</returns>
-        public abstract Task<FileContainerBase> PickFile(FilePickerProperties Properties);
+        public abstract Task<FileContainer> PickFile(FilePickerProperties Properties);
 
         /// <summary>
         /// Opens a Folder Picker to Pick a Folder from the Operating System. See <see cref="SupportsPickFolder"/> to ensure that this is Supported.
         /// </summary>
         /// <returns>A Picked Folder, or <see cref="null"/> if Cancelled</returns>
-        public Task<FolderContainerBase> PickFolder()
+        public Task<FolderContainer> PickFolder()
         {
             return PickFolder(null);
         }
@@ -99,14 +99,14 @@ namespace PlatformBindings.Services
         /// </summary>
         /// <param name="Properties">Filters to narrow down the Observable Files.</param>
         /// <returns>A Picked Folder, or <see cref="null"/> if Cancelled</returns>
-        public abstract Task<FolderContainerBase> PickFolder(FolderPickerProperties Properties);
+        public abstract Task<FolderContainer> PickFolder(FolderPickerProperties Properties);
 
         /// <summary>
         /// Opens a Folder for Viewing using the File Manager for the Operating System. See <see cref="SupportsOpenFolder"/> to ensure that this is Supported.
         /// </summary>
         /// <param name="Folder">Folder to Open</param>
         /// <returns>Task Success</returns>
-        public Task<bool> OpenFolder(FolderContainerBase Folder)
+        public Task<bool> OpenFolder(FolderContainer Folder)
         {
             return OpenFolder(Folder);
         }
@@ -117,14 +117,14 @@ namespace PlatformBindings.Services
         /// <param name="Folder">Folder to Open</param>
         /// <param name="Options">Options for modifying how the Folder is Displayed, such as Pre-Selecting Files/Folders if supported</param>
         /// <returns>Task Success</returns>
-        public abstract Task<bool> OpenFolder(FolderContainerBase Folder, FolderOpenOptions Options);
+        public abstract Task<bool> OpenFolder(FolderContainer Folder, FolderOpenOptions Options);
 
         /// <summary>
         /// Opens a File for Viewing in the Default Application for the File in the Operating System. See <see cref="SupportsOpenFile"/> to ensure that this is Supported.
         /// </summary>
         /// <param name="File">File to Open</param>
         /// <returns>Task Success</returns>
-        public abstract Task<bool> OpenFile(FileContainerBase File);
+        public abstract Task<bool> OpenFile(FileContainer File);
 
         /// <summary>
         /// Gets the Roaming Settings Cluster. See <see cref="SupportsRoaming"/> to ensure that this is Supported, or use <see cref="Common.PlatformBindingHelpers.GetSettingsContainer"/> to Attempt getting Roaming Settings before defaulting to Local Settings.
@@ -144,7 +144,7 @@ namespace PlatformBindings.Services
         /// </summary>
         /// <param name="Item">File/Folder to get Access Token for.</param>
         /// <returns>Future Access Token.</returns>
-        public abstract string GetFutureAccessToken(FileSystemContainerBase Item);
+        public abstract string GetFutureAccessToken(FileSystemContainer Item);
 
         /// <summary>
         /// Removes a file/folder from the Future Access List, using the Future Access Token.

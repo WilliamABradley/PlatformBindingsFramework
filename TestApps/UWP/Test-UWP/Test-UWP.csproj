@@ -106,6 +106,9 @@
     <Compile Include="Views\FilePickerTest.xaml.cs">
       <DependentUpon>FilePickerTest.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\FileTests.xaml.cs">
+      <DependentUpon>FileTests.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\LoopTests.xaml.cs">
       <DependentUpon>LoopTests.xaml</DependentUpon>
     </Compile>
@@ -145,6 +148,10 @@
     <Page Include="Views\FilePickerTest.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\FileTests.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\LoopTests.xaml">
       <Generator>MSBuild:Compile</Generator>

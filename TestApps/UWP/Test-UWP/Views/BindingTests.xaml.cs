@@ -1,4 +1,5 @@
 ﻿using PlatformBindings;
+using Test_UWP.Views;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -36,6 +37,12 @@ namespace Tests_UWP.Views
         private void LoopTest_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(LoopTests));
+            ShowBack();
+        }
+
+        private void FileTest_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(FileTests));
             ShowBack();
         }
     }

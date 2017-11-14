@@ -1,12 +1,11 @@
-﻿using PlatformBindings.Enums;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace PlatformBindings.Models.FileSystem
 {
-    public class CoreFolderContainer : FolderContainerBase
+    public class CoreFolderContainer : FolderContainer
     {
         public CoreFolderContainer(DirectoryInfo Folder)
         {
@@ -22,16 +21,21 @@ namespace PlatformBindings.Models.FileSystem
 
         public override string Path => Folder.FullName;
 
-        public override Task<FileContainerBase> CreateFileAsync(string FileName, CreationCollisionOption Options)
+        private string GetSubItemPath(string Name)
         {
-            var file = new CoreFileContainer(Path + System.IO.Path.DirectorySeparatorChar + FileName);
-            return Task.FromResult((FileContainerBase)file);
+            return Path + System.IO.Path.DirectorySeparatorChar + Name;
         }
 
-        public override Task<FolderContainerBase> CreateFolderAsync(string FolderName, CreationCollisionOption Options)
+        protected override Task<FileContainer> InternalCreateFileAsync(string FileName)
+        {
+            var file = new CoreFileContainer(GetSubItemPath(FileName));
+            return Task.FromResult((FileContainer)file);
+        }
+
+        protected override Task<FolderContainer> InternalCreateFolderAsync(string FolderName)
         {
             var subfolder = Folder.CreateSubdirectory(FolderName);
-            return Task.FromResult((FolderContainerBase)new CoreFolderContainer(subfolder));
+            return Task.FromResult((FolderContainer)new CoreFolderContainer(subfolder));
         }
 
         public override Task<bool> DeleteAsync()
@@ -47,7 +51,7 @@ namespace PlatformBindings.Models.FileSystem
             return Task.FromResult(success);
         }
 
-        public override async Task<FileContainerBase> GetFileAsync(string FileName)
+        public override async Task<FileContainer> GetFileAsync(string FileName)
         {
             var files = await GetFilesAsync();
             var file = files.FirstOrDefault(item => item.Name == FileName);
@@ -55,21 +59,21 @@ namespace PlatformBindings.Models.FileSystem
             return file;
         }
 
-        public override Task<FolderContainerBase> GetFolderAsync(string FolderName)
+        public override Task<FolderContainer> GetFolderAsync(string FolderName)
         {
             return CreateFolderAsync(FolderName);
         }
 
-        public override Task<IReadOnlyList<FolderContainerBase>> GetFoldersAsync()
+        public override Task<IReadOnlyList<FolderContainer>> GetFoldersAsync()
         {
             var folders = Folder.GetDirectories().Select(item => new CoreFolderContainer(item)).ToList();
-            return Task.FromResult((IReadOnlyList<FolderContainerBase>)folders);
+            return Task.FromResult((IReadOnlyList<FolderContainer>)folders);
         }
 
-        public override Task<IReadOnlyList<FileContainerBase>> GetFilesAsync()
+        public override Task<IReadOnlyList<FileContainer>> GetFilesAsync()
         {
             var files = Folder.GetFiles().Select(item => new CoreFileContainer(item)).ToList();
-            return Task.FromResult((IReadOnlyList<FileContainerBase>)files);
+            return Task.FromResult((IReadOnlyList<FileContainer>)files);
         }
 
         public override Task<bool> RenameAsync(string NewName)
@@ -84,6 +88,18 @@ namespace PlatformBindings.Models.FileSystem
                 catch { return false; }
             });
         }
+
+        public override Task<bool> FileExists(string FileName)
+        {
+            return Task.Run(() => File.Exists(GetSubItemPath(FileName)));
+        }
+
+        public override Task<bool> FolderExists(string FolderName)
+        {
+            return Task.Run(() => Directory.Exists(GetSubItemPath(FolderName)));
+        }
+
+        public override bool CanWrite => !((Folder.Attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly);
 
         public DirectoryInfo Folder { get; }
     }

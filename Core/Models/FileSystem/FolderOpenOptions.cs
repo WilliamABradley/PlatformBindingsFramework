@@ -4,6 +4,6 @@ namespace PlatformBindings.Models.FileSystem
 {
     public class FolderOpenOptions
     {
-        public IList<FileSystemContainerBase> ItemsToSelect { get; } = new List<FileSystemContainerBase>();
+        public IList<FileSystemContainer> ItemsToSelect { get; } = new List<FileSystemContainer>();
     }
 }

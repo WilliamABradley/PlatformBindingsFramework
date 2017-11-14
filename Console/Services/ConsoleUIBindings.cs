@@ -14,10 +14,15 @@ namespace PlatformBindings.ConsoleTools
 
         public override INavigationManager NavigationManager { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        public override Task<DialogResult> PromptUserAsync(string Title, string Message, string PrimaryButtonText = null, string SecondaryButtonText = null, IUIBindingInfo UIBinding = null)
+        private string CleanseFormatMarkers(string RawText)
         {
-            Console.WriteLine(Title);
-            Console.WriteLine(Message);
+            return RawText.Replace("^B^", "");
+        }
+
+        public override Task<DialogResult> PromptUserAsync(string Title, string Message, string PrimaryButtonText, string SecondaryButtonText, IUIBindingInfo UIBinding)
+        {
+            Console.WriteLine(CleanseFormatMarkers(Title));
+            Console.WriteLine(CleanseFormatMarkers(Message));
 
             DialogResult result = DialogResult.Primary;
 

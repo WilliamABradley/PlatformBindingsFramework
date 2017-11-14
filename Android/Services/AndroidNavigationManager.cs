@@ -1,4 +1,5 @@
 ﻿using Android.App;
+using PlatformBindings.Common;
 using System;
 
 namespace PlatformBindings.Services
@@ -27,6 +28,6 @@ namespace PlatformBindings.Services
             //CurrentActivity.ActionBar.add
         }
 
-        private Activity CurrentActivity => ((AndroidUIBindingInfo)AppServices.UI.DefaultUIBinding).Activity;
+        private Activity CurrentActivity => AndroidHelpers.GetCurrentActivity();
     }
 }

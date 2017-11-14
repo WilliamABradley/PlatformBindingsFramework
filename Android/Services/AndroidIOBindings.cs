@@ -15,43 +15,31 @@ namespace PlatformBindings.Services
 {
     public class AndroidIOBindings : IOBindings
     {
-        public override bool RequiresFutureAccessToken => false;
-
-        public override bool SupportsRoaming => false;
-
-        public override bool SupportsOpenFolder => false;
-
-        public override bool SupportsOpenFile => true;
-
-        public override bool SupportsPickFile => true;
-
-        public override bool SupportsPickFolder => false;
-
-        public override async Task<FileContainerBase> CreateFile(FilePath Path)
+        public override async Task<FileContainer> CreateFile(FilePath Path)
         {
             var folder = await GetFolder(Path);
             return await folder.CreateFileAsync(Path.FileName);
         }
 
-        public override Task<FileContainerBase> GetFile(string Path)
+        public override Task<FileContainer> GetFile(string Path)
         {
-            return Task.FromResult((FileContainerBase)new CoreFileContainer(Path));
+            return Task.FromResult((FileContainer)new CoreFileContainer(Path));
         }
 
-        public override async Task<FileContainerBase> GetFile(FilePath Path)
+        public override async Task<FileContainer> GetFile(FilePath Path)
         {
             var folder = await GetFolder(Path);
             return await folder.GetFileAsync(Path.FileName);
         }
 
-        public override Task<FolderContainerBase> GetFolder(string Path)
+        public override Task<FolderContainer> GetFolder(string Path)
         {
-            return Task.FromResult((FolderContainerBase)new CoreFolderContainer(Path));
+            return Task.FromResult((FolderContainer)new CoreFolderContainer(Path));
         }
 
-        public override async Task<FolderContainerBase> GetFolder(FolderPath Path)
+        public override async Task<FolderContainer> GetFolder(FolderPath Path)
         {
-            FolderContainerBase Folder = GetBaseFolder(Path.Root);
+            FolderContainer Folder = GetBaseFolder(Path.Root);
 
             foreach (var piece in PlatformBindingHelpers.GetPathPieces(Path.Path))
             {
@@ -60,9 +48,9 @@ namespace PlatformBindings.Services
             return Folder;
         }
 
-        public override FolderContainerBase GetBaseFolder(PathRoot Root)
+        public override FolderContainer GetBaseFolder(PathRoot Root)
         {
-            FolderContainerBase Folder = null;
+            FolderContainer Folder = null;
             switch (Root)
             {
                 case PathRoot.TempAppStorage:
@@ -90,14 +78,22 @@ namespace PlatformBindings.Services
             return new AndroidSettingsContainer(name, null);
         }
 
-        public override Task<bool> OpenFile(FileContainerBase File)
+        public override Task<bool> OpenFile(FileContainer File)
         {
             bool success = false;
+            Android.Net.Uri uri = null;
             try
             {
-                Java.IO.File file = new Java.IO.File(File.Path);
-                file.SetReadable(true);
-                Android.Net.Uri uri = Android.Net.Uri.FromFile(file);
+                if (File is AndroidDocumentsProviderFile providerfile)
+                {
+                    uri = providerfile.File.Uri;
+                }
+                else
+                {
+                    Java.IO.File file = new Java.IO.File(File.Path);
+                    file.SetReadable(true);
+                    uri = Android.Net.Uri.FromFile(file);
+                }
 
                 Intent intent = new Intent(Intent.ActionView);
                 var mimeType = URLConnection.GuessContentTypeFromName(File.Name);
@@ -108,12 +104,13 @@ namespace PlatformBindings.Services
 
                 success = true;
             }
-            catch { }
-
+            catch (Exception ex)
+            {
+            }
             return Task.FromResult(success);
         }
 
-        public override Task<bool> OpenFolder(FolderContainerBase Folder, FolderOpenOptions Options)
+        public override Task<bool> OpenFolder(FolderContainer Folder, FolderOpenOptions Options)
         {
             throw new NotImplementedException();
         }
@@ -122,7 +119,7 @@ namespace PlatformBindings.Services
         {
             Intent intent = new Intent(Intent.ActionOpenDocument);
             intent.AddCategory(Intent.CategoryOpenable);
-            intent.PutExtra(Intent.ExtraAllowMultiple, Multiple);
+            if (Multiple) intent.PutExtra(Intent.ExtraAllowMultiple, Multiple);
             bool HasNoTypes = true;
 
             if (Properties != null)
@@ -153,25 +150,19 @@ namespace PlatformBindings.Services
             return await uibinding.Activity.StartActivityForResultAsync(intent);
         }
 
-        public override async Task<FileContainerBase> PickFile(FilePickerProperties Properties)
+        public override async Task<FileContainer> PickFile(FilePickerProperties Properties)
         {
             var result = await CreateFilePicker(Properties, false);
             if (result != null && result.ResultCode == Result.Ok && result.Data != null)
             {
-                return ResolveToFile(result.Data.Data);
+                return new AndroidDocumentsProviderFile(result.Data.Data);
             }
             else return null;
         }
 
-        private FileContainerBase ResolveToFile(Android.Net.Uri Uri)
+        public override async Task<IReadOnlyList<FileContainer>> PickFiles(FilePickerProperties Properties)
         {
-            var path = PathResolver.ResolveFile(Application.Context, Uri);
-            return new CoreFileContainer(path);
-        }
-
-        public override async Task<IReadOnlyList<FileContainerBase>> PickFiles(FilePickerProperties Properties)
-        {
-            List<FileContainerBase> Files = new List<FileContainerBase>();
+            List<FileContainer> Files = new List<FileContainer>();
 
             var result = await CreateFilePicker(Properties, true);
             if (result != null && result.ResultCode == Result.Ok && result.Data != null)
@@ -182,30 +173,31 @@ namespace PlatformBindings.Services
                     for (int i = 0; i < clipData.ItemCount; i++)
                     {
                         var item = clipData.GetItemAt(i);
-                        Files.Add(ResolveToFile(item.Uri));
+                        Files.Add(new AndroidDocumentsProviderFile(item.Uri));
                     }
                 }
                 else
                 {
-                    Files.Add(ResolveToFile(result.Data.Data));
+                    Files.Add(new AndroidDocumentsProviderFile(result.Data.Data));
                 }
                 return Files;
             }
             return null;
         }
 
-        public override async Task<FolderContainerBase> PickFolder(FolderPickerProperties Properties)
+        public override async Task<FolderContainer> PickFolder(FolderPickerProperties Properties)
         {
-            AppServices.UI.PromptUser("Error", "Folder resolving fails", "OK", null);
-
             Intent intent = new Intent(Intent.ActionOpenDocumentTree);
-            var uibinding = AppServices.UI.DefaultUIBinding as AndroidUIBindingInfo;
+            var activity = AndroidHelpers.GetCurrentActivity();
 
-            var result = await uibinding.Activity.StartActivityForResultAsync(intent);
+            var result = await activity.StartActivityForResultAsync(intent);
             if (result != null && result.ResultCode == Result.Ok && result.Data != null)
             {
-                var path = PathResolver.ResolveFile(Application.Context, result.Data.Data);
-                return new CoreFolderContainer(path);
+                var uri = result.Data.Data;
+                var flags = ActivityFlags.GrantReadUriPermission | ActivityFlags.GrantWriteUriPermission;
+                activity.GrantUriPermission(activity.PackageName, uri, flags);
+                activity.ContentResolver.TakePersistableUriPermission(uri, result.Data.Flags & flags);
+                return new AndroidDocumentsProviderFolder(uri);
             }
             else return null;
         }
@@ -217,14 +209,37 @@ namespace PlatformBindings.Services
             return GetLocalSettingsContainer();
         }
 
-        public override string GetFutureAccessToken(FileSystemContainerBase Item)
+        public override string GetFutureAccessToken(FileSystemContainer Item)
         {
-            throw new NotSupportedException();
+            var uri = Item is AndroidDocumentsProviderFolder folder ? folder.Folder.Uri : Item is AndroidDocumentsProviderFile file ? file.File.Uri : null;
+            if (uri != null)
+            {
+                AndroidHelpers.GetCurrentActivity().ContentResolver.TakePersistableUriPermission(uri, ActivityFlags.GrantReadUriPermission | ActivityFlags.GrantWriteUriPermission);
+                return uri.SchemeSpecificPart;
+            }
+            else return null;
         }
 
         public override void RemoveFutureAccessToken(string Token)
         {
-            throw new NotSupportedException();
+            var resolver = AndroidHelpers.GetCurrentActivity().ContentResolver;
+            var permission = resolver.PersistedUriPermissions.FirstOrDefault(item => item.Uri.SchemeSpecificPart == Token);
+            if (permission != null)
+            {
+                resolver.PersistedUriPermissions.Remove(permission);
+            }
         }
+
+        public override bool RequiresFutureAccessToken => true;
+
+        public override bool SupportsRoaming => false;
+
+        public override bool SupportsOpenFolder => false;
+
+        public override bool SupportsOpenFile => true;
+
+        public override bool SupportsPickFile => true;
+
+        public override bool SupportsPickFolder => true;
     }
 }

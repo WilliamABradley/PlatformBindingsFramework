@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2006
+VisualStudioVersion = 15.0.27004.2008
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlatformBindings-Core", "Core\PlatformBindings-Core.csproj", "{49819B4E-2D4E-4FAB-BA80-4DD2FB2081CF}"
 EndProject
@@ -27,16 +27,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlatformBindings-XamarinFor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlatformBindings-NETCore", "NETCore\PlatformBindings-NETCore.csproj", "{0CA1BCF8-F846-4A13-A4C1-4624018B1852}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlatformBindings-Android-AppCompatV7", "Android-AppCompatV7\PlatformBindings-Android-AppCompatV7.csproj", "{E4AFB9F6-E274-43C0-8E61-A83C2EB41A36}"
-EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "PlatformBindings-Android-Shared", "Android-Shared\PlatformBindings-Android-Shared.shproj", "{8466CAC1-FEC9-4040-A6A9-1174C66F82C7}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PlatformBindings-Android", "PlatformBindings-Android", "{B63CB60C-F862-4A44-8D28-1F9CFF2A2E95}"
-EndProject
 Global
-	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		Android-Shared\PlatformBindings-Android-Shared.projitems*{8466cac1-fec9-4040-a6a9-1174c66f82c7}*SharedItemsImports = 13
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|ARM = Debug|ARM
@@ -204,35 +195,16 @@ Global
 		{0CA1BCF8-F846-4A13-A4C1-4624018B1852}.Release|x64.Build.0 = Release|Any CPU
 		{0CA1BCF8-F846-4A13-A4C1-4624018B1852}.Release|x86.ActiveCfg = Release|Any CPU
 		{0CA1BCF8-F846-4A13-A4C1-4624018B1852}.Release|x86.Build.0 = Release|Any CPU
-		{E4AFB9F6-E274-43C0-8E61-A83C2EB41A36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E4AFB9F6-E274-43C0-8E61-A83C2EB41A36}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E4AFB9F6-E274-43C0-8E61-A83C2EB41A36}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{E4AFB9F6-E274-43C0-8E61-A83C2EB41A36}.Debug|ARM.Build.0 = Debug|Any CPU
-		{E4AFB9F6-E274-43C0-8E61-A83C2EB41A36}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{E4AFB9F6-E274-43C0-8E61-A83C2EB41A36}.Debug|x64.Build.0 = Debug|Any CPU
-		{E4AFB9F6-E274-43C0-8E61-A83C2EB41A36}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{E4AFB9F6-E274-43C0-8E61-A83C2EB41A36}.Debug|x86.Build.0 = Debug|Any CPU
-		{E4AFB9F6-E274-43C0-8E61-A83C2EB41A36}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E4AFB9F6-E274-43C0-8E61-A83C2EB41A36}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E4AFB9F6-E274-43C0-8E61-A83C2EB41A36}.Release|ARM.ActiveCfg = Release|Any CPU
-		{E4AFB9F6-E274-43C0-8E61-A83C2EB41A36}.Release|ARM.Build.0 = Release|Any CPU
-		{E4AFB9F6-E274-43C0-8E61-A83C2EB41A36}.Release|x64.ActiveCfg = Release|Any CPU
-		{E4AFB9F6-E274-43C0-8E61-A83C2EB41A36}.Release|x64.Build.0 = Release|Any CPU
-		{E4AFB9F6-E274-43C0-8E61-A83C2EB41A36}.Release|x86.ActiveCfg = Release|Any CPU
-		{E4AFB9F6-E274-43C0-8E61-A83C2EB41A36}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{35CDE811-8CA7-4041-AF2B-0DC0606A27DD} = {B63CB60C-F862-4A44-8D28-1F9CFF2A2E95}
 		{A51388C3-40E5-4DA4-AA2D-349D75E592DB} = {5004EF8D-9B09-4468-BDE1-2F1455C2FAAE}
 		{1250BD7A-49BF-463E-A53F-B5B5A8AE787E} = {5004EF8D-9B09-4468-BDE1-2F1455C2FAAE}
 		{D75853E5-F084-4D29-BB6F-26C14CA16F64} = {5004EF8D-9B09-4468-BDE1-2F1455C2FAAE}
 		{BEE63EBC-97B3-4215-A1A8-C6054C834238} = {1250BD7A-49BF-463E-A53F-B5B5A8AE787E}
 		{B7A60FD7-AEB0-4FBB-90BF-3393996942BD} = {A51388C3-40E5-4DA4-AA2D-349D75E592DB}
-		{E4AFB9F6-E274-43C0-8E61-A83C2EB41A36} = {B63CB60C-F862-4A44-8D28-1F9CFF2A2E95}
-		{8466CAC1-FEC9-4040-A6A9-1174C66F82C7} = {B63CB60C-F862-4A44-8D28-1F9CFF2A2E95}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F29D3568-CA96-478E-B0F4-76698467FEF6}

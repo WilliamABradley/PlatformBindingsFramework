@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace PlatformBindings.Models.FileSystem
 {
-    public class CoreFileContainer : FileContainerBase
+    public class CoreFileContainer : FileContainer
     {
         public CoreFileContainer(FileInfo File)
         {
@@ -15,18 +15,6 @@ namespace PlatformBindings.Models.FileSystem
         {
             this.Path = Path;
             Name = System.IO.Path.GetFileName(Path);
-        }
-
-        public override Task<bool> DeleteAsync()
-        {
-            bool Success = false;
-            try
-            {
-                File.Delete(Path);
-                Success = true;
-            }
-            catch { }
-            return Task.FromResult(Success);
         }
 
         public override Task<Stream> OpenAsStream(bool CanWrite)
@@ -80,7 +68,21 @@ namespace PlatformBindings.Models.FileSystem
             });
         }
 
+        public override Task<bool> DeleteAsync()
+        {
+            bool Success = false;
+            try
+            {
+                File.Delete(Path);
+                Success = true;
+            }
+            catch { }
+            return Task.FromResult(Success);
+        }
+
         public override string Name { get; }
         public override string Path { get; }
+
+        public override bool CanWrite => !((File.GetAttributes(Path) & FileAttributes.ReadOnly) == FileAttributes.ReadOnly);
     }
 }

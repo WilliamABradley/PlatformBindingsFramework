@@ -10,7 +10,7 @@ namespace Tests.Tests
         {
             void Selected(MenuItem Item)
             {
-                AppServices.UI.PromptUser("Selected", $"{Item.Label} Pressed", "OK", null);
+                AppServices.UI.PromptUser("Selected", $"^B^{Item.Label}^B^ Pressed", "OK", null);
                 if (Item is ToggleMenuItem tog)
                 {
                     tog.IsToggled = tog.IsToggled != true;

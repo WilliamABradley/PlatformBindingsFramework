@@ -6,44 +6,44 @@ using Windows.Storage;
 
 namespace PlatformBindings.Models.FileSystem
 {
-    public class WinFolderContainer : FolderContainerBase
+    public class WinFolderContainer : FolderContainer
     {
         public WinFolderContainer(StorageFolder Folder)
         {
             this.Folder = Folder;
         }
 
-        public override async Task<FileContainerBase> GetFileAsync(string FileName)
+        public override async Task<FileContainer> GetFileAsync(string FileName)
         {
             var file = await Folder.GetFileAsync(FileName);
             return new WinFileContainer(file);
         }
 
-        public override async Task<FileContainerBase> CreateFileAsync(string FileName, Enums.CreationCollisionOption options)
+        public override async Task<FileContainer> CreateFileAsync(string FileName, Enums.CreationCollisionOption options)
         {
             var file = await Folder.CreateFileAsync(FileName, (CreationCollisionOption)options);
             return new WinFileContainer(file);
         }
 
-        public override async Task<FolderContainerBase> GetFolderAsync(string FolderName)
+        public override async Task<FolderContainer> GetFolderAsync(string FolderName)
         {
             var subFolder = await Folder.GetFolderAsync(FolderName);
             return new WinFolderContainer(subFolder);
         }
 
-        public override async Task<FolderContainerBase> CreateFolderAsync(string FolderName, Enums.CreationCollisionOption options)
+        public override async Task<FolderContainer> CreateFolderAsync(string FolderName, Enums.CreationCollisionOption options)
         {
             var subFolder = await Folder.CreateFolderAsync(FolderName, (CreationCollisionOption)options);
             return new WinFolderContainer(subFolder);
         }
 
-        public override async Task<IReadOnlyList<FolderContainerBase>> GetFoldersAsync()
+        public override async Task<IReadOnlyList<FolderContainer>> GetFoldersAsync()
         {
             var folders = await Folder.GetFoldersAsync();
             return folders.Select(item => new WinFolderContainer(item)).ToList();
         }
 
-        public override async Task<IReadOnlyList<FileContainerBase>> GetFilesAsync()
+        public override async Task<IReadOnlyList<FileContainer>> GetFilesAsync()
         {
             var files = await Folder.GetFilesAsync();
             return files.Select(item => new WinFileContainer(item)).ToList();
@@ -69,10 +69,26 @@ namespace PlatformBindings.Models.FileSystem
             catch { return false; }
         }
 
+        // UNUSED //
+
+        protected override Task<FileContainer> InternalCreateFileAsync(string FileName)
+        {
+            throw new NotSupportedException();
+        }
+
+        protected override Task<FolderContainer> InternalCreateFolderAsync(string FolderName)
+        {
+            throw new NotSupportedException();
+        }
+
+        // UNUSED //
+
         public StorageFolder Folder { get; }
 
         public override string Name => Folder.Name;
 
         public override string Path => Folder.Path;
+
+        public override bool CanWrite => !((Folder.Attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly);
     }
 }

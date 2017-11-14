@@ -34,11 +34,8 @@ namespace PlatformBindings.Activities
             }
 
             var uibinding = AppServices.UI.DefaultUIBinding as AndroidUIBindingInfo;
-            uibinding.Activity =
-#if APPCOMPAT
-                (Android.Support.V7.App.AppCompatActivity)
-#endif
-                Activity;
+            uibinding.Activity = Activity;
+            if (AndroidAppServices.UseAppCompatUI) uibinding.CompatActivity = (Android.Support.V7.App.AppCompatActivity)Activity;
         }
 
         public Task<ActivityResult> StartActivityForResultAsync(Type ActivityType)

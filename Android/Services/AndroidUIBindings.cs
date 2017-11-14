@@ -5,6 +5,10 @@ using PlatformBindings.Enums;
 using PlatformBindings.Controls.MenuLayout;
 using Android.Content;
 using PlatformBindings.Common;
+using Android.Text;
+using Android.Text.Style;
+using Android.Graphics;
+using PlatformBindings.Models.DialogHandling;
 
 namespace PlatformBindings.Services
 {
@@ -26,31 +30,38 @@ namespace PlatformBindings.Services
             activity.StartActivity(browserIntent);
         }
 
+        private SpannableStringBuilder CreateFormattedString(string RawText)
+        {
+            var sections = RawText.Split(new string[] { "^B^" }, StringSplitOptions.None);
+            var builder = new SpannableStringBuilder();
+            for (int i = 0; i < sections.Length; i++)
+            {
+                var section = sections[i];
+                var start = builder.Length();
+                var end = section.Length + start;
+
+                builder.Append(section);
+                if (i % 2 != 0) builder.SetSpan(new StyleSpan(TypefaceStyle.Bold), start, end, 0);
+            }
+            return builder;
+        }
+
         public override async Task<DialogResult> PromptUserAsync(string Title, string Message, string PrimaryButtonText, string SecondaryButtonText, IUIBindingInfo UIBinding)
         {
-            TaskCompletionSource<DialogResult> Waiter = new TaskCompletionSource<DialogResult>();
-
             var activity = AndroidHelpers.GetCurrentActivity(UIBinding);
-            var builder = new
-#if APPCOMPAT
-                Android.Support.V7.App.AlertDialog
-#else
-                AlertDialog
-#endif
-                .Builder(activity);
 
-            builder.SetTitle(Title);
-            builder.SetMessage(Message);
-            builder.SetNegativeButton(PrimaryButtonText, (s, e) => Waiter.TrySetResult(DialogResult.Primary));
+            var builder = AlertDialogBuilderBase.Pick(activity);
+
+            builder.SetTitle(CreateFormattedString(Title));
+            builder.SetMessage(CreateFormattedString(Message));
+            builder.SetPrimaryButton(PrimaryButtonText);
 
             if (!string.IsNullOrWhiteSpace(SecondaryButtonText))
             {
-                builder.SetPositiveButton(SecondaryButtonText, (s, e) => Waiter.TrySetResult(DialogResult.Secondary));
+                builder.SetSecondaryButton(SecondaryButtonText);
             }
 
-            var dialog = builder.Show();
-
-            return await Waiter.Task;
+            return await builder.ShowAsync();
         }
 
         public override void ShowMenu(Menu Menu, IMenuBinding Binding)

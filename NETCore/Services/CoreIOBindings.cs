@@ -42,32 +42,32 @@ namespace PlatformBindings.Services
             return GetLocalSettingsContainer();
         }
 
-        public override Task<FileContainerBase> GetFile(string Path)
+        public override Task<FileContainer> GetFile(string Path)
         {
             throw new NotImplementedException();
         }
 
-        public override Task<FileContainerBase> GetFile(FilePath Path)
+        public override Task<FileContainer> GetFile(FilePath Path)
         {
             throw new NotImplementedException();
         }
 
-        public override Task<FileContainerBase> CreateFile(FilePath Path)
+        public override Task<FileContainer> CreateFile(FilePath Path)
         {
             throw new NotImplementedException();
         }
 
-        public override Task<FolderContainerBase> GetFolder(string Path)
+        public override Task<FolderContainer> GetFolder(string Path)
         {
             throw new NotImplementedException();
         }
 
-        public override Task<FolderContainerBase> GetFolder(FolderPath Path)
+        public override Task<FolderContainer> GetFolder(FolderPath Path)
         {
             throw new NotImplementedException();
         }
 
-        public override FolderContainerBase GetBaseFolder(PathRoot Root)
+        public override FolderContainer GetBaseFolder(PathRoot Root)
         {
             switch (Root)
             {
@@ -106,32 +106,32 @@ namespace PlatformBindings.Services
             }
         }
 
-        public override Task<IReadOnlyList<FileContainerBase>> PickFiles(FilePickerProperties Properties)
+        public override Task<IReadOnlyList<FileContainer>> PickFiles(FilePickerProperties Properties)
         {
             throw new NotSupportedException();
         }
 
-        public override Task<FileContainerBase> PickFile(FilePickerProperties Properties)
+        public override Task<FileContainer> PickFile(FilePickerProperties Properties)
         {
             throw new NotSupportedException();
         }
 
-        public override Task<FolderContainerBase> PickFolder(FolderPickerProperties Properties)
+        public override Task<FolderContainer> PickFolder(FolderPickerProperties Properties)
         {
             throw new NotSupportedException();
         }
 
-        public override Task<bool> OpenFolder(FolderContainerBase Folder, FolderOpenOptions Options)
+        public override Task<bool> OpenFolder(FolderContainer Folder, FolderOpenOptions Options)
         {
             throw new NotImplementedException();
         }
 
-        public override Task<bool> OpenFile(FileContainerBase File)
+        public override Task<bool> OpenFile(FileContainer File)
         {
             throw new NotImplementedException();
         }
 
-        public override string GetFutureAccessToken(FileSystemContainerBase Item)
+        public override string GetFutureAccessToken(FileSystemContainer Item)
         {
             throw new NotImplementedException();
         }

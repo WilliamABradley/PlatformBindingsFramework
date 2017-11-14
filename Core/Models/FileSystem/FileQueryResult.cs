@@ -4,9 +4,9 @@ namespace PlatformBindings.Models.FileSystem
 {
     public class FileQueryResult
     {
-        internal List<FileContainerBase> Files { get; } = new List<FileContainerBase>();
+        internal List<FileContainer> Files { get; } = new List<FileContainer>();
 
-        private IReadOnlyList<FileContainerBase> GetFiles()
+        private IReadOnlyList<FileContainer> GetFiles()
         {
             return Files;
         }

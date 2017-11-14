@@ -11,6 +11,11 @@
         android:layout_height="wrap_content"
         android:id="@+id/TestFilePickerButton" />
     <Button
+        android:text="Test File/Folders"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/Tests_FileTests" />
+    <Button
         android:text="Test Context Menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
