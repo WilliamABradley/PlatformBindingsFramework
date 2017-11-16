@@ -5,7 +5,7 @@ The Platform Bindings Framework is intended to unify Lower Level App Functionali
 If you can think of a great API Addition to the Framework, Create an Issue, specifiy whether you would want to help implement on a single Platform, All Platforms, or just keep it as a suggestion.
 
 ### Guidelines
- - [Questions / Feedback](#questions-feedback)
+ - [Questions and Feedback](#questions-and-feedback)
  - [Submitting a pull request](#submitting-a-pull-request)
  - [Want a Platform Supported?](#want-a-platform-supported)
  - [Implementating a Platform](#implementating-a-platform)
@@ -13,7 +13,7 @@ If you can think of a great API Addition to the Framework, Create an Issue, spec
  - [Conventions](#conventions)
  - [Documentation](#documentation)
 
-## Questions / Feedback
+## Questions and Feedback
 
 If you have any Questions or Feedback about how to use the Platform Bindings Framework, the best place for the time being, is by creating an GitHub Issue.
 
