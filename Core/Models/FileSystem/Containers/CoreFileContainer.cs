@@ -26,34 +26,6 @@ namespace PlatformBindings.Models.FileSystem
             return Task.FromResult(result);
         }
 
-        public override Task<string> ReadFileAsText()
-        {
-            try
-            {
-                using (var reader = File.OpenText(Path))
-                {
-                    return Task.FromResult(reader.ReadToEnd());
-                }
-            }
-            catch { return Task.FromResult((string)null); }
-        }
-
-        public override Task<bool> SaveText(string Text)
-        {
-            bool success = false;
-            try
-            {
-                using (var writer = File.CreateText(Path))
-                {
-                    writer.Write(Text);
-                    success = true;
-                }
-            }
-            catch { }
-
-            return Task.FromResult(success);
-        }
-
         public override Task<bool> RenameAsync(string NewName)
         {
             return Task.Run(() =>

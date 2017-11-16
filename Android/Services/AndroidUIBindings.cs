@@ -1,5 +1,4 @@
-﻿using Android.App;
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using PlatformBindings.Enums;
 using PlatformBindings.Controls.MenuLayout;
@@ -9,17 +8,18 @@ using Android.Text;
 using Android.Text.Style;
 using Android.Graphics;
 using PlatformBindings.Models.DialogHandling;
+using PlatformBindings.Models;
 
 namespace PlatformBindings.Services
 {
-    public class AndroidUIBindings : UIBindingsBase
+    public class AndroidUIBindings : UIBindings
     {
         public AndroidUIBindings()
         {
             DefaultUIBinding = new AndroidUIBindingInfo();
         }
 
-        public override InteractionManagerBase InteractionManager { get; }
+        public override InteractionManager InteractionManager { get; }
         public override IUIBindingInfo DefaultUIBinding { get; }
         public override INavigationManager NavigationManager { get; set; }
 

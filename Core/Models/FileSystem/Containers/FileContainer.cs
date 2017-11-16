@@ -20,7 +20,16 @@ namespace PlatformBindings.Models.FileSystem
         /// Returns the contents of the file as a String.
         /// </summary>
         /// <returns></returns>
-        public abstract Task<string> ReadFileAsText();
+        public virtual async Task<string> ReadFileAsText()
+        {
+            using (var stream = await OpenAsStream(false))
+            {
+                using (var reader = new StreamReader(stream))
+                {
+                    return await reader.ReadToEndAsync();
+                }
+            }
+        }
 
         /// <summary>
         /// Deserialises an object from the file text, via JSON Parsing.
@@ -38,7 +47,17 @@ namespace PlatformBindings.Models.FileSystem
         /// </summary>
         /// <param name="Text">Content to Save.</param>
         /// <returns></returns>
-        public abstract Task<bool> SaveText(string Text);
+        public virtual async Task<bool> SaveText(string Text)
+        {
+            using (var stream = await OpenAsStream(true))
+            {
+                using (var writer = new StreamWriter(stream))
+                {
+                    await writer.WriteAsync(Text);
+                    return true;
+                }
+            }
+        }
 
         /// <summary>
         /// Serialises the object as Json, then saves it to the file.

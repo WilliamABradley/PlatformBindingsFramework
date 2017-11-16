@@ -3,7 +3,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace Test_UWP.Services
 {
-    public class TestNavigationManager : WinNavigationManager
+    public class TestNavigationManager : UWPNavigationManager
     {
         public TestNavigationManager(Frame Frame) : base(Frame)
         {

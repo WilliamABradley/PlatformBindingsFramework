@@ -1,5 +1,4 @@
-﻿using PlatformBindings.Services;
-using Tests.Tests;
+﻿using Tests.Tests;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;

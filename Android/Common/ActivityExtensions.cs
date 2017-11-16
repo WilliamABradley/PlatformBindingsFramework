@@ -2,7 +2,6 @@
 using Android.Content;
 using Android.OS;
 using PlatformBindings.Models;
-using PlatformBindings.Services;
 using System;
 using System.Threading.Tasks;
 

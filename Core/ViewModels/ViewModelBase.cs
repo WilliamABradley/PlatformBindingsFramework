@@ -1,4 +1,4 @@
-﻿using PlatformBindings.Services;
+﻿using PlatformBindings.Models;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 

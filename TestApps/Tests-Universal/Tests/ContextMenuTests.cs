@@ -1,6 +1,6 @@
 ﻿using PlatformBindings;
 using PlatformBindings.Controls.MenuLayout;
-using PlatformBindings.Services;
+using PlatformBindings.Models;
 
 namespace Tests.Tests
 {

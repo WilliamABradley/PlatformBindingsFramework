@@ -3,7 +3,6 @@ using Android.Content;
 using Android.OS;
 using Android.Views;
 using PlatformBindings.Models;
-using PlatformBindings.Services;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

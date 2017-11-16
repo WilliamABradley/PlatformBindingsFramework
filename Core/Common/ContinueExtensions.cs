@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using PlatformBindings.Services;
+using PlatformBindings.Models;
 
 namespace PlatformBindings.Common
 {

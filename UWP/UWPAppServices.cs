@@ -13,10 +13,10 @@ namespace PlatformBindings
     {
         public UWPAppServices(bool HasUI) : base(HasUI)
         {
-            IO = new WinIOBindings();
-            Credentials = new WinCredentialManager();
-            OAuth = new WinOAuthBroker();
-            Connection = new WinConnectionTest();
+            IO = new UWPIOBindings();
+            Credentials = new UWPCredentialManager();
+            OAuth = new UWPOAuthBroker();
+            NetworkUtilities = new UWPNetworkUtilities();
         }
 
         /// <summary>
@@ -25,7 +25,7 @@ namespace PlatformBindings
         /// <param name="Dispatcher"></param>
         public void AttachDispatcher(CoreDispatcher Dispatcher)
         {
-            UI = new WinUIBindings(Dispatcher);
+            UI = new UWPUIBindings(Dispatcher);
         }
 
         public override Version GetAppVersion()

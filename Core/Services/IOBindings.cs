@@ -105,8 +105,8 @@ namespace PlatformBindings.Services
         /// Opens a Folder for Viewing using the File Manager for the Operating System. See <see cref="SupportsOpenFolder"/> to ensure that this is Supported.
         /// </summary>
         /// <param name="Folder">Folder to Open</param>
-        /// <returns>Task Success</returns>
-        public Task<bool> OpenFolder(FolderContainer Folder)
+        /// <exception cref="System.NotSupportedException"/>
+        public Task OpenFolder(FolderContainer Folder)
         {
             return OpenFolder(Folder);
         }
@@ -116,15 +116,16 @@ namespace PlatformBindings.Services
         /// </summary>
         /// <param name="Folder">Folder to Open</param>
         /// <param name="Options">Options for modifying how the Folder is Displayed, such as Pre-Selecting Files/Folders if supported</param>
-        /// <returns>Task Success</returns>
-        public abstract Task<bool> OpenFolder(FolderContainer Folder, FolderOpenOptions Options);
+        /// <exception cref="System.NotSupportedException"/>
+        public abstract Task OpenFolder(FolderContainer Folder, FolderOpenOptions Options);
 
         /// <summary>
-        /// Opens a File for Viewing in the Default Application for the File in the Operating System. See <see cref="SupportsOpenFile"/> to ensure that this is Supported.
+        /// Opens a File for Viewing in the Default Application for the File in the Operating System. See <see cref="SupportsOpenFile"/> to ensure that this is Supported. <para/>
         /// </summary>
         /// <param name="File">File to Open</param>
-        /// <returns>Task Success</returns>
-        public abstract Task<bool> OpenFile(FileContainer File);
+        /// <exception cref="Exceptions.DefaultAppNotFoundException"/>
+        /// <exception cref="System.NotSupportedException"/>
+        public abstract Task OpenFile(FileContainer File);
 
         /// <summary>
         /// Gets the Roaming Settings Cluster. See <see cref="SupportsRoaming"/> to ensure that this is Supported, or use <see cref="Common.PlatformBindingHelpers.GetSettingsContainer"/> to Attempt getting Roaming Settings before defaulting to Local Settings.

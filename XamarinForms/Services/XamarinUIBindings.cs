@@ -2,12 +2,13 @@
 using System.Threading.Tasks;
 using PlatformBindings.Controls.MenuLayout;
 using PlatformBindings.Enums;
+using PlatformBindings.Models;
 
 namespace PlatformBindings.Services
 {
-    public class XamarinUIBindings : UIBindingsBase
+    public class XamarinUIBindings : UIBindings
     {
-        public override InteractionManagerBase InteractionManager => throw new NotImplementedException();
+        public override InteractionManager InteractionManager => throw new NotImplementedException();
 
         public override INavigationManager NavigationManager { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 

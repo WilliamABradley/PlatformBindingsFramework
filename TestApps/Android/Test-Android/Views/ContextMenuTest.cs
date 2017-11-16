@@ -5,8 +5,8 @@ using Android.Views;
 using Android.Widget;
 using Tests.Tests;
 using PlatformBindings.Common;
-using PlatformBindings.Services;
 using PlatformBindings.Activities;
+using PlatformBindings.Models;
 
 namespace Test_Android.Views
 {

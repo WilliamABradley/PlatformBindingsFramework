@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Threading.Tasks;
 using PlatformBindings.Enums;
-using PlatformBindings.Services;
 using PlatformBindings.Controls.MenuLayout;
+using PlatformBindings.Models;
+using PlatformBindings.ConsoleTools;
 
-namespace PlatformBindings.ConsoleTools
+namespace PlatformBindings.Services
 {
-    public abstract class ConsoleUIBindings : UIBindingsBase
+    public abstract class ConsoleUIBindings : UIBindings
     {
-        public override InteractionManagerBase InteractionManager => null;
+        public override InteractionManager InteractionManager => null;
 
         public override IUIBindingInfo DefaultUIBinding => new ConsoleUIBindingInfo();
 

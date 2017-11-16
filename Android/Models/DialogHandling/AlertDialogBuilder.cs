@@ -4,7 +4,6 @@ using Android.App;
 using Android.Content;
 using PlatformBindings.Enums;
 using Android.Views;
-using System.Threading.Tasks;
 
 namespace PlatformBindings.Models.DialogHandling
 {

@@ -10,7 +10,13 @@ namespace PlatformBindings.Models
         {
         }
 
-        public LoopTimer(TimeSpan Interval, bool StartImmediate = false)
+        public LoopTimer(TimeSpan Interval) : this(Interval, false)
+        {
+            this.Interval = Interval;
+            this.StartImmediate = StartImmediate;
+        }
+
+        public LoopTimer(TimeSpan Interval, bool StartImmediate)
         {
             this.Interval = Interval;
             this.StartImmediate = StartImmediate;

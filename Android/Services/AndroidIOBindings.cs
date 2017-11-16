@@ -1,6 +1,5 @@
 ﻿using Android.App;
 using Android.Content;
-using Java.Net;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +9,8 @@ using PlatformBindings.Enums;
 using PlatformBindings.Models;
 using PlatformBindings.Models.FileSystem;
 using PlatformBindings.Models.Settings;
+using Android.OS;
+using PlatformBindings.Exceptions;
 
 namespace PlatformBindings.Services
 {
@@ -58,7 +59,7 @@ namespace PlatformBindings.Services
                     break;
 
                 case PathRoot.Application:
-                    string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+                    string folderPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
                     Folder = new CoreFolderContainer(folderPath);
                     break;
 
@@ -78,15 +79,18 @@ namespace PlatformBindings.Services
             return new AndroidSettingsContainer(name, null);
         }
 
-        public override Task<bool> OpenFile(FileContainer File)
+        public override async Task OpenFile(FileContainer File)
         {
-            bool success = false;
+            var activity = AndroidHelpers.GetCurrentActivity();
+            ParcelFileDescriptor fd = null;
             Android.Net.Uri uri = null;
             try
             {
-                if (File is AndroidDocumentsProviderFile providerfile)
+                if (File is AndroidSAFFileContainer providerfile)
                 {
-                    uri = providerfile.File.Uri;
+                    var originaluri = providerfile.File.Uri;
+                    fd = activity.ContentResolver.OpenFileDescriptor(originaluri, "r");
+                    uri = FileReshareProvider.GetShareableURI(fd, originaluri);
                 }
                 else
                 {
@@ -96,21 +100,23 @@ namespace PlatformBindings.Services
                 }
 
                 Intent intent = new Intent(Intent.ActionView);
-                var mimeType = URLConnection.GuessContentTypeFromName(File.Name);
+                var mimeType = activity.ContentResolver.GetType(uri);
                 intent.SetDataAndType(uri, mimeType);
 
-                var uibinding = AppServices.UI.DefaultUIBinding as AndroidUIBindingInfo;
-                uibinding.Activity.StartActivity(intent);
+                await activity.StartActivityForResultAsync(intent);
 
-                success = true;
+                if (fd != null)
+                {
+                    fd.Dispose();
+                }
             }
-            catch (Exception ex)
+            catch (ActivityNotFoundException)
             {
+                throw new DefaultAppNotFoundException(File.Name);
             }
-            return Task.FromResult(success);
         }
 
-        public override Task<bool> OpenFolder(FolderContainer Folder, FolderOpenOptions Options)
+        public override Task OpenFolder(FolderContainer Folder, FolderOpenOptions Options)
         {
             throw new NotImplementedException();
         }
@@ -146,8 +152,7 @@ namespace PlatformBindings.Services
             }
 
             if (HasNoTypes) intent.SetType("*/*");
-            var uibinding = AppServices.UI.DefaultUIBinding as AndroidUIBindingInfo;
-            return await uibinding.Activity.StartActivityForResultAsync(intent);
+            return await AndroidHelpers.GetCurrentActivity().StartActivityForResultAsync(intent);
         }
 
         public override async Task<FileContainer> PickFile(FilePickerProperties Properties)
@@ -155,7 +160,7 @@ namespace PlatformBindings.Services
             var result = await CreateFilePicker(Properties, false);
             if (result != null && result.ResultCode == Result.Ok && result.Data != null)
             {
-                return new AndroidDocumentsProviderFile(result.Data.Data);
+                return new AndroidSAFFileContainer(result.Data.Data);
             }
             else return null;
         }
@@ -173,12 +178,12 @@ namespace PlatformBindings.Services
                     for (int i = 0; i < clipData.ItemCount; i++)
                     {
                         var item = clipData.GetItemAt(i);
-                        Files.Add(new AndroidDocumentsProviderFile(item.Uri));
+                        Files.Add(new AndroidSAFFileContainer(item.Uri));
                     }
                 }
                 else
                 {
-                    Files.Add(new AndroidDocumentsProviderFile(result.Data.Data));
+                    Files.Add(new AndroidSAFFileContainer(result.Data.Data));
                 }
                 return Files;
             }
@@ -197,7 +202,7 @@ namespace PlatformBindings.Services
                 var flags = ActivityFlags.GrantReadUriPermission | ActivityFlags.GrantWriteUriPermission;
                 activity.GrantUriPermission(activity.PackageName, uri, flags);
                 activity.ContentResolver.TakePersistableUriPermission(uri, result.Data.Flags & flags);
-                return new AndroidDocumentsProviderFolder(uri);
+                return new AndroidSAFFolderContainer(uri);
             }
             else return null;
         }
@@ -211,7 +216,7 @@ namespace PlatformBindings.Services
 
         public override string GetFutureAccessToken(FileSystemContainer Item)
         {
-            var uri = Item is AndroidDocumentsProviderFolder folder ? folder.Folder.Uri : Item is AndroidDocumentsProviderFile file ? file.File.Uri : null;
+            var uri = Item is AndroidSAFFolderContainer folder ? folder.Folder.Uri : Item is AndroidSAFFileContainer file ? file.File.Uri : null;
             if (uri != null)
             {
                 AndroidHelpers.GetCurrentActivity().ContentResolver.TakePersistableUriPermission(uri, ActivityFlags.GrantReadUriPermission | ActivityFlags.GrantWriteUriPermission);

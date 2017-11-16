@@ -1,6 +1,6 @@
 ﻿using Android.App;
 using PlatformBindings.Activities;
-using PlatformBindings.Services;
+using PlatformBindings.Models;
 
 namespace PlatformBindings.Common
 {

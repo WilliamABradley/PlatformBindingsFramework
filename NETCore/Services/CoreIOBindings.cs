@@ -121,12 +121,12 @@ namespace PlatformBindings.Services
             throw new NotSupportedException();
         }
 
-        public override Task<bool> OpenFolder(FolderContainer Folder, FolderOpenOptions Options)
+        public override Task OpenFolder(FolderContainer Folder, FolderOpenOptions Options)
         {
             throw new NotImplementedException();
         }
 
-        public override Task<bool> OpenFile(FileContainer File)
+        public override Task OpenFile(FileContainer File)
         {
             throw new NotImplementedException();
         }
