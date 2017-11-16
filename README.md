@@ -10,7 +10,7 @@ Android is somewhat implemented, while Xamarin.Forms is mostly unimplemented.
 
 ## Build status
 
-| Target | Branch | Status | Recommended Nuget packages version |
+| Target | Branch | Status | Recommended Nuget packages |
 | ------ | ------ | ------ | ------ |
 | Pre-Release | master | Alpha/Planning | [Packages](https://www.nuget.org/packages?q=platformbindings) |
 
@@ -112,4 +112,4 @@ Please use [GitHub issues](https://github.com/WilliamABradley/PlatformBindingsFr
 ## Contributing
 Want to help and flesh out this Library? Submit a PR!
 
-Here are the [contribution guidelines](contributing.md).
+Here are the [contribution guidelines](Contributing.md).
