@@ -12,6 +12,11 @@ namespace PlatformBindings.Services
 {
     public class CoreIOBindings : IOBindings
     {
+        public CoreIOBindings()
+        {
+            LocalSettings = new CoreSettingsContainer(GetSettingsCluster(), null);
+        }
+
         public override bool SupportsRoaming => false;
         public override bool SupportsOpenFolderForDisplay => false;
         public override bool SupportsOpenFileForDisplay => false;
@@ -19,12 +24,12 @@ namespace PlatformBindings.Services
         public override IFutureAccessManager FutureAccess => null;
         public override FileSystemPickers Pickers => null;
 
-        public override ISettingsContainer LocalSettings { get; } = new CoreSettingsContainer(GetSettingsCluster(), null);
+        public override ISettingsContainer LocalSettings { get; }
 
-        private static CoreFolderContainer GetSettingsCluster()
+        private CoreFolderContainer GetSettingsCluster()
         {
-            var root = AppServices.IO.GetBaseFolder(PathRoot.Application);
-            var settings = root.CreateFolderAsync("Settings").Result as CoreFolderContainer;
+            var root = GetBaseFolder(PathRoot.Application);
+            var settings = root.CreateFolderAsync("Settings", CreationCollisionOption.OpenIfExists).Result as CoreFolderContainer;
             return settings;
         }
 

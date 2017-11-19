@@ -7,8 +7,8 @@ namespace PlatformBindings
     {
         public NETCoreServices() : base(true, Enums.Platform.NETCore)
         {
-            UI = new CoreUIBindings();
             IO = new CoreIOBindings();
+            UI = new CoreUIBindings();
         }
 
         public static bool UseGlobalAppData = true;

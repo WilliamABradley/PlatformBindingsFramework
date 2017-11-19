@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using PlatformBindings.Enums;
 using PlatformBindings.Models.FileSystem;
 using System.Collections.Generic;
 
@@ -23,7 +24,7 @@ namespace PlatformBindings.Models.Settings
         private void CreateDirectory()
         {
             var parent = Parent as CoreSettingsContainer;
-            Directory = parent.Directory.CreateFolderAsync(Name).Result as CoreFolderContainer;
+            Directory = parent.Directory.CreateFolderAsync(Name, CreationCollisionOption.OpenIfExists).Result as CoreFolderContainer;
         }
 
         public void Clear()

@@ -51,19 +51,6 @@ namespace PlatformBindings.Models.FileSystem
             return Task.FromResult(success);
         }
 
-        public override async Task<FileContainer> GetFileAsync(string FileName)
-        {
-            var files = await GetFilesAsync();
-            var file = files.FirstOrDefault(item => item.Name == FileName);
-
-            return file;
-        }
-
-        public override Task<FolderContainer> GetFolderAsync(string FolderName)
-        {
-            return CreateFolderAsync(FolderName);
-        }
-
         public override Task<IReadOnlyList<FolderContainer>> GetFoldersAsync()
         {
             var folders = Folder.GetDirectories().Select(item => new CoreFolderContainer(item)).ToList();

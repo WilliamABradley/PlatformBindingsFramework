@@ -33,7 +33,23 @@ namespace PlatformBindings.Services
 
             if (!string.IsNullOrWhiteSpace(SecondaryButtonText))
             {
-                result = ConsoleHelpers.PromptYesNo($"{PrimaryButtonText}/{SecondaryButtonText}?") ? result = DialogResult.Primary : DialogResult.Secondary;
+                Console.WriteLine($"{PrimaryButtonText}/{SecondaryButtonText}?" + " (1/2)");
+                while (true)
+                {
+                    var res = Console.ReadKey();
+                    if (res.Key == ConsoleKey.D1)
+                    {
+                        Console.WriteLine();
+                        result = DialogResult.Primary;
+                        break;
+                    }
+                    else if (res.Key == ConsoleKey.D2)
+                    {
+                        Console.WriteLine();
+                        result = DialogResult.Secondary;
+                        break;
+                    }
+                }
             }
             else
             {
