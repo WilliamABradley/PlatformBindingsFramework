@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NETCore\PlatformBindings-NETCore.csproj" />
+    <ProjectReference Include="..\..\NETCore\PlatformBindings-NETCore.csproj" />
   </ItemGroup>
 
 </Project>

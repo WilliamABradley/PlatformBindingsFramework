@@ -31,7 +31,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlatformBindings-SMB", "SMB
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NETCore", "NETCore", "{7B5B14B7-0E13-425C-9951-CF4B8D62E283}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test-NETCore", "Test-NETCore\Test-NETCore.csproj", "{8D084D1C-3C66-49DC-B90A-8BA0A27248BA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test-NETCore", "TestApps\NETCore\Test-NETCore.csproj", "{8D084D1C-3C66-49DC-B90A-8BA0A27248BA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
