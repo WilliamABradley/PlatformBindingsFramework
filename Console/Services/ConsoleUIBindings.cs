@@ -9,6 +9,10 @@ namespace PlatformBindings.Services
 {
     public abstract class ConsoleUIBindings : UIBindings
     {
+        public ConsoleUIBindings() : base(Platform.Console)
+        {
+        }
+
         public override InteractionManager InteractionManager => null;
 
         public override IUIBindingInfo DefaultUIBinding => new ConsoleUIBindingInfo();
@@ -37,6 +41,11 @@ namespace PlatformBindings.Services
             }
 
             return Task.FromResult(result);
+        }
+
+        public override Task<string> RequestTextFromUserAsync(string Title, string Message, string OKButtonText, string CancelButtonText, IUIBindingInfo UIBinding)
+        {
+            throw new NotImplementedException();
         }
 
         public override void SetWindowText(string Text = "")

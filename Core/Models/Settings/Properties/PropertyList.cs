@@ -18,7 +18,7 @@ namespace PlatformBindings.Models.Settings.Properties
             this.Parent = Parent;
             if (Container == null)
             {
-                Container = Parent.CreateContainer(PropertyName);
+                Container = Parent.GetContainer(PropertyName);
                 foreach (var item in Container.GetContainers())
                 {
                     var newElement = Activator.CreateInstance<T>();

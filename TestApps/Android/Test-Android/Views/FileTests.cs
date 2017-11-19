@@ -1,54 +1,21 @@
 ﻿using Android.App;
 using Android.OS;
-using Android.Widget;
 using PlatformBindings.Activities;
+using Test_Android.Services;
 using Tests.Tests;
 
 namespace Test_Android.Views
 {
-    [Activity]
+    [Activity(Label = "File/Folder Tests")]
     public class FileTests : PlatformBindingActivity
     {
-        public FileFolderTests Viewmodel { get; private set; }
+        public FileFolderTestPage Viewmodel { get; private set; }
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            Viewmodel = new FileFolderTests();
-            var view = new LinearLayout(this)
-            {
-                Orientation = Orientation.Vertical
-            };
-
-            var testGetItems = new Button(this)
-            {
-                Text = "Get Directory Contents",
-            };
-            testGetItems.Click += delegate { Viewmodel.PickFolderGetItems(); };
-
-            var testSubSubFolders = new Button(this)
-            {
-                Text = "Get Sub Folders Sub Folders"
-            };
-            testSubSubFolders.Click += delegate { Viewmodel.PickFolderGetSubFolderFolders(); };
-
-            var testCreateFile = new Button(this)
-            {
-                Text = "Create Test Text File"
-            };
-            testCreateFile.Click += delegate { Viewmodel.PickFolderCreateFile(); };
-
-            var testReadText = new Button(this)
-            {
-                Text = "Read Text From File"
-            };
-            testReadText.Click += delegate { Viewmodel.PickFileReadText(); };
-
-            view.AddView(testGetItems);
-            view.AddView(testSubSubFolders);
-            view.AddView(testCreateFile);
-            view.AddView(testReadText);
-            SetContentView(view);
+            Viewmodel = new FileFolderTestPage(new AndroidTestPageGenerator(this));
+            Viewmodel.DisplayTests();
         }
     }
 }

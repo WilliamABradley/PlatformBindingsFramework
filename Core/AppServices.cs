@@ -1,4 +1,5 @@
-﻿using PlatformBindings.Services;
+﻿using PlatformBindings.Enums;
+using PlatformBindings.Services;
 using System;
 
 namespace PlatformBindings
@@ -9,9 +10,12 @@ namespace PlatformBindings
     /// </summary>
     public abstract class AppServices
     {
-        public AppServices(bool HasUI)
+        public AppServices(bool HasUI, Platform Platform)
         {
+            Current = this;
             this.HasUI = HasUI;
+            ServicePlatform = Platform;
+            NetworkUtilities = new NetworkUtilities();
         }
 
         /// <summary>
@@ -49,6 +53,16 @@ namespace PlatformBindings
         /// <summary>
         /// Functions for Testing Connection to the Internet and other Sources.
         /// </summary>
-        public static NetworkUtilities NetworkUtilities { get; protected set; } = new NetworkUtilities();
+        public static NetworkUtilities NetworkUtilities { get; protected set; }
+
+        /// <summary>
+        /// The Current Platform the Framework is running on.
+        /// </summary>
+        public static Platform ServicePlatform { get; private set; }
+
+        /// <summary>
+        /// The Current AppService, this is required for accessing Platform Specific Methods.
+        /// </summary>
+        public static AppServices Current { get; private set; }
     }
 }

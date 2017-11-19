@@ -5,7 +5,7 @@ namespace PlatformBindings
 {
     public class NETCoreServices : AppServices
     {
-        public NETCoreServices() : base(true)
+        public NETCoreServices() : base(true, Enums.Platform.NETCore)
         {
             UI = new CoreUIBindings();
             IO = new CoreIOBindings();

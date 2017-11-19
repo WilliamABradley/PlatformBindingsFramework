@@ -1,15 +1,9 @@
 ﻿<Page
-    x:Class="Tests_UWP.Views.LoopTests"
+    x:Class="Test_UWP.Views.LoopTests"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Tests_UWP.Views"
+    xmlns:local="using:Test_UWP.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-
-    <StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Button Content="Start" Click="{x:Bind Viewmodel.Start}" />
-        <Button Content="Stop" Click="{x:Bind Viewmodel.Stop}" />
-        <TextBlock x:Name="Elapsed" Text="{x:Bind Viewmodel.Elapsed, Mode=OneWay}" />
-    </StackPanel>
 </Page>

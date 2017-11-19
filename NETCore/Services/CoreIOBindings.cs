@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using PlatformBindings.Enums;
@@ -7,64 +6,26 @@ using PlatformBindings.Models.FileSystem;
 using PlatformBindings.Models.Settings;
 using System.Reflection;
 using PlatformBindings.Common;
+using PlatformBindings.Models.FileSystem.Options;
 
 namespace PlatformBindings.Services
 {
     public class CoreIOBindings : IOBindings
     {
-        public override bool RequiresFutureAccessToken => false;
-
         public override bool SupportsRoaming => false;
+        public override bool SupportsOpenFolderForDisplay => false;
+        public override bool SupportsOpenFileForDisplay => false;
 
-        public override bool SupportsOpenFolder => false;
+        public override IFutureAccessManager FutureAccess => null;
+        public override FileSystemPickers Pickers => null;
 
-        public override bool SupportsOpenFile => false;
+        public override ISettingsContainer LocalSettings { get; } = new CoreSettingsContainer(GetSettingsCluster(), null);
 
-        public override bool SupportsPickFile => false;
-
-        public override bool SupportsPickFolder => false;
-
-        private CoreFolderContainer GetSettingsCluster()
+        private static CoreFolderContainer GetSettingsCluster()
         {
-            var root = GetBaseFolder(PathRoot.Application);
+            var root = AppServices.IO.GetBaseFolder(PathRoot.Application);
             var settings = root.CreateFolderAsync("Settings").Result as CoreFolderContainer;
             return settings;
-        }
-
-        public override ISettingsContainer GetLocalSettingsContainer()
-        {
-            var root = GetSettingsCluster();
-            return new CoreSettingsContainer(root, null);
-        }
-
-        public override ISettingsContainer GetRoamingSettingsContainer()
-        {
-            return GetLocalSettingsContainer();
-        }
-
-        public override Task<FileContainer> GetFile(string Path)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override Task<FileContainer> GetFile(FilePath Path)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override Task<FileContainer> CreateFile(FilePath Path)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override Task<FolderContainer> GetFolder(string Path)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override Task<FolderContainer> GetFolder(FolderPath Path)
-        {
-            throw new NotImplementedException();
         }
 
         public override FolderContainer GetBaseFolder(PathRoot Root)
@@ -106,37 +67,12 @@ namespace PlatformBindings.Services
             }
         }
 
-        public override Task<IReadOnlyList<FileContainer>> PickFiles(FilePickerProperties Properties)
+        public override Task OpenFileForDisplay(FileContainer File)
         {
             throw new NotSupportedException();
         }
 
-        public override Task<FileContainer> PickFile(FilePickerProperties Properties)
-        {
-            throw new NotSupportedException();
-        }
-
-        public override Task<FolderContainer> PickFolder(FolderPickerProperties Properties)
-        {
-            throw new NotSupportedException();
-        }
-
-        public override Task OpenFolder(FolderContainer Folder, FolderOpenOptions Options)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override Task OpenFile(FileContainer File)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override string GetFutureAccessToken(FileSystemContainer Item)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void RemoveFutureAccessToken(string Token)
+        public override Task OpenFolderForDisplay(FolderContainer Folder, FolderOpenOptions Options)
         {
             throw new NotImplementedException();
         }

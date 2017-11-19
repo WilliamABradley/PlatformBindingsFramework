@@ -9,12 +9,13 @@ using Android.Text.Style;
 using Android.Graphics;
 using PlatformBindings.Models.DialogHandling;
 using PlatformBindings.Models;
+using Android.Widget;
 
 namespace PlatformBindings.Services
 {
     public class AndroidUIBindings : UIBindings
     {
-        public AndroidUIBindings()
+        public AndroidUIBindings() : base(Platform.Android)
         {
             DefaultUIBinding = new AndroidUIBindingInfo();
         }
@@ -73,6 +74,28 @@ namespace PlatformBindings.Services
         //Unsupported
         public override void SetWindowText(string Text)
         {
+        }
+
+        public override async Task<string> RequestTextFromUserAsync(string Title, string Message, string OKButtonText, string CancelButtonText, IUIBindingInfo UIBinding)
+        {
+            var activity = AndroidHelpers.GetCurrentActivity(UIBinding);
+
+            var builder = AlertDialogBuilderBase.Pick(activity);
+            var entry = new EditText(activity);
+
+            builder.SetTitle(CreateFormattedString(Title));
+            builder.SetMessage(CreateFormattedString(Message));
+            builder.SetPrimaryButton(OKButtonText);
+            builder.SetView(entry);
+
+            if (!string.IsNullOrWhiteSpace(CancelButtonText))
+            {
+                builder.SetSecondaryButton(CancelButtonText);
+            }
+
+            var result = await builder.ShowAsync();
+            if (result == DialogResult.Primary) return entry.Text;
+            return null;
         }
     }
 }

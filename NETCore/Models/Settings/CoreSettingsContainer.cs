@@ -38,7 +38,7 @@ namespace PlatformBindings.Models.Settings
             return file != null;
         }
 
-        public ISettingsContainer CreateContainer(string ContainerName)
+        public ISettingsContainer GetContainer(string ContainerName)
         {
             return new CoreSettingsContainer(ContainerName, this);
         }

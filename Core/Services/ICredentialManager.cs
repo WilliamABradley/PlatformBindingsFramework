@@ -9,9 +9,7 @@ namespace PlatformBindings.Services
 
         CredentialContainer Retrieve(string Resource, string Username);
 
-        void Update(CredentialContainer Credential);
-
-        void Store(CredentialContainer Credential);
+        CredentialContainer Store(CredentialContainer Credential);
 
         void Remove(CredentialContainer Credential);
 

@@ -11,6 +11,11 @@ namespace PlatformBindings.Services
     /// </summary>
     public abstract class UIBindings
     {
+        public UIBindings(Platform Platform)
+        {
+            UIPlatform = Platform;
+        }
+
         /// <summary>
         /// The Interaction Manager for the Current Session, this is used to react to User Input, such as Keyboard combinations, Controller Input, etc.
         /// </summary>
@@ -86,6 +91,30 @@ namespace PlatformBindings.Services
         }
 
         /// <summary>
+        /// Requests text from the User using a modal dialog.
+        /// </summary>
+        /// <param name="Title">Title for the Dialog</param>
+        /// <param name="TextHeader">Header/Placeholder for the Text Request</param>
+        /// <param name="OKButtonText">Text of Button that Validates the Result</param>
+        /// <param name="CancelButtonText">Text of Button that Cancels the Request</param>
+        /// <returns>Requested Text</returns>
+        public Task<string> RequestTextFromUserAsync(string Title, string Message, string OKButtonText, string CancelButtonText)
+        {
+            return RequestTextFromUserAsync(Title, Message, OKButtonText, CancelButtonText, null);
+        }
+
+        /// <summary>
+        /// Requests text from the User using a modal dialog.
+        /// </summary>
+        /// <param name="Title">Title for the Dialog</param>
+        /// <param name="TextHeader">Header/Placeholder for the Text Request</param>
+        /// <param name="OKButtonText">Text of Button that Validates the Result</param>
+        /// <param name="CancelButtonText">Text of Button that Cancels the Request</param>
+        /// <param name="UIBinding">Additional UI Context for Handling the Dialog</param>
+        /// <returns>Requested Text</returns>
+        public abstract Task<string> RequestTextFromUserAsync(string Title, string Message, string OKButtonText, string CancelButtonText, IUIBindingInfo UIBinding);
+
+        /// <summary>
         /// Sets the Name of the Current Window, if this is Unsupported, do nothing.
         /// </summary>
         /// <param name="Text">Window Name, set to <see cref="string.Empty"/> if you want to clear the Name of the Window.</param>
@@ -103,5 +132,10 @@ namespace PlatformBindings.Services
         /// </summary>
         /// <param name="Uri">Uri to Open</param>
         public abstract void OpenLink(Uri Uri);
+
+        /// <summary>
+        /// The Current UI Platform the Framework is running on.
+        /// </summary>
+        public Platform UIPlatform { get; }
     }
 }

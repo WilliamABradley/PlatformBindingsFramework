@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
 using PlatformBindings.Enums;
-using PlatformBindings.Models.Settings;
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using PlatformBindings.Models.FileSystem;
 using PlatformBindings.Models;
+using System.Text;
 
 namespace PlatformBindings.Common
 {
@@ -69,6 +69,28 @@ namespace PlatformBindings.Common
         }
 
         /// <summary>
+        /// Converts a UTF8 String to a Base 64 Encoded String
+        /// </summary>
+        /// <param name="Original">UTF8 String</param>
+        /// <returns>Encoded String</returns>
+        public static string ConvertToBase64(string Original)
+        {
+            byte[] bytes = Encoding.UTF8.GetBytes(Original);
+            return Convert.ToBase64String(bytes);
+        }
+
+        /// <summary>
+        /// Converts a Base 64 Encoded String to a UTF8 String
+        /// </summary>
+        /// <param name="Original">Encoded String</param>
+        /// <returns>UTF8 String</returns>
+        public static string ConvertFromBase64(string Encoded)
+        {
+            var bytes = Convert.FromBase64String(Encoded);
+            return Encoding.UTF8.GetString(bytes);
+        }
+
+        /// <summary>
         /// Performs an Action on the UI Thread
         /// </summary>
         /// <param name="action">Action to perform on the UI Thread</param>
@@ -106,16 +128,6 @@ namespace PlatformBindings.Common
         public static async Task OnUIThreadAsync(IUIBindingInfo UIBinding, Action action)
         {
             await UIBinding.ExecuteAsync(action);
-        }
-
-        /// <summary>
-        /// Gets the Supported Settings Container, If GetLocal is false, it will attempt to get the Roaming Container if Supported, otherwise it will return the Local Settings Cluster.
-        /// </summary>
-        /// <param name="GetLocal">Get the Local Settings Container?</param>
-        /// <returns>Local/Roaming Settings Container</returns>
-        public static ISettingsContainer GetSettingsContainer(bool GetLocal)
-        {
-            return GetLocal || !AppServices.IO.SupportsRoaming ? AppServices.IO.GetLocalSettingsContainer() : AppServices.IO.GetRoamingSettingsContainer();
         }
 
         /// <summary>

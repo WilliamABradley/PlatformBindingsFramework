@@ -15,18 +15,22 @@ namespace PlatformBindings.Models.Settings
         {
             this.Name = Name;
             this.Parent = Parent;
-            Prefs = Application.Context.GetSharedPreferences(GetStoreName(), FileCreationMode.Private);
 
-            StoreName = GetStoreName();
-        }
-
-        private string GetStoreName()
-        {
             if (Parent != null)
             {
-                return $"{((AndroidSettingsContainer)Parent).GetStoreName()}.{Name}";
+                StoreName = $"{Parent.StoreName}.{Name}";
             }
-            else return Name;
+            else
+            {
+                StoreName = Name;
+                this.Name = Name == "Settings" ? "Local" : Name;
+            }
+
+            Prefs = Application.Context.GetSharedPreferences(StoreName, FileCreationMode.Private);
+            using (var editor = Prefs.Edit())
+            {
+                editor.Commit();
+            }
         }
 
         public void Clear()
@@ -41,7 +45,7 @@ namespace PlatformBindings.Models.Settings
             return Prefs.Contains(Key);
         }
 
-        public ISettingsContainer CreateContainer(string ContainerName)
+        public ISettingsContainer GetContainer(string ContainerName)
         {
             return new AndroidSettingsContainer(ContainerName, this);
         }
@@ -55,10 +59,12 @@ namespace PlatformBindings.Models.Settings
             {
                 foreach (var pref in prefsdir.List())
                 {
-                    string name = pref.Substring(0, pref.Length - 4);
-                    if (name.StartsWith(GetStoreName()))
+                    string name = System.IO.Path.GetFileNameWithoutExtension(pref);
+
+                    string path = StoreName + ".";
+                    if (name != StoreName && name.StartsWith(path))
                     {
-                        var subName = name.Replace(GetStoreName() + ".", "");
+                        var subName = name.Replace(path, "");
                         if (!subName.Contains('.'))
                         {
                             containers.Add(new AndroidSettingsContainer(subName, this));
@@ -73,33 +79,36 @@ namespace PlatformBindings.Models.Settings
         {
             var type = PlatformBindingHelpers.DetermineGeneric<T>();
             object result = null;
-            switch (type)
+            try
             {
-                case ObjectType.Int:
-                    result = Prefs.GetInt(Key, 0);
-                    break;
+                switch (type)
+                {
+                    case ObjectType.Int:
+                        result = Prefs.GetInt(Key, 0);
+                        break;
 
-                case ObjectType.Long:
-                    result = Prefs.GetLong(Key, 0);
-                    break;
+                    case ObjectType.Long:
+                        result = Prefs.GetLong(Key, 0);
+                        break;
 
-                case ObjectType.Bool:
-                    result = Prefs.GetBoolean(Key, false);
-                    break;
+                    case ObjectType.Bool:
+                        result = Prefs.GetBoolean(Key, false);
+                        break;
 
-                case ObjectType.Float:
-                    result = Prefs.GetFloat(Key, 0);
-                    break;
+                    case ObjectType.Float:
+                        result = Prefs.GetFloat(Key, 0);
+                        break;
 
-                default:
-                    result = Prefs.GetString(Key, null);
-                    if (type == ObjectType.ComplexObject)
-                    {
-                        result = JsonConvert.DeserializeObject<T>(result as string);
-                    }
-                    break;
+                    default:
+                        result = Prefs.GetString(Key, null);
+                        if (type == ObjectType.ComplexObject)
+                        {
+                            result = JsonConvert.DeserializeObject<T>(result as string);
+                        }
+                        break;
+                }
             }
-
+            catch { result = default(T); }
             return (T)result;
         }
 
@@ -108,17 +117,19 @@ namespace PlatformBindings.Models.Settings
             return Prefs.All.ToDictionary(item => item.Key, item => item.Value);
         }
 
+        internal IReadOnlyList<string> GetValueHeaders()
+        {
+            return Prefs.All.Keys.ToList();
+        }
+
         public void Remove()
         {
-            var prefsdir = SharedPrefs;
-            var files = SharedPrefs.ListFiles();
-            var file = files.FirstOrDefault(item => StoreName == item.Name.Substring(0, item.Name.Length - 4));
-            file.Delete();
+            Application.Context.DeleteSharedPreferences(StoreName);
         }
 
         public void RemoveContainer(string ContainerName)
         {
-            var container = CreateContainer(ContainerName);
+            var container = GetContainer(ContainerName);
             container.Remove();
         }
 
@@ -157,7 +168,7 @@ namespace PlatformBindings.Models.Settings
                     break;
             }
 
-            editor.Apply();
+            editor.Commit();
         }
 
         public string Name { get; }
@@ -168,7 +179,7 @@ namespace PlatformBindings.Models.Settings
 
         private static File SharedPrefs
         {
-            get { return new File(Android.OS.Environment.DataDirectory, "shared_prefs"); }
+            get { return new File(Application.Context.DataDir, "shared_prefs"); }
         }
     }
 }

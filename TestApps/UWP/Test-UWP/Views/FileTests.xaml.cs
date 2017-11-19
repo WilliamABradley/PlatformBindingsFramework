@@ -1,4 +1,5 @@
-﻿using Tests.Tests;
+﻿using Test_UWP.Services;
+using Tests.Tests;
 using Windows.UI.Xaml.Controls;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -10,11 +11,13 @@ namespace Test_UWP.Views
     /// </summary>
     public sealed partial class FileTests : Page
     {
-        public FileFolderTests Viewmodel { get; } = new FileFolderTests();
+        public FileFolderTestPage Viewmodel { get; }
 
         public FileTests()
         {
             this.InitializeComponent();
+            Viewmodel = new FileFolderTestPage(new UWPTestPageGenerator(this));
+            Viewmodel.DisplayTests();
         }
     }
 }

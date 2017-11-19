@@ -5,7 +5,7 @@ using Windows.Storage;
 
 namespace PlatformBindings.Models.FileSystem
 {
-    public class UWPFileContainer : FileContainer
+    public class UWPFileContainer : FileContainer, IUWPFileSystemContainer
     {
         public UWPFileContainer(StorageFile File)
         {
@@ -60,5 +60,7 @@ namespace PlatformBindings.Models.FileSystem
         public override string Path => File.Path;
 
         public override bool CanWrite => !((File.Attributes & Windows.Storage.FileAttributes.ReadOnly) == Windows.Storage.FileAttributes.ReadOnly);
+
+        public IStorageItem Item => File;
     }
 }

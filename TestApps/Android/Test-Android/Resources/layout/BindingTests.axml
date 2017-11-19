@@ -5,29 +5,39 @@
     android:layout_height="match_parent"
     android:minWidth="25px"
     android:minHeight="25px">
-    <Button
-        android:text="Test File Picker"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/TestFilePickerButton" />
-    <Button
-        android:text="Test File/Folders"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/Tests_FileTests" />
-    <Button
-        android:text="Test Context Menu"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/TestContextMenuButton" />
-    <Button
-        android:text="Test LoopTimer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/LoopTests" />
-    <Button
-        android:text="Test StartActivityForResultAsync"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/Test_AsyncAct" />
+  <Button
+      android:text="Test File Picker"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:id="@+id/TestFilePickerButton" />
+  <Button
+      android:text="Test File/Folders"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:id="@+id/Tests_FileTests" />
+  <Button
+      android:text="Test Context Menu"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:id="@+id/TestContextMenuButton" />
+  <Button
+      android:text="Test LoopTimer"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:id="@+id/LoopTests" />
+  <Button
+      android:text="Test StartActivityForResultAsync"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:id="@+id/Test_AsyncAct" />
+  <Button
+    android:text="Test Settings"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/Test_Settings" />
+  <Button
+      android:text="Test Credential Manager"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:id="@+id/Test_CredMan" />
 </LinearLayout>

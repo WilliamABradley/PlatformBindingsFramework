@@ -1,19 +1,20 @@
 ﻿using System.Runtime.CompilerServices;
-using PlatformBindings.Common;
 using PlatformBindings.Models.Settings.Properties;
 
 namespace PlatformBindings.Models.Settings
 {
     public class SerialAppSettingList<T> : SerialPropertyList<T>
     {
-        public SerialAppSettingList(bool IsLocal = false, [CallerMemberName]string PropertyName = "") : base(PropertyName)
+        public SerialAppSettingList([CallerMemberName] string SettingName = "") : this(false, SettingName)
         {
-            this.IsLocal = IsLocal;
-
-            //Will Throw if Settings Containers unwired.
-            Attach(PlatformBindingHelpers.GetSettingsContainer(IsLocal));
         }
 
-        public bool IsLocal { get; private set; }
+        public SerialAppSettingList(bool Roam, [CallerMemberName] string SettingName = "") : base(SettingName)
+        {
+            this.Roam = Roam;
+            Attach(Roam ? AppServices.IO.RoamingSettings : AppServices.IO.LocalSettings);
+        }
+
+        public bool Roam { get; private set; } = false;
     }
 }

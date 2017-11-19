@@ -5,10 +5,11 @@ using PlatformBindings.Common;
 using Java.Net;
 using Android.Support.V4.Provider;
 using System.Linq;
+using Android.Net;
 
 namespace PlatformBindings.Models.FileSystem
 {
-    public class AndroidSAFFolderContainer : FolderContainer
+    public class AndroidSAFFolderContainer : FolderContainer, IAndroidSAFContainer
     {
         public AndroidSAFFolderContainer(Android.Net.Uri Uri)
         {
@@ -135,7 +136,9 @@ namespace PlatformBindings.Models.FileSystem
         public override bool CanWrite => Folder.CanWrite();
 
         public override string Name => Folder.Name;
-        public override string Path => Folder.Uri.SchemeSpecificPart;
+        public override string Path => Uri.ToString();
         public DocumentFile Folder { get; }
+
+        public Android.Net.Uri Uri => Folder.Uri;
     }
 }

@@ -68,15 +68,6 @@ namespace PlatformBindings
             set { SharpCifs.Config.SetProperty(PropLocalPort, value.ToString()); }
         }
 
-        internal static void EnsureSMBReady()
-        {
-            var address = AppServices.NetworkUtilities.LocalIPAddress;
-            if (address != null)
-            {
-                LocalIPAddress = address;
-            }
-        }
-
         private static readonly string PropDFSDisabled = "jcifs.smb.client.dfs.disabled";
         private static readonly string PropGlobalUsername = "jcifs.smb.client.username";
         private static readonly string PropGlobalPassword = "jcifs.smb.client.password";

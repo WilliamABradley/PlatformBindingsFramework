@@ -4,10 +4,11 @@ using System.Threading.Tasks;
 using Android.Content;
 using PlatformBindings.Common;
 using Android.Support.V4.Provider;
+using Android.Net;
 
 namespace PlatformBindings.Models.FileSystem
 {
-    public class AndroidSAFFileContainer : FileContainer
+    public class AndroidSAFFileContainer : FileContainer, IAndroidSAFContainer
     {
         public AndroidSAFFileContainer(Android.Net.Uri Uri)
         {
@@ -58,8 +59,10 @@ namespace PlatformBindings.Models.FileSystem
         public override bool CanWrite => File.CanWrite();
 
         public override string Name => File.Name;
-        public override string Path => File.Uri.SchemeSpecificPart;
+        public override string Path => Uri.ToString();
         public DocumentFile File { get; }
         private ContentResolver Resolver => AndroidHelpers.GetCurrentActivity().ContentResolver;
+
+        public Android.Net.Uri Uri => File.Uri;
     }
 }

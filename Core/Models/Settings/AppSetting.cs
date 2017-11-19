@@ -1,19 +1,28 @@
 ﻿using System.Runtime.CompilerServices;
 using PlatformBindings.Models.Settings.Properties;
-using PlatformBindings.Common;
 
 namespace PlatformBindings.Models.Settings
 {
     public class AppSetting<T> : Property<T>
     {
-        public AppSetting(bool IsLocal = false, [CallerMemberName]string SettingName = "", T Default = default(T)) : base(SettingName, Default)
+        public AppSetting([CallerMemberName] string SettingName = "") : this(false, SettingName)
         {
-            this.IsLocal = IsLocal;
-
-            //Will Throw if Settings Containers unwired.
-            Attach(PlatformBindingHelpers.GetSettingsContainer(IsLocal));
         }
 
-        public bool IsLocal { get; private set; }
+        public AppSetting(bool Roam, [CallerMemberName] string SettingName = "") : this(default(T), Roam, SettingName)
+        {
+        }
+
+        public AppSetting(T Default, [CallerMemberName] string SettingName = "") : this(Default, false, SettingName)
+        {
+        }
+
+        public AppSetting(T Default, bool Roam, [CallerMemberName] string SettingName = "") : base(SettingName, Default)
+        {
+            this.Roam = Roam;
+            Attach(Roam ? AppServices.IO.RoamingSettings : AppServices.IO.LocalSettings);
+        }
+
+        public bool Roam { get; private set; }
     }
 }

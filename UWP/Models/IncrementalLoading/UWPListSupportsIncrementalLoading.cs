@@ -6,9 +6,9 @@ using Windows.UI.Core;
 
 namespace PlatformBindings.Models.IncrementalLoading
 {
-    public class WinListSupportsIncrementalLoading : WinSupportsIncrementalLoading, IList, INotifyCollectionChanged, INotifyPropertyChanged
+    public class UWPListSupportsIncrementalLoading : UWPSupportsIncrementalLoading, IList, INotifyCollectionChanged, INotifyPropertyChanged
     {
-        public WinListSupportsIncrementalLoading(ISupportCoreIncrementalLoading Source) : base(Source)
+        public UWPListSupportsIncrementalLoading(ISupportCoreIncrementalLoading Source) : base(Source)
         {
             Dispatcher = CoreWindow.GetForCurrentThread().Dispatcher;
 

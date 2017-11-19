@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using PlatformBindings.Enums;
 
-namespace PlatformBindings.Models.FileSystem
+namespace PlatformBindings.Models.FileSystem.Options
 {
     public class QueryOptions
     {

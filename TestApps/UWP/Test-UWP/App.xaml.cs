@@ -41,6 +41,7 @@ namespace Test_UWP
                 // Create a Frame to act as the navigation context and navigate to the first page
                 rootFrame = new Frame();
                 Services.AttachDispatcher(rootFrame.Dispatcher);
+                Tests.Preparation.Prepare();
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
 

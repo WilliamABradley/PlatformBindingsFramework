@@ -9,7 +9,6 @@ namespace PlatformBindings.Models.FileSystem
     {
         public SMBFileContainer(SmbFile File)
         {
-            SMBSettings.EnsureSMBReady();
             this.File = File;
             if (!File.IsFile())
             {
@@ -21,7 +20,7 @@ namespace PlatformBindings.Models.FileSystem
         public void Refresh()
         {
             _Name = File.GetName();
-            _Path = File.GetUncPath();
+            _Path = File.GetPath();
             _CanWrite = File.CanWrite();
         }
 

@@ -14,57 +14,51 @@ namespace PlatformBindings.Services.Bindings
         public IReadOnlyList<CredentialContainer> FetchByResource(string Resource)
         {
             List<CredentialContainer> Creds = new List<CredentialContainer>();
-            foreach (var cred in Vault.FindAllByResource(Resource))
+            try
             {
-                Creds.Add(ConvertToContainer(cred));
+                foreach (var cred in Vault.FindAllByResource(Resource))
+                {
+                    Creds.Add(new UWPCredentialContainer(cred));
+                }
             }
+            catch { }
             return Creds;
         }
 
-        public void Store(CredentialContainer Credentials)
+        public CredentialContainer Store(CredentialContainer Credential)
         {
-            Vault.Add(ConvertToLocal(Credentials));
+            if (Credential is UWPCredentialContainer) return Credential;
+
+            var internalcred = new PasswordCredential(Credential.ResourceName, Credential.Username, Credential.Password);
+            Vault.Add(internalcred);
+            return new UWPCredentialContainer(internalcred);
         }
 
         public CredentialContainer Retrieve(string Resource, string Username)
         {
-            return ConvertToContainer(Vault.Retrieve(Resource, Username));
-        }
-
-        private static CredentialContainer ConvertToContainer(PasswordCredential Credentials)
-        {
-            return new CredentialContainer
+            try
             {
-                ResourceName = Credentials.Resource,
-                Username = Credentials.UserName,
-                Password = Credentials.Password
-            };
-        }
-
-        private static PasswordCredential ConvertToLocal(CredentialContainer Credentials)
-        {
-            return new PasswordCredential(Credentials.ResourceName, Credentials.Username, Credentials.Password);
+                return new UWPCredentialContainer(Vault.Retrieve(Resource, Username));
+            }
+            catch { }
+            return null;
         }
 
         public void Remove(CredentialContainer Credential)
         {
-            var cred = Vault.Retrieve(Credential.ResourceName, Credential.Username);
-            Vault.Remove(cred);
-        }
-
-        public void Update(CredentialContainer Credential)
-        {
-            var cred = Vault.Retrieve(Credential.ResourceName, Credential.Username);
-            cred.Password = Credential.Password;
+            var uwpcred = (Credential as UWPCredentialContainer) ?? Retrieve(Credential.ResourceName, Credential.Username) as UWPCredentialContainer;
+            if (uwpcred != null) Vault.Remove(uwpcred.Credential);
         }
 
         public void Clear()
         {
-            foreach (var cred in Vault.RetrieveAll()) Vault.Remove(cred);
+            foreach (var cred in AllCredentials)
+            {
+                Remove(cred);
+            }
         }
 
+        public IReadOnlyList<CredentialContainer> AllCredentials => Vault.RetrieveAll().Select(item => new UWPCredentialContainer(item)).ToList();
         private PasswordVault Vault { get; } = new PasswordVault();
-
-        public IReadOnlyList<CredentialContainer> AllCredentials => Vault.RetrieveAll().Select(item => ConvertToContainer(item)).ToList();
     }
 }

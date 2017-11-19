@@ -4,30 +4,35 @@ using Windows.Storage;
 
 namespace PlatformBindings.Models.Settings
 {
-    public class WinSettingsContainer : ISettingsContainer
+    public class UWPSettingsContainer : ISettingsContainer
     {
-        public WinSettingsContainer(string ContainerName, WinSettingsContainer Parent)
+        public UWPSettingsContainer(string ContainerName, UWPSettingsContainer Parent)
         {
             this.Parent = Parent;
             Name = ContainerName;
             Container = Parent.Container.CreateContainer(ContainerName, ApplicationDataCreateDisposition.Always);
         }
 
-        internal WinSettingsContainer(ApplicationDataContainer Container, WinSettingsContainer Parent)
+        internal UWPSettingsContainer(ApplicationDataContainer Container, UWPSettingsContainer Parent)
         {
             this.Parent = Parent;
             this.Container = Container;
             Name = Parent != null ? Container.Name : Container.Locality.ToString();
         }
 
-        public ISettingsContainer CreateContainer(string ContainerName)
+        public ISettingsContainer GetContainer(string ContainerName)
         {
-            return new WinSettingsContainer(ContainerName, this);
+            return new UWPSettingsContainer(ContainerName, this);
         }
 
         public T GetValue<T>(string Key)
         {
-            return (T)Container.Values[Key];
+            var value = Container.Values[Key];
+            if (!(value is T))
+            {
+                return default(T);
+            }
+            else return (T)value;
         }
 
         public void SetValue<T>(string Key, T Value)
@@ -50,7 +55,7 @@ namespace PlatformBindings.Models.Settings
             var children = new List<ISettingsContainer>();
             foreach (var child in Container.Containers)
             {
-                children.Add(new WinSettingsContainer(child.Value, this));
+                children.Add(new UWPSettingsContainer(child.Value, this));
             }
             return children;
         }

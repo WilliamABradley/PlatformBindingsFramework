@@ -1,4 +1,5 @@
-﻿using Tests.Tests;
+﻿using PlatformBindings.Models;
+using Tests.Tests;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -12,7 +13,7 @@ namespace Tests_UWP.Views
     /// </summary>
     public sealed partial class ContextMenuTest : Page
     {
-        public ContextMenuTests Viewmodel { get; } = new ContextMenuTests();
+        public ContextMenuTestPage Viewmodel { get; } = new ContextMenuTestPage();
 
         public ContextMenuTest()
         {

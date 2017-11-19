@@ -5,12 +5,8 @@ using PlatformBindings.Models.Settings;
 using Windows.ApplicationModel;
 using Windows.Storage;
 using PlatformBindings.Models.FileSystem;
-using System.Collections.Generic;
-using Windows.Storage.Pickers;
-using System.Linq;
-using Windows.Storage.AccessCache;
 using Windows.System;
-using PlatformBindings.Common;
+using PlatformBindings.Models.FileSystem.Options;
 
 namespace PlatformBindings.Services
 {
@@ -18,60 +14,18 @@ namespace PlatformBindings.Services
     {
         public UWPIOBindings()
         {
-            Current = this;
+            RemoveResolver(typeof(CorePathResolver));
+            AddResolverFirst(new UWPPathResolver());
         }
 
-        public static UWPIOBindings Current { get; private set; }
+        public override bool SupportsOpenFolderForDisplay => true;
+        public override bool SupportsOpenFileForDisplay => true;
 
-        public override bool RequiresFutureAccessToken => true;
+        public override IFutureAccessManager FutureAccess { get; } = new UWPFutureAccessManager();
+        public override FileSystemPickers Pickers { get; } = new UWPFileSystemPickers();
 
-        public override bool SupportsRoaming => true;
-
-        public override bool SupportsOpenFolder => true;
-
-        public override bool SupportsOpenFile => true;
-
-        public override bool SupportsPickFile => true;
-
-        public override bool SupportsPickFolder => true;
-
-        public override async Task<FolderContainer> GetFolder(FolderPath Path)
-        {
-            var folder = (GetBaseFolder(Path.Root) as UWPFolderContainer).Folder;
-            string path = Path.Path;
-
-            foreach (var piece in PlatformBindingHelpers.GetPathPieces(path))
-            {
-                var task = folder.CreateFolderAsync(piece, Windows.Storage.CreationCollisionOption.OpenIfExists).AsTask();
-                await task;
-                if (task.Exception != null)
-                    throw task.Exception;
-                folder = task.Result;
-            }
-            return new UWPFolderContainer(folder);
-        }
-
-        public override async Task<FileContainer> GetFile(FilePath Path)
-        {
-            var folder = await GetFolder(Path);
-            return await folder.GetFileAsync(Path.FileName);
-        }
-
-        public override async Task<FileContainer> CreateFile(FilePath Path)
-        {
-            var folder = await GetFolder(Path);
-            return await folder.CreateFileAsync(Path.FileName);
-        }
-
-        public override ISettingsContainer GetLocalSettingsContainer()
-        {
-            return new WinSettingsContainer(ApplicationData.Current.LocalSettings, null);
-        }
-
-        public override ISettingsContainer GetRoamingSettingsContainer()
-        {
-            return new WinSettingsContainer(ApplicationData.Current.RoamingSettings, null);
-        }
+        public override ISettingsContainer LocalSettings { get; } = new UWPSettingsContainer(ApplicationData.Current.LocalSettings, null);
+        public override ISettingsContainer RoamingSettings { get; } = new UWPSettingsContainer(ApplicationData.Current.RoamingSettings, null);
 
         public override FolderContainer GetBaseFolder(PathRoot Root)
         {
@@ -107,112 +61,7 @@ namespace PlatformBindings.Services
             return new UWPFolderContainer(ApplicationData.Current.LocalFolder);
         }
 
-        public override async Task<IReadOnlyList<FileContainer>> PickFiles(FilePickerProperties Properties = null)
-        {
-            var picker = GetFilePicker(Properties);
-            var files = await picker.PickMultipleFilesAsync();
-            return files?.Select(item => new UWPFileContainer(item)).ToList();
-        }
-
-        public override async Task<FileContainer> PickFile(FilePickerProperties Properties = null)
-        {
-            var picker = GetFilePicker(Properties);
-            var file = await picker.PickSingleFileAsync();
-            return file != null ? new UWPFileContainer(file) : null;
-        }
-
-        private FileOpenPicker GetFilePicker(FilePickerProperties Properties = null)
-        {
-            FileOpenPicker picker = new FileOpenPicker();
-            if (Properties != null)
-            {
-                foreach (var property in Properties.FileTypes)
-                {
-                    picker.FileTypeFilter.Add(property.FileExtension);
-                }
-                if (Properties.StartingLocation.HasValue) picker.SuggestedStartLocation = GetPickerLocation(Properties.StartingLocation);
-            }
-
-            if (Properties == null || !Properties.FileTypes.Any()) picker.FileTypeFilter.Add("*");
-            return picker;
-        }
-
-        private PickerLocationId GetPickerLocation(PathRoot? Root)
-        {
-            switch (Root)
-            {
-                case PathRoot.Documents:
-                    return PickerLocationId.DocumentsLibrary;
-
-                case PathRoot.Downloads:
-                    return PickerLocationId.Downloads;
-
-                case PathRoot.Videos:
-                    return PickerLocationId.VideosLibrary;
-
-                case PathRoot.Music:
-                    return PickerLocationId.MusicLibrary;
-
-                default:
-                    return PickerLocationId.Unspecified;
-            }
-        }
-
-        public override async Task<FolderContainer> PickFolder(FolderPickerProperties Properties = null)
-        {
-            var picker = new FolderPicker();
-            if (Properties != null)
-            {
-                foreach (var property in Properties.FileTypes)
-                {
-                    picker.FileTypeFilter.Add(property.FileExtension);
-                }
-                if (Properties.StartingLocation.HasValue) picker.SuggestedStartLocation = GetPickerLocation(Properties.StartingLocation);
-            }
-
-            if (Properties == null || !Properties.FileTypes.Any()) picker.FileTypeFilter.Add("*");
-
-            var folder = await picker.PickSingleFolderAsync();
-
-            return folder != null ? new UWPFolderContainer(folder) : null;
-        }
-
-        public override string GetFutureAccessToken(FileSystemContainer Item)
-        {
-            IStorageItem ItemToStore = null;
-            if (Item is UWPFileContainer file)
-            {
-                ItemToStore = file.File;
-            }
-            else if (Item is UWPFolderContainer folder)
-            {
-                ItemToStore = folder.Folder;
-            }
-            if (ItemToStore != null)
-            {
-                return StorageApplicationPermissions.FutureAccessList.Add(ItemToStore);
-            }
-            return null;
-        }
-
-        public override void RemoveFutureAccessToken(string Token)
-        {
-            StorageApplicationPermissions.FutureAccessList.Remove(Token);
-        }
-
-        public override async Task<FileContainer> GetFile(string Path)
-        {
-            var file = await StorageFile.GetFileFromPathAsync(Path);
-            return new UWPFileContainer(file);
-        }
-
-        public override async Task<FolderContainer> GetFolder(string Path)
-        {
-            var folder = await StorageFolder.GetFolderFromPathAsync(Path);
-            return new UWPFolderContainer(folder);
-        }
-
-        public override async Task OpenFolder(FolderContainer Folder, FolderOpenOptions Options = null)
+        public override async Task OpenFolderForDisplay(FolderContainer Folder, FolderOpenOptions Options = null)
         {
             var container = Folder as UWPFolderContainer;
             var folder = container.Folder;
@@ -233,7 +82,7 @@ namespace PlatformBindings.Services
             await Launcher.LaunchFolderAsync(folder, LaunchOptions);
         }
 
-        public override async Task OpenFile(FileContainer File)
+        public override async Task OpenFileForDisplay(FileContainer File)
         {
             var container = File as UWPFileContainer;
             var file = container.File;

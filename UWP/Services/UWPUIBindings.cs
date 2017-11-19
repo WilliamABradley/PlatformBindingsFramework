@@ -15,7 +15,7 @@ namespace PlatformBindings.Services
 {
     public class UWPUIBindings : UIBindings
     {
-        public UWPUIBindings(CoreDispatcher MainDispatcher)
+        public UWPUIBindings(CoreDispatcher MainDispatcher) : base(Platform.UWP)
         {
             DefaultUIBinding = new UWPUIBindingInfo(MainDispatcher);
             InteractionManager = new UWPInteractionManager(DefaultUIBinding);
@@ -36,23 +36,39 @@ namespace PlatformBindings.Services
 
         public override async Task<DialogResult> PromptUserAsync(string Title, string Message, string PrimaryButtonText = null, string SecondaryButtonText = null, IUIBindingInfo UIBinding = null)
         {
-            var binding = UIBinding as UWPUIBindingInfo;
-
-            var dlg = new ContentDialog { Title = ConvertSpansToFormattedBlock(Title), Content = ConvertSpansToFormattedBlock(Message), PrimaryButtonText = PrimaryButtonText };
-            if (!string.IsNullOrWhiteSpace(SecondaryButtonText)) dlg.SecondaryButtonText = SecondaryButtonText;
-            var result = await dlg.CreateContentDialogAsync(false);
-            binding?.AttachedDialog?.CreateContentDialog(false);
-            switch (result)
+            TaskCompletionSource<DialogResult> waiter = new TaskCompletionSource<DialogResult>();
+            PlatformBindingHelpers.OnUIThread(async () =>
             {
-                case ContentDialogResult.Primary:
-                    return DialogResult.Primary;
+                var binding = UIBinding as UWPUIBindingInfo;
 
-                case ContentDialogResult.Secondary:
-                    return DialogResult.Secondary;
+                var content = new ScrollViewer
+                {
+                    Content = ConvertSpansToFormattedBlock(Message),
+                    VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
+                    HorizontalScrollMode = ScrollMode.Disabled
+                };
 
-                default:
-                    return DialogResult.Closed;
-            }
+                var dlg = new ContentDialog { Title = ConvertSpansToFormattedBlock(Title), Content = content, PrimaryButtonText = PrimaryButtonText };
+                if (!string.IsNullOrWhiteSpace(SecondaryButtonText)) dlg.SecondaryButtonText = SecondaryButtonText;
+                var result = await dlg.CreateContentDialogAsync(false);
+                binding?.AttachedDialog?.CreateContentDialog(false);
+                switch (result)
+                {
+                    case ContentDialogResult.Primary:
+                        waiter.TrySetResult(DialogResult.Primary);
+                        break;
+
+                    case ContentDialogResult.Secondary:
+                        waiter.TrySetResult(DialogResult.Secondary);
+                        break;
+
+                    default:
+                        waiter.TrySetResult(DialogResult.Closed);
+                        break;
+                }
+            });
+
+            return await waiter.Task;
         }
 
         public override void SetWindowText(string Text = "")
@@ -77,6 +93,32 @@ namespace PlatformBindings.Services
         public override async void OpenLink(Uri Uri)
         {
             await Windows.System.Launcher.LaunchUriAsync(Uri);
+        }
+
+        public override async Task<string> RequestTextFromUserAsync(string Title, string Message, string OKButtonText, string CancelButtonText, IUIBindingInfo UIBinding)
+        {
+            TaskCompletionSource<string> waiter = new TaskCompletionSource<string>();
+            PlatformBindingHelpers.OnUIThread(async () =>
+            {
+                var binding = UIBinding as UWPUIBindingInfo;
+
+                var content = new TextBox
+                {
+                    Header = ConvertSpansToFormattedBlock(Message)
+                };
+
+                var dlg = new ContentDialog { Title = ConvertSpansToFormattedBlock(Title), Content = content, PrimaryButtonText = OKButtonText };
+                if (!string.IsNullOrWhiteSpace(CancelButtonText)) dlg.SecondaryButtonText = CancelButtonText;
+                var result = await dlg.CreateContentDialogAsync(false);
+                binding?.AttachedDialog?.CreateContentDialog(false);
+                if (result == ContentDialogResult.Primary)
+                {
+                    waiter.TrySetResult(content.Text);
+                }
+                else waiter.TrySetResult(null);
+            });
+
+            return await waiter.Task;
         }
 
         public override InteractionManager InteractionManager { get; }

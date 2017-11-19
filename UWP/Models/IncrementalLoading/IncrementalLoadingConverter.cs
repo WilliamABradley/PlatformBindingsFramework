@@ -12,16 +12,16 @@ namespace PlatformBindings.Models.IncrementalLoading
             {
                 if (value is IList)
                 {
-                    return new WinListSupportsIncrementalLoading(coreIncremental);
+                    return new UWPListSupportsIncrementalLoading(coreIncremental);
                 }
-                else return new WinSupportsIncrementalLoading(coreIncremental);
+                else return new UWPSupportsIncrementalLoading(coreIncremental);
             }
             return value;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            if (value is WinListSupportsIncrementalLoading coreIncremental)
+            if (value is UWPListSupportsIncrementalLoading coreIncremental)
             {
                 return coreIncremental.Source;
             }

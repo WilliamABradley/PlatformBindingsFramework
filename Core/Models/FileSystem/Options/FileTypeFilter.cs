@@ -1,4 +1,4 @@
-﻿namespace PlatformBindings.Models.FileSystem
+﻿namespace PlatformBindings.Models.FileSystem.Options
 {
     public class FileTypeFilter
     {

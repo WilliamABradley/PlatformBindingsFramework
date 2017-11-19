@@ -1,4 +1,6 @@
 ﻿using PlatformBindings.Enums;
+using PlatformBindings.Models.FileSystem.Options;
+using PlatformBindings.Services;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -46,23 +48,23 @@ namespace PlatformBindings.Models.FileSystem
         public abstract Task<IReadOnlyList<FileContainer>> GetFilesAsync();
 
         /// <summary>
-        /// Creates a Subfolder with the Specified Name. Will fail if Folder already exists.
+        /// Creates a Subfolder with the Specified Name. Will use <see cref="IOBindings.DefaultFolderCreationCollision"/> if Folder already exists.
         /// </summary>
         /// <param name="FolderName">Name of the new Folder</param>
         /// <returns>The new Subfolder</returns>
         public Task<FolderContainer> CreateFolderAsync(string FolderName)
         {
-            return CreateFolderAsync(FolderName, CreationCollisionOption.FailIfExists);
+            return CreateFolderAsync(FolderName, IOBindings.DefaultFolderCreationCollision);
         }
 
         /// <summary>
-        /// Creates a File with the Specified Name. Will fail if File already exists.
+        /// Creates a File with the Specified Name. Will use <see cref="IOBindings.DefaultFileCreationCollision"/> if File already exists.
         /// </summary>
         /// <param name="FileName">Name of the new File</param>
         /// <returns>The new File</returns>
         public Task<FileContainer> CreateFileAsync(string FileName)
         {
-            return CreateFileAsync(FileName, CreationCollisionOption.FailIfExists);
+            return CreateFileAsync(FileName, IOBindings.DefaultFileCreationCollision);
         }
 
         /// <summary>

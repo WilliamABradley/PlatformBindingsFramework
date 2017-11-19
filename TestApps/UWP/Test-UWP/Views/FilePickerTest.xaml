@@ -6,10 +6,4 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-
-    <StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Button Content="Pick File" Click="{x:Bind Viewmodel.PickFile}" />
-        <Button Content="Pick Files" Click="{x:Bind Viewmodel.PickFiles}" />
-        <Button Content="Pick Folder" Click="{x:Bind Viewmodel.PickFolder}" />
-    </StackPanel>
 </Page>

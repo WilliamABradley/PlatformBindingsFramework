@@ -45,5 +45,17 @@ namespace Tests_UWP.Views
             Frame.Navigate(typeof(FileTests));
             ShowBack();
         }
+
+        private void CredTest_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(CredentialTests));
+            ShowBack();
+        }
+
+        private void SettingTest_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(SettingsTests));
+            ShowBack();
+        }
     }
 }

@@ -10,9 +10,8 @@ namespace PlatformBindings.Models.FileSystem
     {
         public SMBFolderContainer(SmbFile Folder)
         {
-            SMBSettings.EnsureSMBReady();
             this.Folder = Folder;
-            if (!Folder.Exists())
+            if (!Folder.IsDirectory())
             {
                 throw new FormatException("SmbFile is not a Directory");
             }
@@ -23,7 +22,7 @@ namespace PlatformBindings.Models.FileSystem
         {
             _Name = Folder.GetName();
             _Name = _Name.Remove(_Name.Length - 1);
-            _Path = Folder.GetUncPath();
+            _Path = Folder.GetPath();
             _CanWrite = Folder.CanWrite();
         }
 

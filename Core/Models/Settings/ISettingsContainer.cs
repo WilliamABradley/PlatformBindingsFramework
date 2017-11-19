@@ -4,7 +4,7 @@ namespace PlatformBindings.Models.Settings
 {
     public interface ISettingsContainer
     {
-        ISettingsContainer CreateContainer(string ContainerName);
+        ISettingsContainer GetContainer(string ContainerName);
 
         void RemoveContainer(string ContainerName);
 

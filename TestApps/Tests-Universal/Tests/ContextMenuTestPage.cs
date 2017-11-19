@@ -4,9 +4,9 @@ using PlatformBindings.Models;
 
 namespace Tests.Tests
 {
-    public class ContextMenuTests
+    public class ContextMenuTestPage
     {
-        public ContextMenuTests()
+        public ContextMenuTestPage()
         {
             void Selected(MenuItem Item)
             {

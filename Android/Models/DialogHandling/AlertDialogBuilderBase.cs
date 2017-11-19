@@ -1,6 +1,7 @@
 ﻿using Android.Content;
 using Android.Views;
 using Java.Lang;
+using PlatformBindings.Common;
 using PlatformBindings.Enums;
 using System.Threading.Tasks;
 
@@ -55,7 +56,10 @@ namespace PlatformBindings.Models.DialogHandling
 
         public async Task<DialogResult> ShowAsync()
         {
-            Show();
+            PlatformBindingHelpers.OnUIThread(() =>
+            {
+                Show();
+            });
             return await Waiter.Task;
         }
 

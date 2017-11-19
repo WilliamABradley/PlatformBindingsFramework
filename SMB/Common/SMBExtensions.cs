@@ -39,7 +39,7 @@ namespace PlatformBindings
             return new SMBFileContainer(file);
         }
 
-        private static string EnsureSafe(string URL)
+        internal static string EnsureSafe(string URL)
         {
             var result = URL;
             if (!URL.StartsWith("smb://"))

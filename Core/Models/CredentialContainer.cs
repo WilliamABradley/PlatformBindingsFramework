@@ -6,15 +6,15 @@
         {
         }
 
-        public CredentialContainer(string Resource, string Username, string Password)
+        public CredentialContainer(string ResourceName, string Username, string Password)
         {
-            this.ResourceName = Resource;
+            this.ResourceName = ResourceName;
             this.Username = Username;
             this.Password = Password;
         }
 
-        public string ResourceName { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
+        public virtual string ResourceName { get; }
+        public virtual string Username { get; }
+        public virtual string Password { get; set; }
     }
 }

@@ -5,9 +5,9 @@ using Windows.UI.Xaml.Data;
 
 namespace PlatformBindings.Models.IncrementalLoading
 {
-    public class WinSupportsIncrementalLoading : ISupportIncrementalLoading
+    public class UWPSupportsIncrementalLoading : ISupportIncrementalLoading
     {
-        public WinSupportsIncrementalLoading(ISupportCoreIncrementalLoading Source)
+        public UWPSupportsIncrementalLoading(ISupportCoreIncrementalLoading Source)
         {
             this.Source = Source;
         }

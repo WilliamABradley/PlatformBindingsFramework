@@ -24,7 +24,7 @@ namespace PlatformBindings.Models.Settings.Properties
         private void LoadList()
         {
             Clear();
-            var listContainer = Parent.CreateContainer(PropertyName);
+            var listContainer = Parent.GetContainer(PropertyName);
             foreach (var item in listContainer.GetValues().OrderBy(item => Convert.ToInt32(item.Key)))
             {
                 Add(JsonConvert.DeserializeObject<T>((string)item.Value));
@@ -33,7 +33,7 @@ namespace PlatformBindings.Models.Settings.Properties
 
         public void Update()
         {
-            var listContainer = Parent.CreateContainer(PropertyName);
+            var listContainer = Parent.GetContainer(PropertyName);
             listContainer.Clear();
             foreach (var value in this)
             {

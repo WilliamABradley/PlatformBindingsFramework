@@ -1,22 +1,25 @@
 ﻿using System;
 using System.Threading.Tasks;
-using PlatformBindings.Controls.MenuLayout;
 using PlatformBindings.Enums;
 using PlatformBindings.Models;
+using Xamarin.Forms;
 
 namespace PlatformBindings.Services
 {
     public class XamarinUIBindings : UIBindings
     {
-        public override InteractionManager InteractionManager => throw new NotImplementedException();
+        public XamarinUIBindings() : base(Platform.XamarinForms)
+        {
+        }
 
-        public override INavigationManager NavigationManager { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public override InteractionManager InteractionManager => null;
+        public override INavigationManager NavigationManager { get; set; }
 
-        public override IUIBindingInfo DefaultUIBinding => throw new NotImplementedException();
+        public override IUIBindingInfo DefaultUIBinding { get; }
 
         public override void OpenLink(Uri Uri)
         {
-            throw new NotImplementedException();
+            Device.OpenUri(Uri);
         }
 
         public override async Task<DialogResult> PromptUserAsync(string Title, string Message, string PrimaryButtonText, string SecondaryButtonText, IUIBindingInfo UIBinding)
@@ -36,12 +39,17 @@ namespace PlatformBindings.Services
             }
         }
 
+        public override Task<string> RequestTextFromUserAsync(string Title, string Message, string OKButtonText, string CancelButtonText, IUIBindingInfo UIBinding)
+        {
+            throw new NotImplementedException();
+        }
+
         public override void SetWindowText(string Text)
         {
             throw new NotImplementedException();
         }
 
-        public override void ShowMenu(Menu Menu, IMenuBinding Binding)
+        public override void ShowMenu(Controls.MenuLayout.Menu Menu, IMenuBinding Binding)
         {
             throw new NotImplementedException();
         }

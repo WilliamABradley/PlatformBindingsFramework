@@ -13,7 +13,7 @@ namespace Test_Android.Views
     [Activity(Label = "ContextMenu")]
     public class ContextMenuTest : PlatformBindingActivity
     {
-        public ContextMenuTests Viewmodel { get; } = new ContextMenuTests();
+        public ContextMenuTestPage Viewmodel { get; } = new ContextMenuTestPage();
 
         protected override void OnCreate(Bundle savedInstanceState)
         {

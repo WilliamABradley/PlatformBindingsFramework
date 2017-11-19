@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using PlatformBindings.Enums;
+using PlatformBindings.Models.FileSystem.Options;
 
 namespace PlatformBindings.Models.FileSystem
 {

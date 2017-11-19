@@ -97,11 +97,15 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\TestNavigationManager.cs" />
+    <Compile Include="Services\UWPTestPageGenerator.cs" />
     <Compile Include="Views\BindingTests.xaml.cs">
       <DependentUpon>BindingTests.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ContextMenuTest.xaml.cs">
       <DependentUpon>ContextMenuTest.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CredentialTests.xaml.cs">
+      <DependentUpon>CredentialTests.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\FilePickerTest.xaml.cs">
       <DependentUpon>FilePickerTest.xaml</DependentUpon>
@@ -111,6 +115,9 @@
     </Compile>
     <Compile Include="Views\LoopTests.xaml.cs">
       <DependentUpon>LoopTests.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingsTests.xaml.cs">
+      <DependentUpon>SettingsTests.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -145,6 +152,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\CredentialTests.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\FilePickerTest.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -154,8 +165,12 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\LoopTests.xaml">
-      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SettingsTests.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

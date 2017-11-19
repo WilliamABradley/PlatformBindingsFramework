@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace PlatformBindings.Models.FileSystem
+namespace PlatformBindings.Models.FileSystem.Options
 {
     public class FolderOpenOptions
     {
