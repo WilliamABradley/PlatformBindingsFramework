@@ -34,7 +34,7 @@ namespace PlatformBindings.Common
         /// <param name="action">An action to run when the <see cref="Task"/> completes. </param>
         public static async void ContinueOnUIThread(this Task Task, Action action)
         {
-            await ContinueOnUIThreadAsync(Task, AppServices.UI.DefaultUIBinding, action);
+            await ContinueOnUIThreadAsync(Task, AppServices.Current.UI.DefaultUIBinding, action);
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace PlatformBindings.Common
         /// <param name="action">An Task to run when the <see cref="Task"/> completes. </param>
         public static async void ContinueOnUIThread<T>(this Task<T> Task, Action<Task<T>> action)
         {
-            await ContinueOnUIThreadAsync(Task, AppServices.UI.DefaultUIBinding, action);
+            await ContinueOnUIThreadAsync(Task, AppServices.Current.UI.DefaultUIBinding, action);
         }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace PlatformBindings.Common
         /// <returns>The Continuation Task</returns>
         public static async Task ContinueOnUIThreadAsync(this Task Task, Action<Task> action)
         {
-            await ContinueOnUIThreadAsync(Task, AppServices.UI.DefaultUIBinding, () => action(Task));
+            await ContinueOnUIThreadAsync(Task, AppServices.Current.UI.DefaultUIBinding, () => action(Task));
         }
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace PlatformBindings.Common
         /// <returns>The Continuation Task</returns>
         public static async Task ContinueOnUIThreadAsync<T>(this Task<T> Task, Action<Task<T>> action)
         {
-            await ContinueOnUIThreadAsync(Task, AppServices.UI.DefaultUIBinding, () => action(Task));
+            await ContinueOnUIThreadAsync(Task, AppServices.Current.UI.DefaultUIBinding, () => action(Task));
         }
 
         /// <summary>

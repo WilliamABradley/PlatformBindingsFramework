@@ -7,7 +7,7 @@ namespace PlatformBindings
     {
         public static void Register()
         {
-            var address = AppServices.NetworkUtilities.LocalIPAddress;
+            var address = AppServices.Current.NetworkUtilities.LocalIPAddress;
             if (address != null)
             {
                 SMBSettings.LocalIPAddress = address;

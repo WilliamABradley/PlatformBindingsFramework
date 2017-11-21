@@ -17,7 +17,7 @@ namespace Test_NETCore
 
         private static async void Init()
         {
-            var result = await AppServices.UI.PromptUserAsync("Hello", "This is an Example", "Opt1", "Opt2");
+            var result = await AppServices.Current.UI.PromptUserAsync("Hello", "This is an Example", "Opt1", "Opt2");
             ConsoleHelpers.SystemWriteLine("Result: " + result);
         }
     }

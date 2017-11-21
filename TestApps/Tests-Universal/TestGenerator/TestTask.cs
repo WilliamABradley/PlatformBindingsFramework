@@ -9,7 +9,7 @@ namespace Tests.TestGenerator
         public async void RunTest()
         {
             var result = await Test(AttachedUI);
-            if (result != null) AppServices.UI.PromptUser("Test Complete", result, "OK");
+            if (result != null) AppServices.Current.UI.PromptUser("Test Complete", result, "OK");
         }
 
         public string Name { get; set; }

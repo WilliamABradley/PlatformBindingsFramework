@@ -17,7 +17,7 @@ namespace Tests.Tests
                 Name = "Get Directory Contents",
                 Test = context => Task.Run(async () =>
                {
-                   var folder = await AppServices.IO.Pickers.PickFolder();
+                   var folder = await AppServices.Current.IO.Pickers.PickFolder();
                    if (folder != null)
                    {
                        var items = await folder.GetItemsAsync();
@@ -34,7 +34,7 @@ namespace Tests.Tests
                 Name = "Get Sub Folders Sub Folders",
                 Test = context => Task.Run(async () =>
                 {
-                    var folder = await AppServices.IO.Pickers.PickFolder();
+                    var folder = await AppServices.Current.IO.Pickers.PickFolder();
                     if (folder != null)
                     {
                         var subfolders = await folder.GetFoldersAsync();
@@ -61,7 +61,7 @@ namespace Tests.Tests
                 Name = "Create Test Text File",
                 Test = context => Task.Run(async () =>
                 {
-                    var folder = await AppServices.IO.Pickers.PickFolder();
+                    var folder = await AppServices.Current.IO.Pickers.PickFolder();
                     if (folder != null)
                     {
                         var file = await folder.CreateFileAsync("TestFile.txt");
@@ -80,7 +80,7 @@ namespace Tests.Tests
                 Name = "Read Text From File",
                 Test = context => Task.Run(async () =>
                 {
-                    var file = await AppServices.IO.Pickers.PickFile();
+                    var file = await AppServices.Current.IO.Pickers.PickFile();
                     if (file != null)
                     {
                         var content = await file.ReadFileAsText();

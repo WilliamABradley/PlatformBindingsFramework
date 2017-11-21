@@ -27,12 +27,12 @@ namespace PlatformBindings.Activities
 
         public void UpdateCurrentActivity()
         {
-            if (AppServices.UI == null)
+            if (AppServices.Current.UI == null)
             {
                 throw new Exception("Please Initialise a new AndroidAppServices Instance for PlatformBindings to work.");
             }
 
-            var uibinding = AppServices.UI.DefaultUIBinding as AndroidUIBindingInfo;
+            var uibinding = AppServices.Current.UI.DefaultUIBinding as AndroidUIBindingInfo;
             uibinding.Activity = Activity;
             if (AndroidAppServices.UseAppCompatUI) uibinding.CompatActivity = (Android.Support.V7.App.AppCompatActivity)Activity;
         }

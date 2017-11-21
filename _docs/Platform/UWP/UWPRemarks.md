@@ -8,9 +8,11 @@ To use the UWP Platform Library, you must first have the `PlatformBindings-UWP` 
 public static UWPAppServices Services = new UWPAppServices(true);
 ```
 
-Due to UWP's Design, the Dispatcher isn't available yet, so you will need to attach the Dispatcher when it becomes available, such as in the `OnLaunched` Method. Make sure you don't call any AppServices.UI methods before Attaching the Dispatcher.
+Due to UWP's Design, the Dispatcher isn't available yet, so you will need to attach the Dispatcher when it becomes available, such as in the `OnLaunched` Method. 
 
-After Attaching the Dispatcher is the best time to load any PlatformBindings extensions. Such as PlatformBindings-SMB.
+Make sure you don't call any AppServices.UI methods before Attaching the Dispatcher.
+
+After Attaching the Dispatcher, this is the best time to load any PlatformBindings extensions, Such as PlatformBindings-SMB.
 
 ```C#
 /// <summary>

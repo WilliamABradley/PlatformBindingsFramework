@@ -21,7 +21,7 @@ namespace PlatformBindings.Common
         {
             char separator = System.IO.Path.DirectorySeparatorChar;
 
-            var path = AppServices.IO.GetBaseFolder(Path.Root).Path;
+            var path = AppServices.Current.IO.GetBaseFolder(Path.Root).Path;
 
             foreach (var piece in GetPathPieces(Path.Path))
             {
@@ -106,7 +106,7 @@ namespace PlatformBindings.Common
         /// <returns>Continuation Task</returns>
         public static async Task OnUIThreadAsync(Action action)
         {
-            await AppServices.UI.DefaultUIBinding.ExecuteAsync(action);
+            await AppServices.Current.UI.DefaultUIBinding.ExecuteAsync(action);
         }
 
         /// <summary>

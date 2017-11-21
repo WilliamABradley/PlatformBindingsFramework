@@ -12,7 +12,7 @@ To see how to Initialise your Platform, see:
 
 ### Things to be aware of
 
-Due to AppServices being Initialised after Static Construction, be wary of `AppSettings`, and other Settings Classes that try to Access AppServices.IO.LocalSettings or AppServices.IO.RoamingSettings. These will cause and exception if that is the case.
+Due to AppServices being Initialised after Static Construction, be wary of Static `AppSettings` Properties, and other Settings Classes that try to access `AppServices.Current.IO.LocalSettings` or `AppServices.Current.IO.RoamingSettings`. These will cause an exception if called before AppServices is Initialised for the Platform.
 
 Instead use a static Property with a Getter to construct the Property, only when needed. This should also be better for memory usage, as it allows the Garbage Collector to clean up the Object when finished manipulation. As well as update values when they change from other sources.
 

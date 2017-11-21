@@ -16,15 +16,15 @@ namespace Tests.Tests
                 Name = "Pick File",
                 Test = context => Task.Run(async () =>
                 {
-                    var file = await AppServices.IO.Pickers.PickFile(null);
+                    var file = await AppServices.Current.IO.Pickers.PickFile(null);
                     if (file != null)
                     {
-                        var result = await AppServices.UI.PromptUserAsync("File", file.Path, "Open", "Close", null);
+                        var result = await AppServices.Current.UI.PromptUserAsync("File", file.Path, "Open", "Close", null);
                         if (result == DialogResult.Primary)
                         {
                             try
                             {
-                                await AppServices.IO.OpenFileForDisplay(file);
+                                await AppServices.Current.IO.OpenFileForDisplay(file);
                             }
                             catch (DefaultAppNotFoundException)
                             {
@@ -42,7 +42,7 @@ namespace Tests.Tests
                 Name = "Pick Files",
                 Test = context => Task.Run(async () =>
                 {
-                    var files = await AppServices.IO.Pickers.PickFiles(null);
+                    var files = await AppServices.Current.IO.Pickers.PickFiles(null);
                     if (files != null)
                     {
                         string fileList = "";
@@ -51,14 +51,14 @@ namespace Tests.Tests
                             fileList += file.Path + Environment.NewLine;
                         }
 
-                        var result = await AppServices.UI.PromptUserAsync("Files", fileList, "Open", "Close", null);
+                        var result = await AppServices.Current.UI.PromptUserAsync("Files", fileList, "Open", "Close", null);
                         if (result == DialogResult.Primary)
                         {
                             foreach (var file in files)
                             {
                                 try
                                 {
-                                    await AppServices.IO.OpenFileForDisplay(file);
+                                    await AppServices.Current.IO.OpenFileForDisplay(file);
                                 }
                                 catch (DefaultAppNotFoundException)
                                 {
@@ -77,13 +77,13 @@ namespace Tests.Tests
                 Name = "Pick Folder",
                 Test = context => Task.Run(async () =>
                 {
-                    var folder = await AppServices.IO.Pickers.PickFolder(null);
+                    var folder = await AppServices.Current.IO.Pickers.PickFolder(null);
                     if (folder != null)
                     {
-                        var result = await AppServices.UI.PromptUserAsync("Folder", folder.Path, "Open", "Close", null);
+                        var result = await AppServices.Current.UI.PromptUserAsync("Folder", folder.Path, "Open", "Close", null);
                         if (result == DialogResult.Primary)
                         {
-                            await AppServices.IO.OpenFolderForDisplay(folder, null);
+                            await AppServices.Current.IO.OpenFolderForDisplay(folder, null);
                         }
                         return null;
                     }

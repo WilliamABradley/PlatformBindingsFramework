@@ -20,7 +20,7 @@ namespace PlatformBindings.Models.Settings
         public SerialisedAppSetting(T Default, bool Roam, [CallerMemberName] string SettingName = "") : base(SettingName, Default)
         {
             this.Roam = Roam;
-            Attach(Roam ? AppServices.IO.RoamingSettings : AppServices.IO.LocalSettings);
+            Attach(Roam ? AppServices.Current.IO.RoamingSettings : AppServices.Current.IO.LocalSettings);
         }
 
         public bool Roam { get; private set; }

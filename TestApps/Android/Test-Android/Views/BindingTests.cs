@@ -29,7 +29,7 @@ namespace Test_Android.Views
         private async void TestAsyncActivity_Click(object sender, EventArgs e)
         {
             var result = await this.StartActivityForResultAsync(typeof(ReturnActivity));
-            AppServices.UI.PromptUser("Activity Returned", $"RequestCode: {result.RequestCode}\nResponse: {result.ResultCode}", "OK");
+            AppServices.Current.UI.PromptUser("Activity Returned", $"RequestCode: {result.RequestCode}\nResponse: {result.ResultCode}", "OK");
         }
 
         public Button Pickers { get { return _Pickers ?? (_Pickers = FindViewById<Button>(Resource.Id.TestFilePickerButton)); } }

@@ -3,7 +3,7 @@ A Framework for creating code that performs Platform Dependent Tasks in a Generi
 
 Since this Framework is still in Early Alpha/Planning stages, the Documentation and API surface is subject to change, with breaking changes on new Releases until it is Production ready.
 
-Be sure to perform null checks when interacting with the Framework, such as `AppServices.UI?.NavigationManager?.CanGoBack`, as well as check if a Platform Supports a certain feature, such as UI Access in Background Tasks, using the File/FolderPicker or File/Folder Open Functions.
+Be sure to perform null checks when interacting with the Framework, such as `AppServices.Current.UI?.NavigationManager?.CanGoBack`, as well as check if a Platform Supports a certain feature, such as UI Access in Background Tasks, using the File/FolderPicker or File/Folder Open Functions.
 
 Not all Platforms have the same level of implementation, UWP is currently fully implemented, and a lot of the APIs are based off of UWP APIs. 
 Android is somewhat implemented, while Xamarin.Forms is mostly unimplemented. 

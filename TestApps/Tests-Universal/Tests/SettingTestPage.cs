@@ -18,7 +18,7 @@ namespace Tests.Tests
                 Name = "Get all Local Settings",
                 Test = ui => Task.Run(() =>
                 {
-                    CurrentContainer = AppServices.IO.LocalSettings;
+                    CurrentContainer = AppServices.Current.IO.LocalSettings;
                     return GetAllSubValues();
                 })
             });
@@ -28,7 +28,7 @@ namespace Tests.Tests
                 Name = "Get all Roaming Settings",
                 Test = ui => Task.Run(() =>
                 {
-                    CurrentContainer = AppServices.IO.RoamingSettings;
+                    CurrentContainer = AppServices.Current.IO.RoamingSettings;
                     return GetAllSubValues();
                 })
             });
@@ -38,7 +38,7 @@ namespace Tests.Tests
                 Name = "Get Container",
                 Test = ui => Task.Run(async () =>
                 {
-                    var name = await AppServices.UI.RequestTextFromUserAsync("Get Container", "Container Name", "OK", "Cancel");
+                    var name = await AppServices.Current.UI.RequestTextFromUserAsync("Get Container", "Container Name", "OK", "Cancel");
                     if (name == null) return Cancelled;
 
                     var value = CurrentContainer.GetContainer(name);
@@ -110,7 +110,7 @@ namespace Tests.Tests
                 Name = "Get Setting",
                 Test = ui => Task.Run(async () =>
                 {
-                    var name = await AppServices.UI.RequestTextFromUserAsync("Get Setting", "Setting Name", "OK", "Cancel");
+                    var name = await AppServices.Current.UI.RequestTextFromUserAsync("Get Setting", "Setting Name", "OK", "Cancel");
                     if (name == null) return Cancelled;
 
                     var values = CurrentContainer.GetValues();
@@ -132,9 +132,9 @@ namespace Tests.Tests
                 Test = ui => Task.Run(async () =>
                 {
                     var creator = "Create Setting";
-                    var name = await AppServices.UI.RequestTextFromUserAsync(creator, "Setting Name", "OK", "Cancel");
+                    var name = await AppServices.Current.UI.RequestTextFromUserAsync(creator, "Setting Name", "OK", "Cancel");
                     if (name == null) return Cancelled;
-                    var value = await AppServices.UI.RequestTextFromUserAsync(creator, "Setting Value", "OK", "Cancel");
+                    var value = await AppServices.Current.UI.RequestTextFromUserAsync(creator, "Setting Value", "OK", "Cancel");
                     if (value == null) return Cancelled;
 
                     CurrentContainer.SetValue(name, value);
@@ -160,7 +160,7 @@ namespace Tests.Tests
                 Test = ui => Task.Run(async () =>
                 {
                     var creator = "Create Setting";
-                    var name = await AppServices.UI.RequestTextFromUserAsync(creator, "Setting Name", "OK", "Cancel");
+                    var name = await AppServices.Current.UI.RequestTextFromUserAsync(creator, "Setting Name", "OK", "Cancel");
                     if (name == null) return Cancelled;
 
                     if (CurrentContainer.ContainsKey(name))
@@ -183,7 +183,7 @@ namespace Tests.Tests
 
             TimesRanDisplay.UpdateValue(TimesRan.Value.ToString());
 
-            CurrentContainer = AppServices.IO.LocalSettings;
+            CurrentContainer = AppServices.Current.IO.LocalSettings;
             SettingsHistory.Add(new ContainerFrame { Name = CurrentContainer.Name, Values = CurrentContainer.GetValues().Select(item => $"Name: {item.Key} Value: {item.Value} ValueType: {item.Value.GetType().Name}").ToList() });
         }
 

@@ -11,7 +11,7 @@ namespace PlatformBindings.ViewModels
     {
         public ViewModelBase()
         {
-            UIBinding = AppServices.UI.DefaultUIBinding;
+            UIBinding = AppServices.Current.UI.DefaultUIBinding;
         }
 
         /// <summary>

@@ -14,7 +14,7 @@ namespace Tests.Tests
                 Name = "Get Credentials",
                 Test = ui => Task.Run(() =>
                 {
-                    var creds = AppServices.Credentials.AllCredentials;
+                    var creds = AppServices.Current.Credentials.AllCredentials;
                     return string.Join("\n", creds.Select(item => $"Resource: {item.ResourceName} Username: {item.Username} Password: {item.Password}"));
                 })
             });
@@ -25,15 +25,15 @@ namespace Tests.Tests
                 Test = ui => Task.Run(async () =>
                 {
                     var creator = "Create Credential";
-                    var resource = await AppServices.UI.RequestTextFromUserAsync(creator, "Resource", "OK", "Cancel");
+                    var resource = await AppServices.Current.UI.RequestTextFromUserAsync(creator, "Resource", "OK", "Cancel");
                     if (resource == null) return Cancelled;
-                    var username = await AppServices.UI.RequestTextFromUserAsync(creator, "Username", "OK", "Cancel");
+                    var username = await AppServices.Current.UI.RequestTextFromUserAsync(creator, "Username", "OK", "Cancel");
                     if (username == null) return Cancelled;
-                    var password = await AppServices.UI.RequestTextFromUserAsync(creator, "Password", "OK", "Cancel");
+                    var password = await AppServices.Current.UI.RequestTextFromUserAsync(creator, "Password", "OK", "Cancel");
                     if (password == null) return Cancelled;
 
-                    AppServices.Credentials.Store(new PlatformBindings.Models.CredentialContainer(resource, username, password));
-                    var cred = AppServices.Credentials.Retrieve(resource, username);
+                    AppServices.Current.Credentials.Store(new PlatformBindings.Models.CredentialContainer(resource, username, password));
+                    var cred = AppServices.Current.Credentials.Retrieve(resource, username);
                     if (cred != null)
                     {
                         if (cred.ResourceName == resource && cred.Username == username && cred.Password == password)
@@ -51,10 +51,10 @@ namespace Tests.Tests
                 Name = "Get all Credentials for Resource",
                 Test = ui => Task.Run(async () =>
                 {
-                    var resource = await AppServices.UI.RequestTextFromUserAsync("Get Credentials for Resource", "Resource Name", "OK", "Cancel");
+                    var resource = await AppServices.Current.UI.RequestTextFromUserAsync("Get Credentials for Resource", "Resource Name", "OK", "Cancel");
                     if (resource == null) return Cancelled;
 
-                    var creds = AppServices.Credentials.FetchByResource(resource);
+                    var creds = AppServices.Current.Credentials.FetchByResource(resource);
                     if (creds.Any())
                     {
                         return string.Join("\n", creds.Select(item => $"Resource: {item.ResourceName} Username: {item.Username} Password: {item.Password}"));
@@ -68,13 +68,13 @@ namespace Tests.Tests
                 Name = "Get Credential",
                 Test = ui => Task.Run(async () =>
                 {
-                    var resource = await AppServices.UI.RequestTextFromUserAsync("Credential Resource", "Resource", "OK", "Cancel");
+                    var resource = await AppServices.Current.UI.RequestTextFromUserAsync("Credential Resource", "Resource", "OK", "Cancel");
                     if (resource == null) return Cancelled;
 
-                    var username = await AppServices.UI.RequestTextFromUserAsync("Credential Username", "Username", "OK", "Cancel");
+                    var username = await AppServices.Current.UI.RequestTextFromUserAsync("Credential Username", "Username", "OK", "Cancel");
                     if (username == null) return Cancelled;
 
-                    var cred = AppServices.Credentials.Retrieve(resource, username);
+                    var cred = AppServices.Current.Credentials.Retrieve(resource, username);
                     if (cred != null)
                     {
                         return $"Resource: {cred.ResourceName} Username: {cred.Username} Password: {cred.Password}";
@@ -88,17 +88,17 @@ namespace Tests.Tests
                 Name = "Remove Credential",
                 Test = ui => Task.Run(async () =>
                 {
-                    var resource = await AppServices.UI.RequestTextFromUserAsync("Credential Resource", "Resource", "OK", "Cancel");
+                    var resource = await AppServices.Current.UI.RequestTextFromUserAsync("Credential Resource", "Resource", "OK", "Cancel");
                     if (resource == null) return Cancelled;
 
-                    var username = await AppServices.UI.RequestTextFromUserAsync("Credential Username", "Username", "OK", "Cancel");
+                    var username = await AppServices.Current.UI.RequestTextFromUserAsync("Credential Username", "Username", "OK", "Cancel");
                     if (username == null) return Cancelled;
 
-                    var cred = AppServices.Credentials.Retrieve(resource, username);
+                    var cred = AppServices.Current.Credentials.Retrieve(resource, username);
                     if (cred != null)
                     {
-                        AppServices.Credentials.Remove(cred);
-                        if (AppServices.Credentials.AllCredentials.FirstOrDefault(item => item.ResourceName == resource && item.Username == username) != null)
+                        AppServices.Current.Credentials.Remove(cred);
+                        if (AppServices.Current.Credentials.AllCredentials.FirstOrDefault(item => item.ResourceName == resource && item.Username == username) != null)
                         {
                             return "Failed: Credential still exists";
                         }
@@ -113,8 +113,8 @@ namespace Tests.Tests
                 Name = "Clear Credentials",
                 Test = ui => Task.Run(() =>
                 {
-                    AppServices.Credentials.Clear();
-                    if (AppServices.Credentials.AllCredentials.Any())
+                    AppServices.Current.Credentials.Clear();
+                    if (AppServices.Current.Credentials.AllCredentials.Any())
                     {
                         return "Failed: Credentials still exist";
                     }

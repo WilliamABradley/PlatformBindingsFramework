@@ -24,7 +24,7 @@ namespace PlatformBindings.Services
 
         public override async Task<DialogResult> PromptUserAsync(string Title, string Message, string PrimaryButtonText, string SecondaryButtonText, IUIBindingInfo UIBinding)
         {
-            var binding = (UIBinding ?? AppServices.UI.DefaultUIBinding) as XamarinUIBindingInfo;
+            var binding = (UIBinding ?? AppServices.Current.UI.DefaultUIBinding) as XamarinUIBindingInfo;
             if (binding?.Page == null) throw new Exception("Xamarin UI Unbound");
 
             if (!string.IsNullOrWhiteSpace(SecondaryButtonText))

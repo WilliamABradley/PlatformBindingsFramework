@@ -33,36 +33,36 @@ namespace PlatformBindings
         /// <summary>
         /// Functions for Platform Independent UI Functions.
         /// </summary>
-        public static UIBindings UI { get; protected set; }
+        public UIBindings UI { get; protected set; }
 
         /// <summary>
         /// Functions for Platform Independent IO Functions.
         /// </summary>
-        public static IOBindings IO { get; protected set; }
+        public IOBindings IO { get; protected set; }
 
         /// <summary>
         /// Functions for Platform Independent Credential Management.
         /// </summary>
-        public static ICredentialManager Credentials { get; protected set; }
+        public ICredentialManager Credentials { get; protected set; }
 
         /// <summary>
         /// Functions for Authenticating with OAuth.
         /// </summary>
-        public static IOAuthBroker OAuth { get; protected set; }
+        public IOAuthBroker OAuth { get; protected set; }
 
         /// <summary>
         /// Functions for Testing Connection to the Internet and other Sources.
         /// </summary>
-        public static NetworkUtilities NetworkUtilities { get; protected set; }
+        public NetworkUtilities NetworkUtilities { get; protected set; }
 
         /// <summary>
         /// The Current Platform the Framework is running on.
         /// </summary>
-        public static Platform ServicePlatform { get; private set; }
+        public Platform ServicePlatform { get; private set; }
 
         /// <summary>
-        /// The Current AppService, this is required for accessing Platform Specific Methods.
+        /// The Current AppServices Instance.
         /// </summary>
-        public static AppServices Current { get; private set; }
+        public static AppServices Current { get; protected set; }
     }
 }
