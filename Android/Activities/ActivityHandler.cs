@@ -120,6 +120,6 @@ namespace PlatformBindings.Activities
         private Dictionary<View, Tuple<Controls.MenuLayout.Menu, AndroidContextMenuBinding>> ContextMenuActivations { get; } = new Dictionary<View, Tuple<Controls.MenuLayout.Menu, AndroidContextMenuBinding>>();
         private Dictionary<int, TaskCompletionSource<ActivityResult>> ActivityResultWaiters { get; } = new Dictionary<int, TaskCompletionSource<ActivityResult>>();
 
-        private static Dictionary<Activity, ActivityHandler> Handlers { get; } = new Dictionary<Activity, ActivityHandler>();
+        internal static Dictionary<Activity, ActivityHandler> Handlers { get; } = new Dictionary<Activity, ActivityHandler>();
     }
 }
