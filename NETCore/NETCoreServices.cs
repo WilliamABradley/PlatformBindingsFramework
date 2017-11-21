@@ -9,6 +9,7 @@ namespace PlatformBindings
         {
             IO = new CoreIOBindings();
             UI = new CoreUIBindings();
+            NetworkUtilities = new NetworkUtilities();
         }
 
         public static bool UseGlobalAppData = true;

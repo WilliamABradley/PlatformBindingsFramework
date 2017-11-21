@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using PlatformBindings.Enums;
 using PlatformBindings.Models;
 using Windows.Security.Authentication.Web;
+using PlatformBindings.Common;
 
 namespace PlatformBindings.Services.Bindings
 {
@@ -10,25 +11,38 @@ namespace PlatformBindings.Services.Bindings
     {
         public async Task<OAuthResponse> Authenticate(Uri RequestUri, Uri CallbackUri)
         {
-            var broker = await WebAuthenticationBroker.AuthenticateAsync(WebAuthenticationOptions.None, RequestUri, CallbackUri);
-            OAuthResult Result = OAuthResult.Failed;
+            TaskCompletionSource<WebAuthenticationResult> waiter = new TaskCompletionSource<WebAuthenticationResult>();
+            PlatformBindingHelpers.OnUIThread(async () =>
+            {
+                try
+                {
+                    var response = await WebAuthenticationBroker.AuthenticateAsync(WebAuthenticationOptions.None, RequestUri, CallbackUri);
+                    waiter.TrySetResult(response);
+                }
+                catch
+                {
+                    waiter.TrySetResult(null);
+                }
+            });
 
-            switch (broker.ResponseStatus)
+            var result = await waiter.Task;
+            if (result == null) return new OAuthResponse { Result = OAuthResult.Failed };
+            OAuthResult resultValue = OAuthResult.Failed;
+            switch (result.ResponseStatus)
             {
                 case WebAuthenticationStatus.Success:
-                    Result = OAuthResult.Success;
+                    resultValue = OAuthResult.Success;
                     break;
 
                 case WebAuthenticationStatus.UserCancel:
-                    Result = OAuthResult.Cancelled;
+                    resultValue = OAuthResult.Cancelled;
                     break;
             }
 
             return new OAuthResponse
             {
-                Result = Result,
-                Data = broker.ResponseData,
-                StatusCode = broker.ResponseErrorDetail
+                Result = resultValue,
+                Data = !string.IsNullOrWhiteSpace(result.ResponseData) ? result.ResponseData : null
             };
         }
     }

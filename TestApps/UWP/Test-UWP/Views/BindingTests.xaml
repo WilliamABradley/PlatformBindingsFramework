@@ -14,5 +14,6 @@
         <Button x:Name="LoopTest" Content="Test LoopTimer" Click="LoopTest_Click" />
         <Button x:Name="SettingTest" Content="Test Settings" Click="SettingTest_Click" />
         <Button x:Name="CredTest" Content="Test Credential Manager" Click="CredTest_Click" />
+        <Button x:Name="OAuthTest" Content="Test OAuth" Click="OAuthTest_Click" />
     </StackPanel>
 </Page>

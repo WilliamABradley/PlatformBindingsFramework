@@ -66,6 +66,7 @@
     <Compile Include="Views\FilePickerTest.cs" />
     <Compile Include="Views\FileTests.cs" />
     <Compile Include="Views\LoopTests.cs" />
+    <Compile Include="Views\OAuthTests.cs" />
     <Compile Include="Views\ReturnActivity.cs" />
     <Compile Include="Views\SettingTests.cs" />
   </ItemGroup>

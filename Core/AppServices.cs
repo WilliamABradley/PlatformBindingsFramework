@@ -15,7 +15,6 @@ namespace PlatformBindings
             Current = this;
             this.HasUI = HasUI;
             ServicePlatform = Platform;
-            NetworkUtilities = new NetworkUtilities();
         }
 
         /// <summary>

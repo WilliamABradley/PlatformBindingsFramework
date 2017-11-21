@@ -116,6 +116,9 @@
     <Compile Include="Views\LoopTests.xaml.cs">
       <DependentUpon>LoopTests.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\OAuthTests.xaml.cs">
+      <DependentUpon>OAuthTests.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SettingsTests.xaml.cs">
       <DependentUpon>SettingsTests.xaml</DependentUpon>
     </Compile>
@@ -165,6 +168,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\LoopTests.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\OAuthTests.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

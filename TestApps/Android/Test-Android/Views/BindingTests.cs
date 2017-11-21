@@ -24,6 +24,7 @@ namespace Test_Android.Views
             TestFiles.Click += delegate { StartActivity(typeof(FileTests)); };
             TestCredentialManager.Click += delegate { StartActivity(typeof(CredentialTests)); };
             TestSettings.Click += delegate { StartActivity(typeof(SettingTests)); };
+            TestOAuth.Click += delegate { StartActivity(typeof(OAuthTests)); };
         }
 
         private async void TestAsyncActivity_Click(object sender, EventArgs e)
@@ -52,5 +53,8 @@ namespace Test_Android.Views
 
         public Button TestSettings { get { return _TestSettings ?? (_TestSettings = FindViewById<Button>(Resource.Id.Test_Settings)); } }
         private Button _TestSettings;
+
+        public Button TestOAuth { get { return _TestOAuth ?? (_TestOAuth = FindViewById<Button>(Resource.Id.Test_OAuth)); } }
+        private Button _TestOAuth;
     }
 }

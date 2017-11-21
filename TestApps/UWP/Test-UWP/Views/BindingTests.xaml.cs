@@ -57,5 +57,11 @@ namespace Tests_UWP.Views
             Frame.Navigate(typeof(SettingsTests));
             ShowBack();
         }
+
+        private void OAuthTest_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(OAuthTests));
+            ShowBack();
+        }
     }
 }

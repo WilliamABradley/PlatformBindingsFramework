@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using PlatformBindings.Enums;
 using PlatformBindings.Controls.MenuLayout;
 using PlatformBindings.Models;
-using PlatformBindings.ConsoleTools;
 
 namespace PlatformBindings.Services
 {

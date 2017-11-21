@@ -6,6 +6,5 @@ namespace PlatformBindings.Models
     {
         public OAuthResult Result { get; set; }
         public string Data { get; set; }
-        public uint StatusCode { get; set; }
     }
 }

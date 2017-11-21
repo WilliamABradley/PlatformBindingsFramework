@@ -19,6 +19,8 @@ namespace PlatformBindings
             if (HasUI) UI = new AndroidUIBindings();
             IO = new AndroidIOBindings();
             Credentials = new AndroidCredentialManager();
+            OAuth = new AndroidOAuthBroker();
+            NetworkUtilities = new NetworkUtilities();
         }
 
         public override Version GetAppVersion()
@@ -27,7 +29,8 @@ namespace PlatformBindings
             return new Version(info.VersionName);
         }
 
-        public static IKeyGenerator KeyGenerator { get; protected set; }
-        public static bool UseAppCompatUI { get; private set; } = false;
+        public static IKeyGenerator KeyGenerator { get; set; }
+        public static bool UseAppCompatUI { get; set; } = false;
+        public static TimeSpan OAuthTimeOut { get; set; } = TimeSpan.FromSeconds(10);
     }
 }

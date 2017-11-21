@@ -31,13 +31,18 @@
       android:layout_height="wrap_content"
       android:id="@+id/Test_AsyncAct" />
   <Button
-    android:text="Test Settings"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:id="@+id/Test_Settings" />
+      android:text="Test Settings"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:id="@+id/Test_Settings" />
   <Button
       android:text="Test Credential Manager"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:id="@+id/Test_CredMan" />
+  <Button
+      android:text="Test OAuth"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:id="@+id/Test_OAuth" />
 </LinearLayout>
