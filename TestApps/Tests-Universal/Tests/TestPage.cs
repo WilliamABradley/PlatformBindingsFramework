@@ -1,44 +1,43 @@
 ﻿using PlatformBindings.ViewModels;
 using System.Collections.Generic;
+using System.Linq;
 using Tests.TestGenerator;
 
 namespace Tests.Tests
 {
     public abstract class TestPage : ViewModelBase
     {
-        public TestPage(ITestPageGenerator PageGenerator)
+        public TestPage(string PageName, ITestPageGenerator PageGenerator)
         {
+            this.PageName = PageName;
             this.PageGenerator = PageGenerator;
         }
 
         public void DisplayTests()
         {
-            foreach (var property in Properties)
+            var extendedItems = TestService.GetExtensions(GetType());
+            _Items.AddRange(extendedItems);
+
+            foreach (var item in Items.OfType<TestProperty>())
             {
-                PageGenerator?.CreateTestProperty(property);
+                PageGenerator?.CreateTestProperty(item);
             }
-            foreach (var test in Tests)
+
+            foreach (var item in Items.OfType<TestTask>())
             {
-                PageGenerator?.CreateTestUI(test);
+                PageGenerator?.CreateTestUI(item);
             }
         }
 
-        public void AddTest(TestTask Test)
+        public void AddTestItem(ITestItem Test)
         {
-            _Tests.Add(Test);
+            _Items.Add(Test);
         }
 
-        public void AddProperty(TestProperty Property)
-        {
-            _Properties.Add(Property);
-        }
-
-        private List<TestTask> _Tests { get; } = new List<TestTask>();
-        public IReadOnlyList<TestTask> Tests => _Tests;
-
-        private List<TestProperty> _Properties { get; } = new List<TestProperty>();
-        public IReadOnlyList<TestProperty> Properties => _Properties;
+        private List<ITestItem> _Items { get; } = new List<ITestItem>();
+        public IReadOnlyList<ITestItem> Items => _Items;
 
         public ITestPageGenerator PageGenerator { get; }
+        public string PageName { get; }
     }
 }

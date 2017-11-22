@@ -40,6 +40,18 @@ namespace PlatformBindings.Activities
             }
         }
 
+        public override bool OnOptionsItemSelected(IMenuItem item)
+        {
+            var result = Handler.OnOptionsItemSelected(item);
+            return result == true ? result : base.OnOptionsItemSelected(item);
+        }
+
+        public override void Finish()
+        {
+            ActivityHandler.RemoveHandler(this);
+            base.Finish();
+        }
+
         public ActivityHandler Handler { get; }
     }
 }

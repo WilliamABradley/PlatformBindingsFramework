@@ -5,12 +5,24 @@ using Windows.UI.Xaml.Controls;
 
 namespace PlatformBindings.Services
 {
-    public abstract class UWPNavigationManager : INavigationManager
+    public class UWPNavigationManager : NavigationManager
     {
-        public UWPNavigationManager(Frame Frame)
+        public UWPNavigationManager(Navigator Navigator, Frame Frame) : base(Navigator)
         {
             this.Frame = Frame;
             SystemNavigationManager.GetForCurrentView().BackRequested += WinNavigationManager_BackRequested;
+        }
+
+        public override void GoBack()
+        {
+            PlatformBindingHelpers.OnUIThread(() =>
+            {
+                if (Frame.CanGoBack)
+                {
+                    Frame.GoBack();
+                    ShowBackButton = Frame.CanGoBack;
+                }
+            });
         }
 
         private void WinNavigationManager_BackRequested(object sender, BackRequestedEventArgs e)
@@ -18,11 +30,10 @@ namespace PlatformBindings.Services
             GoBack();
         }
 
-        public bool CanGoBack => Frame.CanGoBack;
+        public override bool CanGoBack => Frame.CanGoBack;
+        public Frame Frame { get; }
 
-        private bool _ShowBackButton = false;
-
-        public bool ShowBackButton
+        public override bool ShowBackButton
         {
             get { return _ShowBackButton; }
             set
@@ -43,25 +54,8 @@ namespace PlatformBindings.Services
             }
         }
 
-        public void ClearBackStack()
-        {
-            Frame.BackStack.Clear();
-        }
+        private bool _ShowBackButton = false;
 
-        public void GoBack()
-        {
-            if (Frame.CanGoBack)
-            {
-                Frame.GoBack();
-                ShowBackButton = Frame.CanGoBack;
-            }
-        }
-
-        public abstract void Navigate(object PageRequest, object Parameter = null);
-
-        public Frame Frame { get; }
-        public abstract bool MenuOpen { get; set; }
-
-        public event EventHandler<bool> BackButtonStateChanged;
+        public override event EventHandler<bool> BackButtonStateChanged;
     }
 }

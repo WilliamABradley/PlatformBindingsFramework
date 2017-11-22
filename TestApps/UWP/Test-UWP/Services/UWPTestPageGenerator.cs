@@ -2,6 +2,7 @@
 using Tests.TestGenerator;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 
 namespace Test_UWP.Services
 {
@@ -56,6 +57,12 @@ namespace Test_UWP.Services
         }
 
         public Page Page { get; }
-        public StackPanel ContentPanel { get; } = new StackPanel();
+
+        public StackPanel ContentPanel { get; } = new StackPanel
+        {
+            Background = Application.Current.Resources["ApplicationPageBackgroundThemeBrush"] as SolidColorBrush
+        };
+
+        public object UIInstance => ContentPanel;
     }
 }

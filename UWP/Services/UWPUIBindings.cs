@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using PlatformBindings.Common;
 using PlatformBindings.Enums;
-using Windows.UI.ViewManagement;
 using Windows.UI.Xaml.Controls;
 using System;
 using Windows.UI.Core;
@@ -19,6 +18,7 @@ namespace PlatformBindings.Services
         {
             DefaultUIBinding = new UWPUIBindingInfo(MainDispatcher);
             InteractionManager = new UWPInteractionManager(DefaultUIBinding);
+            TitleManager = new UWPTitleManager();
         }
 
         private TextBlock ConvertSpansToFormattedBlock(string RawText)
@@ -71,25 +71,6 @@ namespace PlatformBindings.Services
             return await waiter.Task;
         }
 
-        public override void SetWindowText(string Text = "")
-        {
-            ApplicationView.GetForCurrentView().Title = Text;
-        }
-
-        public override void ShowMenu(Menu Menu, IMenuBinding Binding)
-        {
-            switch (Binding)
-            {
-                case CommandBarMenuBinding barBind:
-                    MenuRenderer.AttachTo(Menu, barBind.Bar);
-                    break;
-
-                case ContextMenuBinding contextBind:
-                    MenuRenderer.ShowAt(Menu, contextBind.Element, contextBind.Position);
-                    break;
-            }
-        }
-
         public override async void OpenLink(Uri Uri)
         {
             await Windows.System.Launcher.LaunchUriAsync(Uri);
@@ -121,9 +102,56 @@ namespace PlatformBindings.Services
             return await waiter.Task;
         }
 
-        public override InteractionManager InteractionManager { get; }
+        public override void ShowMenu(Menu Menu, IMenuBinding Binding)
+        {
+            PlatformBindingHelpers.OnUIThread(() =>
+            {
+                switch (Binding)
+                {
+                    case CommandBarMenuBinding barBind:
+                        MenuRenderer.AttachTo(Menu, barBind.Bar);
+                        break;
 
-        public override INavigationManager NavigationManager { get; set; }
+                    case ContextMenuBinding contextBind:
+                        MenuRenderer.ShowAt(Menu, contextBind.Element, contextBind.Position);
+                        break;
+                }
+            });
+        }
+
+        public override void ShowMenu(Menu Menu, object UIElement)
+        {
+            if (UIElement is CommandBar bar)
+            {
+                RegisterMenu(Menu, bar);
+            }
+            else if (UIElement is FrameworkElement element)
+            {
+                ShowMenu(Menu, new ContextMenuBinding(element, null));
+            }
+        }
+
+        public override void RegisterMenu(Menu Menu, object UIElement)
+        {
+            PlatformBindingHelpers.OnUIThread(() =>
+            {
+                if (UIElement is CommandBar bar)
+                {
+                    MenuRenderer.AttachTo(Menu, bar);
+                }
+                else if (UIElement is FrameworkElement element)
+                {
+                    element.RightTapped += (s, e) =>
+                    {
+                        MenuRenderer.ShowAt(Menu, element, e.GetPosition(element));
+                    };
+                }
+            });
+        }
+
+        public override InteractionManager InteractionManager { get; }
+        public override NavigationManager NavigationManager { get; set; }
+        public override ITitleManager TitleManager { get; set; }
 
         public override IUIBindingInfo DefaultUIBinding { get; }
     }

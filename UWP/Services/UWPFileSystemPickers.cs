@@ -48,7 +48,7 @@ namespace PlatformBindings.Services
                 {
                     foreach (var property in Properties.FileTypes)
                     {
-                        picker.FileTypeFilter.Add(property.FileExtension);
+                        picker.FileTypeFilter.Add(property);
                     }
                     if (Properties.StartingLocation.HasValue) picker.SuggestedStartLocation = GetPickerLocation(Properties.StartingLocation);
                 }
@@ -69,7 +69,7 @@ namespace PlatformBindings.Services
             {
                 foreach (var property in Properties.FileTypes)
                 {
-                    picker.FileTypeFilter.Add(property.FileExtension);
+                    picker.FileTypeFilter.Add(property);
                 }
                 if (Properties.StartingLocation.HasValue) picker.SuggestedStartLocation = GetPickerLocation(Properties.StartingLocation);
             }

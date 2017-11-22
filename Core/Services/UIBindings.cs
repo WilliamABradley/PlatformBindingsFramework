@@ -24,7 +24,12 @@ namespace PlatformBindings.Services
         /// <summary>
         /// The Navigation Manager for the Current Session, this usually has to be instantiated in the Shell Page. This is used to handle Page Navigation.
         /// </summary>
-        public abstract INavigationManager NavigationManager { get; set; }
+        public abstract NavigationManager NavigationManager { get; set; }
+
+        /// <summary>
+        /// The Navigation Manager for the Current Session, this manages the Title of the Page and Window.
+        /// </summary>
+        public abstract ITitleManager TitleManager { get; set; }
 
         /// <summary>
         /// The Default UI Context for the Current Session State. Contains Dispatcher Information for Handling UI.
@@ -115,17 +120,25 @@ namespace PlatformBindings.Services
         public abstract Task<string> RequestTextFromUserAsync(string Title, string Message, string OKButtonText, string CancelButtonText, IUIBindingInfo UIBinding);
 
         /// <summary>
-        /// Sets the Name of the Current Window, if this is Unsupported, do nothing.
-        /// </summary>
-        /// <param name="Text">Window Name, set to <see cref="string.Empty"/> if you want to clear the Name of the Window.</param>
-        public abstract void SetWindowText(string Text);
-
-        /// <summary>
         /// Shows a Context Menu to the User.
         /// </summary>
         /// <param name="Menu">The Platform Independent Menu Layout to Display</param>
         /// <param name="Binding">UI Context for Handling the Menu, this is used to Display the Menu in different ways, using different UI Layouts</param>
         public abstract void ShowMenu(Menu Menu, IMenuBinding Binding);
+
+        /// <summary>
+        /// Shows a Context Menu to the User, using a UI Element for Reference.
+        /// </summary>
+        /// <param name="Menu">The Platform Independent Menu Layout to Display</param>
+        /// <param name="Binding">UI Context for Handling the Menu, this is used to Display the Menu in reference to the Element, e.g. Where the Menu Opens, etc.</param>
+        public abstract void ShowMenu(Menu Menu, object UIElement);
+
+        /// <summary>
+        /// Registers a Context Menu with a UI Element to Activate with the Element.
+        /// </summary>
+        /// <param name="Menu">The Platform Independent Menu Layout to Display</param>
+        /// <param name="UIElement">UI Element to Register with. This allows for Right Click on UWP, Hold Press on Android, etc.</param>
+        public abstract void RegisterMenu(Menu Menu, object UIElement);
 
         /// <summary>
         /// Opens a Uri Link, using the default Platform Browser, or does nothing if unsupported.

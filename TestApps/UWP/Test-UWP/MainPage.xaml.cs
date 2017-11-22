@@ -1,6 +1,7 @@
 ﻿using PlatformBindings;
+using PlatformBindings.Services;
 using Test_UWP.Services;
-using Tests_UWP.Views;
+using Tests;
 using Windows.UI.Xaml.Controls;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -15,8 +16,9 @@ namespace Test_UWP
         public MainPage()
         {
             this.InitializeComponent();
-            AppServices.Current.UI.NavigationManager = new TestNavigationManager(MainFrame);
-            MainFrame.Navigate(typeof(BindingTests));
+            TestService.Register(new TestUWPNavigator(MainFrame));
+            AppServices.Current.UI.NavigationManager = new UWPNavigationManager(TestService.Navigation, MainFrame);
+            TestService.Navigation.Navigate(TestNavigationPage.Home);
         }
     }
 }

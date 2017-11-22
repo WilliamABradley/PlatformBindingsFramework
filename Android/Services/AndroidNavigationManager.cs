@@ -1,61 +1,71 @@
-﻿using Android.App;
+﻿using System;
+using Android.App;
 using Android.Support.V7.App;
-using PlatformBindings.Activities;
 using PlatformBindings.Common;
-using System;
 
 namespace PlatformBindings.Services
 {
-    public class AndroidNavigationManager : INavigationManager
+    public class AndroidNavigationManager : NavigationManager
     {
-        public bool CanGoBack => throw new NotImplementedException();
-
-        public bool ShowBackButton
+        public AndroidNavigationManager(Navigator Navigator) : base(Navigator)
         {
-            get
-            {
-                return false;
-            }
-            set
-            {
-                var activity = CurrentActivity;
-                if (activity is AppCompatActivity compatAct)
-                {
-                    compatAct.SupportActionBar?.SetDisplayHomeAsUpEnabled(true);
-                }
-                else if (activity.ActionBar != null)
-                {
-                    activity.ActionBar.SetDisplayHomeAsUpEnabled(true);
-                }
-            }
         }
 
-        public bool MenuOpen { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
-        public event EventHandler<bool> BackButtonStateChanged;
-
-        public void ClearBackStack()
-        {
-            foreach (var handle in ActivityHandler.Handlers)
-            {
-                if (handle.Key != CurrentActivity)
-                {
-                    handle.Key.Finish();
-                    ActivityHandler.Handlers.Remove(handle.Key);
-                }
-            }
-        }
-
-        public void GoBack()
+        public override void GoBack()
         {
             CurrentActivity.Finish();
         }
 
-        public virtual void Navigate(object PageRequest, object Parameter)
+        private bool BackButtonVisible(Activity Activity)
         {
-            //CurrentActivity.ActionBar.add
+            ActionBarDisplayOptions options = 0;
+            if (Activity is AppCompatActivity compatAct)
+            {
+                options = (ActionBarDisplayOptions)(compatAct.SupportActionBar?.DisplayOptions ?? 0);
+            }
+            else if (Activity?.ActionBar != null)
+            {
+                options = Activity.ActionBar.DisplayOptions;
+            }
+            var hasState = options & ActionBarDisplayOptions.HomeAsUp;
+            return hasState == ActionBarDisplayOptions.HomeAsUp;
+        }
+
+        public override bool CanGoBack => !CurrentActivity.IsTaskRoot;
+
+        public override bool ShowBackButton
+        {
+            get
+            {
+                return BackButtonVisible(CurrentActivity);
+            }
+            set
+            {
+                var activity = CurrentActivity;
+                var currentState = BackButtonVisible(activity);
+
+                try
+                {
+                    if (activity is AppCompatActivity compatAct)
+                    {
+                        compatAct.SupportActionBar?.SetDisplayHomeAsUpEnabled(value);
+                    }
+                    else if (activity?.ActionBar != null)
+                    {
+                        activity.ActionBar?.SetDisplayHomeAsUpEnabled(value);
+                    }
+                }
+                catch { }
+
+                if (value != currentState)
+                {
+                    BackButtonStateChanged?.Invoke(this, value);
+                }
+            }
         }
 
         private Activity CurrentActivity => AndroidHelpers.GetCurrentActivity();
+
+        public override event EventHandler<bool> BackButtonStateChanged;
     }
 }

@@ -189,7 +189,7 @@ namespace PlatformBindings.Models.FileSystem
                 else if (item is FileContainer file)
                 {
                     var extension = System.IO.Path.GetExtension(item.Path);
-                    if (Options.FileTypes.FirstOrDefault(ext => ext.FileExtension == extension) != null)
+                    if (Options.FileTypes.FirstOrDefault(ext => ext == extension) != null)
                     {
                         result.Files.Add(file);
                     }

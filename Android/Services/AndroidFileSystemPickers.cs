@@ -6,6 +6,7 @@ using Android.App;
 using Android.Content;
 using PlatformBindings.Common;
 using PlatformBindings.Models;
+using Java.Net;
 
 namespace PlatformBindings.Services
 {
@@ -64,6 +65,8 @@ namespace PlatformBindings.Services
 
         private async Task<ActivityResult> CreateFilePicker(FilePickerProperties Properties, bool Multiple)
         {
+            var activity = AndroidHelpers.GetCurrentActivity();
+
             Intent intent = new Intent(Intent.ActionOpenDocument);
             intent.AddCategory(Intent.CategoryOpenable);
             if (Multiple) intent.PutExtra(Intent.ExtraAllowMultiple, Multiple);
@@ -74,26 +77,19 @@ namespace PlatformBindings.Services
                 if (Properties.FileTypes.Any())
                 {
                     HasNoTypes = false;
-
-                    intent.SetType(Properties.FileTypes.First().MimeType);
+                    var mimes = Properties.FileTypes.Select(extension => URLConnection.GuessContentTypeFromName(extension));
+                    intent.SetType(mimes.First());
 
                     if (Properties.FileTypes.Count > 1)
                     {
-                        string Altmimes = "";
-                        var others = Properties.FileTypes.Skip(1);
-                        int count = others.Count();
-                        for (int i = 0; i < count; i++)
-                        {
-                            Altmimes += others.ElementAt(i).MimeType;
-                            if (i + 1 < count) Altmimes += "|";
-                        }
-                        intent.PutExtra(Intent.ExtraMimeTypes, Altmimes);
+                        var altmimes = mimes.Skip(1).ToArray();
+                        intent.PutExtra(Intent.ExtraMimeTypes, altmimes);
                     }
                 }
             }
 
             if (HasNoTypes) intent.SetType("*/*");
-            return await AndroidHelpers.GetCurrentActivity().StartActivityForResultAsync(intent);
+            return await activity.StartActivityForResultAsync(intent);
         }
     }
 }

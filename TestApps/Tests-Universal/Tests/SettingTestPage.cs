@@ -9,11 +9,11 @@ namespace Tests.Tests
 {
     public class SettingTestPage : TestPage
     {
-        public SettingTestPage(ITestPageGenerator PageGenerator) : base(PageGenerator)
+        public SettingTestPage(ITestPageGenerator PageGenerator) : base("Settings Tests", PageGenerator)
         {
             TimesRan.Value++;
 
-            AddTest(new TestTask
+            AddTestItem(new TestTask
             {
                 Name = "Get all Local Settings",
                 Test = ui => Task.Run(() =>
@@ -23,7 +23,7 @@ namespace Tests.Tests
                 })
             });
 
-            AddTest(new TestTask
+            AddTestItem(new TestTask
             {
                 Name = "Get all Roaming Settings",
                 Test = ui => Task.Run(() =>
@@ -33,7 +33,7 @@ namespace Tests.Tests
                 })
             });
 
-            AddTest(new TestTask
+            AddTestItem(new TestTask
             {
                 Name = "Get Container",
                 Test = ui => Task.Run(async () =>
@@ -54,7 +54,7 @@ namespace Tests.Tests
                 })
             });
 
-            AddTest(new TestTask
+            AddTestItem(new TestTask
             {
                 Name = "Get Container Values",
                 Test = ui => Task.Run(() =>
@@ -63,7 +63,7 @@ namespace Tests.Tests
                 })
             });
 
-            AddTest(new TestTask
+            AddTestItem(new TestTask
             {
                 Name = "Display Entire Setting Tree",
                 Test = ui => Task.Run(() =>
@@ -72,7 +72,7 @@ namespace Tests.Tests
                 })
             });
 
-            AddTest(new TestTask
+            AddTestItem(new TestTask
             {
                 Name = "Go Parent Container",
                 Test = ui => Task.Run(() =>
@@ -89,7 +89,7 @@ namespace Tests.Tests
                 })
             });
 
-            AddTest(new TestTask
+            AddTestItem(new TestTask
             {
                 Name = "Remove Container",
                 Test = ui => Task.Run(() =>
@@ -105,7 +105,7 @@ namespace Tests.Tests
                 })
             });
 
-            AddTest(new TestTask
+            AddTestItem(new TestTask
             {
                 Name = "Get Setting",
                 Test = ui => Task.Run(async () =>
@@ -126,7 +126,7 @@ namespace Tests.Tests
                 })
             });
 
-            AddTest(new TestTask
+            AddTestItem(new TestTask
             {
                 Name = "Create Setting",
                 Test = ui => Task.Run(async () =>
@@ -154,7 +154,7 @@ namespace Tests.Tests
                 })
             });
 
-            AddTest(new TestTask
+            AddTestItem(new TestTask
             {
                 Name = "Remove Setting",
                 Test = ui => Task.Run(async () =>
@@ -177,9 +177,9 @@ namespace Tests.Tests
                 })
             });
 
-            AddProperty(ContainerParentDisplay);
-            AddProperty(CurrentContainerDisplay);
-            AddProperty(TimesRanDisplay);
+            AddTestItem(ContainerParentDisplay);
+            AddTestItem(CurrentContainerDisplay);
+            AddTestItem(TimesRanDisplay);
 
             TimesRanDisplay.UpdateValue(TimesRan.Value.ToString());
 

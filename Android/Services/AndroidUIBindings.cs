@@ -10,6 +10,7 @@ using Android.Graphics;
 using PlatformBindings.Models.DialogHandling;
 using PlatformBindings.Models;
 using Android.Widget;
+using Android.App;
 
 namespace PlatformBindings.Services
 {
@@ -18,11 +19,13 @@ namespace PlatformBindings.Services
         public AndroidUIBindings() : base(Platform.Android)
         {
             DefaultUIBinding = new AndroidUIBindingInfo();
+            TitleManager = new AndroidTitleManager();
         }
 
         public override InteractionManager InteractionManager { get; }
         public override IUIBindingInfo DefaultUIBinding { get; }
-        public override INavigationManager NavigationManager { get; set; }
+        public override NavigationManager NavigationManager { get; set; }
+        public override ITitleManager TitleManager { get; set; }
 
         public override void OpenLink(Uri Uri)
         {
@@ -65,17 +68,6 @@ namespace PlatformBindings.Services
             return await builder.ShowAsync();
         }
 
-        public override void ShowMenu(Menu Menu, IMenuBinding Binding)
-        {
-            var context = Binding as AndroidContextMenuBinding;
-            context.Activity.GetHandler().OpenContextMenuForDisplay(Menu, context);
-        }
-
-        //Unsupported
-        public override void SetWindowText(string Text)
-        {
-        }
-
         public override async Task<string> RequestTextFromUserAsync(string Title, string Message, string OKButtonText, string CancelButtonText, IUIBindingInfo UIBinding)
         {
             var activity = AndroidHelpers.GetCurrentActivity(UIBinding);
@@ -96,6 +88,39 @@ namespace PlatformBindings.Services
             var result = await builder.ShowAsync();
             if (result == DialogResult.Primary) return entry.Text;
             return null;
+        }
+
+        public override void ShowMenu(Menu Menu, IMenuBinding Binding)
+        {
+            PlatformBindingHelpers.OnUIThread(() =>
+            {
+                var context = Binding as AndroidContextMenuBinding;
+                context.Activity.GetHandler().OpenContextMenuForDisplay(Menu, context);
+            });
+        }
+
+        public override void ShowMenu(Menu Menu, object UIElement)
+        {
+            if (UIElement is Android.Views.View view)
+            {
+                PlatformBindingHelpers.OnUIThread(() =>
+                {
+                    var activity = view.Context as Activity;
+                    activity.GetHandler().OpenContextMenuForDisplay(Menu, new AndroidContextMenuBinding(activity, view));
+                });
+            }
+        }
+
+        public override void RegisterMenu(Menu Menu, object UIElement)
+        {
+            if (UIElement is Android.Views.View view)
+            {
+                PlatformBindingHelpers.OnUIThread(() =>
+                {
+                    var activity = view.Context as Activity;
+                    activity.GetHandler().AttachContextMenu(Menu, new AndroidContextMenuBinding(activity, view));
+                });
+            }
         }
     }
 }

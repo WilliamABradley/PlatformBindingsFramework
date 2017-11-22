@@ -13,16 +13,23 @@ namespace PlatformBindings.Services
     /// Creates a Resharable URI for a SAF File. <para/>
     /// Ported from https://stackoverflow.com/a/31283751, Made by user1643723
     /// </summary>
-    [ContentProvider(authorities: new string[] { "platformbindings.androidReshare" }, GrantUriPermissions = false)]
-    public class FileReshareProvider : ContentProvider
+    public abstract class FileReshareProvider : ContentProvider
     {
+        public FileReshareProvider(string Authority)
+        {
+            BASE_URI = Android.Net.Uri.Parse($"content://{Authority}/");
+            Current = this;
+        }
+
+        public static FileReshareProvider Current { get; private set; }
+
         private static readonly string ORIGINAL_URI = "o";
         private static readonly string FD = "fd";
         private static readonly string PATH = "p";
 
-        private static Android.Net.Uri BASE_URI = Android.Net.Uri.Parse("content://platformbindings.androidReshare/");
+        private Android.Net.Uri BASE_URI;
 
-        public static Android.Net.Uri GetShareableURI(ParcelFileDescriptor fd, Android.Net.Uri trueUri)
+        public Android.Net.Uri GetShareableURI(ParcelFileDescriptor fd, Android.Net.Uri trueUri)
         {
             var path = fd == null ? null : GetFdPath(fd);
             var uri = trueUri.ToString();

@@ -10,9 +10,9 @@ namespace Tests.Tests
 {
     public class FileFolderTestPage : TestPage
     {
-        public FileFolderTestPage(ITestPageGenerator PageGenerator) : base(PageGenerator)
+        public FileFolderTestPage(ITestPageGenerator PageGenerator) : base("File/Folder Tests", PageGenerator)
         {
-            AddTest(new TestTask
+            AddTestItem(new TestTask
             {
                 Name = "Get Directory Contents",
                 Test = context => Task.Run(async () =>
@@ -29,7 +29,7 @@ namespace Tests.Tests
                })
             });
 
-            AddTest(new TestTask
+            AddTestItem(new TestTask
             {
                 Name = "Get Sub Folders Sub Folders",
                 Test = context => Task.Run(async () =>
@@ -56,7 +56,7 @@ namespace Tests.Tests
                 })
             });
 
-            AddTest(new TestTask
+            AddTestItem(new TestTask
             {
                 Name = "Create Test Text File",
                 Test = context => Task.Run(async () =>
@@ -75,12 +75,14 @@ namespace Tests.Tests
                 })
             });
 
-            AddTest(new TestTask
+            AddTestItem(new TestTask
             {
                 Name = "Read Text From File",
                 Test = context => Task.Run(async () =>
                 {
-                    var file = await AppServices.Current.IO.Pickers.PickFile();
+                    var props = new FilePickerProperties { };
+                    props.FileTypes.Add(".txt");
+                    var file = await AppServices.Current.IO.Pickers.PickFile(props);
                     if (file != null)
                     {
                         var content = await file.ReadFileAsText();

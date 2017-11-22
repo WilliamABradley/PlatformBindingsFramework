@@ -11,7 +11,7 @@
     <AssemblyName>Test-UWP</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.14393.0</TargetPlatformVersion>
+    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.16299.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.14393.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
@@ -96,31 +96,10 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\TestNavigationManager.cs" />
+    <Compile Include="Services\TestUWPNavigator.cs" />
     <Compile Include="Services\UWPTestPageGenerator.cs" />
-    <Compile Include="Views\BindingTests.xaml.cs">
-      <DependentUpon>BindingTests.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ContextMenuTest.xaml.cs">
-      <DependentUpon>ContextMenuTest.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\CredentialTests.xaml.cs">
-      <DependentUpon>CredentialTests.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\FilePickerTest.xaml.cs">
-      <DependentUpon>FilePickerTest.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\FileTests.xaml.cs">
-      <DependentUpon>FileTests.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\LoopTests.xaml.cs">
-      <DependentUpon>LoopTests.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\OAuthTests.xaml.cs">
-      <DependentUpon>OAuthTests.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\SettingsTests.xaml.cs">
-      <DependentUpon>SettingsTests.xaml</DependentUpon>
+    <Compile Include="Views\TestViewer.xaml.cs">
+      <DependentUpon>TestViewer.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -147,35 +126,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\BindingTests.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\ContextMenuTest.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\CredentialTests.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\FilePickerTest.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\FileTests.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\LoopTests.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\OAuthTests.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\SettingsTests.xaml">
+    <Page Include="Views\TestViewer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

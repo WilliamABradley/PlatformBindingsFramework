@@ -10,7 +10,7 @@ namespace Test_NETCore
         private static void Main(string[] args)
         {
             Services = new NETCoreServices();
-            ConsoleHelpers.SystemWriteLine("Hello World!");
+            AppServices.Current.UI.TitleManager.WindowTitle = "Platform Bindings - Console";
             Init();
             ConsoleHelpers.PreventClose();
         }

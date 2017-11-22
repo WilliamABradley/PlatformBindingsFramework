@@ -7,9 +7,9 @@ namespace Tests.Tests
 {
     public class CredentialTestPage : TestPage
     {
-        public CredentialTestPage(ITestPageGenerator PageGenerator) : base(PageGenerator)
+        public CredentialTestPage(ITestPageGenerator PageGenerator) : base("Credential Tests", PageGenerator)
         {
-            AddTest(new TestTask
+            AddTestItem(new TestTask
             {
                 Name = "Get Credentials",
                 Test = ui => Task.Run(() =>
@@ -19,7 +19,7 @@ namespace Tests.Tests
                 })
             });
 
-            AddTest(new TestTask
+            AddTestItem(new TestTask
             {
                 Name = "Create Credential",
                 Test = ui => Task.Run(async () =>
@@ -46,7 +46,7 @@ namespace Tests.Tests
                 })
             });
 
-            AddTest(new TestTask
+            AddTestItem(new TestTask
             {
                 Name = "Get all Credentials for Resource",
                 Test = ui => Task.Run(async () =>
@@ -63,7 +63,7 @@ namespace Tests.Tests
                 })
             });
 
-            AddTest(new TestTask
+            AddTestItem(new TestTask
             {
                 Name = "Get Credential",
                 Test = ui => Task.Run(async () =>
@@ -83,7 +83,7 @@ namespace Tests.Tests
                 })
             });
 
-            AddTest(new TestTask
+            AddTestItem(new TestTask
             {
                 Name = "Remove Credential",
                 Test = ui => Task.Run(async () =>
@@ -108,7 +108,7 @@ namespace Tests.Tests
                 })
             });
 
-            AddTest(new TestTask
+            AddTestItem(new TestTask
             {
                 Name = "Clear Credentials",
                 Test = ui => Task.Run(() =>

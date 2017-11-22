@@ -10,7 +10,6 @@ namespace PlatformBindings
     {
         public AndroidAppServices(bool HasUI, bool UseAppCompatUI) : this(HasUI)
         {
-            KeyGenerator = new DefaultKeyGenerator();
             AndroidAppServices.UseAppCompatUI = UseAppCompatUI;
         }
 
@@ -29,7 +28,7 @@ namespace PlatformBindings
             return new Version(info.VersionName);
         }
 
-        public static IKeyGenerator KeyGenerator { get; set; }
+        public static IKeyGenerator KeyGenerator { get; set; } = new DefaultKeyGenerator();
         public static bool UseAppCompatUI { get; set; } = false;
         public static TimeSpan OAuthTimeOut { get; set; } = TimeSpan.FromSeconds(10);
     }

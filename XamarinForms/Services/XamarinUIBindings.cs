@@ -13,7 +13,8 @@ namespace PlatformBindings.Services
         }
 
         public override InteractionManager InteractionManager => null;
-        public override INavigationManager NavigationManager { get; set; }
+        public override NavigationManager NavigationManager { get; set; }
+        public override ITitleManager TitleManager { get; set; }
 
         public override IUIBindingInfo DefaultUIBinding { get; }
 
@@ -44,12 +45,17 @@ namespace PlatformBindings.Services
             throw new NotImplementedException();
         }
 
-        public override void SetWindowText(string Text)
+        public override void ShowMenu(Controls.MenuLayout.Menu Menu, IMenuBinding Binding)
         {
             throw new NotImplementedException();
         }
 
-        public override void ShowMenu(Controls.MenuLayout.Menu Menu, IMenuBinding Binding)
+        public override void ShowMenu(Controls.MenuLayout.Menu Menu, object UIElement)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void RegisterMenu(Controls.MenuLayout.Menu Menu, object UIElement)
         {
             throw new NotImplementedException();
         }

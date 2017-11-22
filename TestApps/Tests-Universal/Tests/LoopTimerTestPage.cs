@@ -8,10 +8,10 @@ namespace Tests.Tests
 {
     public class LoopTimerTestPage : TestPage
     {
-        public LoopTimerTestPage(ITestPageGenerator PageGenerator) : base(PageGenerator)
+        public LoopTimerTestPage(ITestPageGenerator PageGenerator) : base("Loop Timer Tests", PageGenerator)
         {
             Looper.Tick += Looper_Tick;
-            AddTest(new TestTask
+            AddTestItem(new TestTask
             {
                 Name = "Start",
                 Test = context =>
@@ -21,7 +21,7 @@ namespace Tests.Tests
                 }
             });
 
-            AddTest(new TestTask
+            AddTestItem(new TestTask
             {
                 Name = "Stop",
                 Test = context =>
@@ -31,7 +31,7 @@ namespace Tests.Tests
                 }
             });
 
-            AddProperty(TimeDisplay);
+            AddTestItem(TimeDisplay);
         }
 
         private void Start()

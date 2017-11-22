@@ -13,10 +13,10 @@ namespace PlatformBindings.Services
         }
 
         public override InteractionManager InteractionManager => null;
+        public override NavigationManager NavigationManager { get; set; }
+        public override ITitleManager TitleManager { get; set; } = new ConsoleTitleManager();
 
         public override IUIBindingInfo DefaultUIBinding => new ConsoleUIBindingInfo();
-
-        public override INavigationManager NavigationManager { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         private string CleanseFormatMarkers(string RawText)
         {
@@ -63,12 +63,17 @@ namespace PlatformBindings.Services
             throw new NotImplementedException();
         }
 
-        public override void SetWindowText(string Text = "")
+        public override void ShowMenu(Menu Menu, IMenuBinding Binding)
         {
-            Console.Title = Text;
+            throw new NotImplementedException();
         }
 
-        public override void ShowMenu(Menu Menu, IMenuBinding Binding)
+        public override void ShowMenu(Menu Menu, object UIElement)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void RegisterMenu(Menu Menu, object UIElement)
         {
             throw new NotImplementedException();
         }

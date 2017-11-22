@@ -2,7 +2,7 @@
 
 namespace Tests.TestGenerator
 {
-    public class TestProperty
+    public class TestProperty : ITestItem
     {
         public TestProperty(string Name)
         {

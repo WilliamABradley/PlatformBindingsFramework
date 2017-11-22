@@ -9,9 +9,9 @@ namespace Tests.Tests
 {
     public class PickerTestPage : TestPage
     {
-        public PickerTestPage(ITestPageGenerator PageGenerator) : base(PageGenerator)
+        public PickerTestPage(ITestPageGenerator PageGenerator) : base("Picker Tests", PageGenerator)
         {
-            AddTest(new TestTask
+            AddTestItem(new TestTask
             {
                 Name = "Pick File",
                 Test = context => Task.Run(async () =>
@@ -37,7 +37,7 @@ namespace Tests.Tests
                 })
             });
 
-            AddTest(new TestTask
+            AddTestItem(new TestTask
             {
                 Name = "Pick Files",
                 Test = context => Task.Run(async () =>
@@ -72,7 +72,7 @@ namespace Tests.Tests
                 })
             });
 
-            AddTest(new TestTask
+            AddTestItem(new TestTask
             {
                 Name = "Pick Folder",
                 Test = context => Task.Run(async () =>

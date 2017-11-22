@@ -3,10 +3,17 @@ using Android.OS;
 using Test_Android.Views;
 using PlatformBindings;
 using PlatformBindings.Activities;
+using Tests;
+using Test_Android.Services;
+using PlatformBindings.Services;
+using Tests.Tests;
+using Tests.TestGenerator;
+using System.Threading.Tasks;
+using PlatformBindings.Common;
 
 namespace Test_Android
 {
-    [Activity(Label = "Test_Android", MainLauncher = true, Icon = "@drawable/icon")]
+    [Activity(Label = "Platform Bindings Test App", MainLauncher = true, Icon = "@drawable/icon")]
     public class MainActivity : PlatformBindingActivity
     {
         public static AndroidAppServices Services { get; private set; } = new AndroidAppServices(true);
@@ -15,10 +22,26 @@ namespace Test_Android
         {
             // Build App Services before calling base, to allow binding.
             base.OnCreate(bundle);
-            Tests.Preparation.Prepare();
+            TestService.Register(new TestAndroidNavigator());
+            AppServices.Current.UI.NavigationManager = new AndroidNavigationManager(TestService.Navigation);
 
-            StartActivity(typeof(BindingTests));
+            ExtendPlatformTasks();
+
+            TestService.Navigation.Navigate(TestNavigationPage.Home);
             Finish();
+        }
+
+        private void ExtendPlatformTasks()
+        {
+            TestService.AddAddtionalTestItem(typeof(NavigationOptions), new TestTask
+            {
+                Name = "Test StartActivityForResultAsync",
+                Test = ui => Task.Run(async () =>
+                {
+                    var result = await AndroidHelpers.GetCurrentActivity().StartActivityForResultAsync(typeof(ReturnActivity));
+                    return $"RequestCode: {result.RequestCode}\nResponse: {result.ResultCode}";
+                })
+            });
         }
     }
 }

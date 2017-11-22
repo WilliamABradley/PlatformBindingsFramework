@@ -5,5 +5,7 @@
         void CreateTestUI(TestTask Test);
 
         void CreateTestProperty(TestProperty Property);
+
+        object UIInstance { get; }
     }
 }

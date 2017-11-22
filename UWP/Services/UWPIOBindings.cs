@@ -7,6 +7,7 @@ using Windows.Storage;
 using PlatformBindings.Models.FileSystem;
 using Windows.System;
 using PlatformBindings.Models.FileSystem.Options;
+using PlatformBindings.Common;
 
 namespace PlatformBindings.Services
 {
@@ -61,33 +62,39 @@ namespace PlatformBindings.Services
             return new UWPFolderContainer(ApplicationData.Current.LocalFolder);
         }
 
-        public override async Task OpenFolderForDisplay(FolderContainer Folder, FolderOpenOptions Options = null)
+        public override Task OpenFolderForDisplay(FolderContainer Folder, FolderOpenOptions Options = null)
         {
-            var container = Folder as UWPFolderContainer;
-            var folder = container.Folder;
-
-            var LaunchOptions = new FolderLauncherOptions();
-            if (Options != null)
+            return PlatformBindingHelpers.OnUIThreadAsync(async () =>
             {
-                foreach (FileSystemContainer FileSystemItem in Options.ItemsToSelect)
+                var container = Folder as UWPFolderContainer;
+                var folder = container.Folder;
+
+                var LaunchOptions = new FolderLauncherOptions();
+                if (Options != null)
                 {
-                    IStorageItem Item = null;
-                    if (FileSystemItem is UWPFolderContainer winfolder) Item = winfolder.Folder;
-                    else if (FileSystemItem is UWPFileContainer winfile) Item = winfile.File;
+                    foreach (FileSystemContainer FileSystemItem in Options.ItemsToSelect)
+                    {
+                        IStorageItem Item = null;
+                        if (FileSystemItem is UWPFolderContainer winfolder) Item = winfolder.Folder;
+                        else if (FileSystemItem is UWPFileContainer winfile) Item = winfile.File;
 
-                    LaunchOptions.ItemsToSelect.Add(Item);
+                        LaunchOptions.ItemsToSelect.Add(Item);
+                    }
                 }
-            }
 
-            await Launcher.LaunchFolderAsync(folder, LaunchOptions);
+                await Launcher.LaunchFolderAsync(folder, LaunchOptions);
+            });
         }
 
-        public override async Task OpenFileForDisplay(FileContainer File)
+        public override Task OpenFileForDisplay(FileContainer File)
         {
-            var container = File as UWPFileContainer;
-            var file = container.File;
+            return PlatformBindingHelpers.OnUIThreadAsync(async () =>
+            {
+                var container = File as UWPFileContainer;
+                var file = container.File;
 
-            await Launcher.LaunchFileAsync(file);
+                await Launcher.LaunchFileAsync(file);
+            });
         }
     }
 }

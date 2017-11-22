@@ -56,5 +56,7 @@ namespace Test_Android.Services
 
         public Activity Activity { get; }
         private LinearLayout Layout { get; }
+
+        public object UIInstance => Layout;
     }
 }

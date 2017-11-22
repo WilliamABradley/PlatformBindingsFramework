@@ -56,9 +56,12 @@ namespace PlatformBindings.Services
             {
                 if (File is AndroidSAFFileContainer providerfile)
                 {
-                    var originaluri = providerfile.File.Uri;
-                    fd = activity.ContentResolver.OpenFileDescriptor(originaluri, "r");
-                    uri = FileReshareProvider.GetShareableURI(fd, originaluri);
+                    if (FileReshareProvider.Current != null)
+                    {
+                        var originaluri = providerfile.File.Uri;
+                        fd = activity.ContentResolver.OpenFileDescriptor(originaluri, "r");
+                        uri = FileReshareProvider.Current.GetShareableURI(fd, originaluri);
+                    }
                 }
                 else
                 {

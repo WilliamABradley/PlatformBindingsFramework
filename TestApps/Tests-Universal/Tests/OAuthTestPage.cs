@@ -7,11 +7,11 @@ namespace Tests.Tests
 {
     public class OAuthTestPage : TestPage
     {
-        public OAuthTestPage(ITestPageGenerator PageGenerator) : base(PageGenerator)
+        public OAuthTestPage(ITestPageGenerator PageGenerator) : base("OAuth Tests", PageGenerator)
         {
-            AddTest(new TestTask
+            AddTestItem(new TestTask
             {
-                Name = "Test Trakt.TV",
+                Name = "Test OAuth Service",
                 Test = ui => Task.Run(async () =>
                 {
                     var result = await AppServices.Current.OAuth.Authenticate(OAuthAuthorizationUri, new Uri(Redirect));

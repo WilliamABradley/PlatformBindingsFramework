@@ -60,21 +60,13 @@
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AndroidTestPageGenerator.cs" />
-    <Compile Include="Views\BindingTests.cs" />
-    <Compile Include="Views\ContextMenuTest.cs" />
-    <Compile Include="Views\CredentialTests.cs" />
-    <Compile Include="Views\FilePickerTest.cs" />
-    <Compile Include="Views\FileTests.cs" />
-    <Compile Include="Views\LoopTests.cs" />
-    <Compile Include="Views\OAuthTests.cs" />
+    <Compile Include="Services\TestAndroidNavigator.cs" />
     <Compile Include="Views\ReturnActivity.cs" />
-    <Compile Include="Views\SettingTests.cs" />
+    <Compile Include="Views\TestViewer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
-    <AndroidResource Include="Resources\layout\BindingTests.axml" />
-    <AndroidResource Include="Resources\layout\ContextMenu.axml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\Icon.png" />
@@ -103,6 +95,9 @@
       <Project>{d75853e5-f084-4d29-bb6f-26c14ca16f64}</Project>
       <Name>Tests-Universal</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\layout\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

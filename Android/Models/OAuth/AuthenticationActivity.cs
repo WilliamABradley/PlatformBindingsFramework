@@ -6,7 +6,6 @@ using Android.OS;
 using Android.Webkit;
 using Android.Graphics;
 using Android.Content;
-using Android.Widget;
 
 namespace PlatformBindings.Models.OAuth
 {

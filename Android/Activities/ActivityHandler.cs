@@ -3,6 +3,7 @@ using Android.Content;
 using Android.OS;
 using Android.Views;
 using PlatformBindings.Models;
+using PlatformBindings.Services;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -25,6 +26,11 @@ namespace PlatformBindings.Activities
             return Handlers[Activity];
         }
 
+        public static void RemoveHandler(Activity Activity)
+        {
+            Handlers.Remove(Activity);
+        }
+
         public void UpdateCurrentActivity()
         {
             if (AppServices.Current.UI == null)
@@ -33,8 +39,15 @@ namespace PlatformBindings.Activities
             }
 
             var uibinding = AppServices.Current.UI.DefaultUIBinding as AndroidUIBindingInfo;
+            var old = uibinding.Activity;
+
             uibinding.Activity = Activity;
             if (AndroidAppServices.UseAppCompatUI) uibinding.CompatActivity = (Android.Support.V7.App.AppCompatActivity)Activity;
+
+            if (Activity != old)
+            {
+                ActivityChanged?.Invoke(Activity, EventArgs.Empty);
+            }
         }
 
         public Task<ActivityResult> StartActivityForResultAsync(Type ActivityType)
@@ -115,11 +128,28 @@ namespace PlatformBindings.Activities
             else return false;
         }
 
+        public bool OnOptionsItemSelected(IMenuItem item)
+        {
+            switch (item.ItemId)
+            {
+                case Android.Resource.Id.Home:
+                    if (AppServices.Current?.UI?.NavigationManager is NavigationManager manager)
+                    {
+                        manager.GoBack();
+                        return true;
+                    }
+                    break;
+            }
+            return false;
+        }
+
         public Activity Activity { get; }
 
         private Dictionary<View, Tuple<Controls.MenuLayout.Menu, AndroidContextMenuBinding>> ContextMenuActivations { get; } = new Dictionary<View, Tuple<Controls.MenuLayout.Menu, AndroidContextMenuBinding>>();
         private Dictionary<int, TaskCompletionSource<ActivityResult>> ActivityResultWaiters { get; } = new Dictionary<int, TaskCompletionSource<ActivityResult>>();
 
         internal static Dictionary<Activity, ActivityHandler> Handlers { get; } = new Dictionary<Activity, ActivityHandler>();
+
+        public static event EventHandler ActivityChanged;
     }
 }

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Tests.TestGenerator
 {
-    public class TestTask
+    public class TestTask : ITestItem
     {
         public async void RunTest()
         {
@@ -14,6 +14,19 @@ namespace Tests.TestGenerator
 
         public string Name { get; set; }
         public Func<object, Task<string>> Test { get; set; }
-        public object AttachedUI { get; set; }
+
+        public event EventHandler<object> UIAttached;
+
+        public object AttachedUI
+        {
+            get { return _AttachedUI; }
+            set
+            {
+                _AttachedUI = value;
+                UIAttached?.Invoke(this, _AttachedUI);
+            }
+        }
+
+        private object _AttachedUI = null;
     }
 }
