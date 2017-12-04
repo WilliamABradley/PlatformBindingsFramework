@@ -16,6 +16,9 @@ skip_commits:
 init:
 - ps: git config --global core.autocrlf true
 
+before_build:
+- ps: .\_build\GetAndroidDepencies.ps1
+
 build_script:
 - ps: .\_build\build.ps1
 
