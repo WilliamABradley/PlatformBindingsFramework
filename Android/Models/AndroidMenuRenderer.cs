@@ -11,13 +11,12 @@ namespace PlatformBindings.Models
         {
         }
 
-        public static void Attach(Menu Menu, AndroidContextMenuBinding Binding, Android.Views.IContextMenu ActivityMenu)
+        public static void Attach(Menu Menu, Android.Views.IContextMenu ActivityMenu)
         {
             var renderer = new AndroidMenuRenderer()
             {
                 Menu = Menu,
-                ActivityMenu = ActivityMenu,
-                Binding = Binding
+                ActivityMenu = ActivityMenu
             };
             renderer.AttachSubElements(Menu, ActivityMenu);
         }
@@ -71,7 +70,6 @@ namespace PlatformBindings.Models
             }
         }
 
-        private AndroidContextMenuBinding Binding { get; set; }
         private Menu Menu { get; set; }
         private Android.Views.IContextMenu ActivityMenu { get; set; }
 

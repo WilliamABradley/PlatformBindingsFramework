@@ -5,9 +5,9 @@ using PlatformBindings.Common;
 
 namespace PlatformBindings.Services
 {
-    public class AndroidNavigationManager : NavigationManager
+    public class AndroidActivityNavigationManager : NavigationManager
     {
-        public AndroidNavigationManager(Navigator Navigator) : base(Navigator)
+        public AndroidActivityNavigationManager(Navigator Navigator) : base(Navigator)
         {
         }
 
@@ -64,7 +64,7 @@ namespace PlatformBindings.Services
             }
         }
 
-        private Activity CurrentActivity => AndroidHelpers.GetCurrentActivity();
+        protected Activity CurrentActivity => AndroidHelpers.GetCurrentActivity();
 
         public override event EventHandler<bool> BackButtonStateChanged;
     }

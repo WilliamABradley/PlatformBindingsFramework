@@ -122,7 +122,7 @@ namespace PlatformBindings.Activities
             if (ContextMenuActivations.ContainsKey(v))
             {
                 var binding = ContextMenuActivations[v];
-                AndroidMenuRenderer.Attach(binding.Item1, binding.Item2, menu);
+                AndroidMenuRenderer.Attach(binding.Item1, menu);
                 return true;
             }
             else return false;

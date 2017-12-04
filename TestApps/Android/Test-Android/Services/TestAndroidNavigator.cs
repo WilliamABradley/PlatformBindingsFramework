@@ -6,7 +6,7 @@ using PlatformBindings.Services;
 
 namespace Test_Android.Services
 {
-    public class TestAndroidNavigator : AndroidNavigator<TestNavigationPage>
+    public class TestAndroidNavigator : AndroidActivityNavigator<TestNavigationPage>
     {
         public override bool Navigate(TestNavigationPage Page, string Parameter, bool ClearBackStack)
         {

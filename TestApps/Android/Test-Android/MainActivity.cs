@@ -23,7 +23,7 @@ namespace Test_Android
             // Build App Services before calling base, to allow binding.
             base.OnCreate(bundle);
             TestService.Register(new TestAndroidNavigator());
-            AppServices.Current.UI.NavigationManager = new AndroidNavigationManager(TestService.Navigation);
+            AppServices.Current.UI.NavigationManager = new AndroidActivityNavigationManager(TestService.Navigation);
 
             ExtendPlatformTasks();
 

@@ -6,9 +6,9 @@ using System;
 
 namespace PlatformBindings.Services
 {
-    public abstract class AndroidNavigator<T> : Navigator<T>
+    public abstract class AndroidActivityNavigator<T> : Navigator<T>
     {
-        public AndroidNavigator()
+        public AndroidActivityNavigator()
         {
             ActivityHandler.ActivityChanged += ActivityHandler_ActivityChanged;
         }

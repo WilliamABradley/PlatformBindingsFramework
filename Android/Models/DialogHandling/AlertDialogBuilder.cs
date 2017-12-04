@@ -21,12 +21,12 @@ namespace PlatformBindings.Models.DialogHandling
 
         public override void SetPrimaryButton(ICharSequence text)
         {
-            Builder.SetNegativeButton(text, new EventHandler<DialogClickEventArgs>((s, e) => Waiter.TrySetResult(DialogResult.Primary)));
+            Builder.SetPositiveButton(text, new EventHandler<DialogClickEventArgs>((s, e) => Waiter.TrySetResult(DialogResult.Primary)));
         }
 
         public override void SetSecondaryButton(ICharSequence text)
         {
-            Builder.SetPositiveButton(text, new EventHandler<DialogClickEventArgs>((s, e) => Waiter.TrySetResult(DialogResult.Secondary)));
+            Builder.SetNegativeButton(text, new EventHandler<DialogClickEventArgs>((s, e) => Waiter.TrySetResult(DialogResult.Secondary)));
         }
 
         public override void SetTitle(ICharSequence text)
