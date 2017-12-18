@@ -17,22 +17,6 @@
     <DefaultTargetPlatformMinVersion>14393</DefaultTargetPlatformMinVersion>
   </PropertyGroup>
 
-  <PropertyGroup>
-    <NerdbankGitVersioningVersion>2.0.41</NerdbankGitVersioningVersion>
-  </PropertyGroup>
-
-  <Choose>
-    <When Condition="'$(IsUwpProject)' == 'true' or '$(IsAndroidProject)' == 'true'">
-      <PropertyGroup>
-        <GenerateLibraryLayout>true</GenerateLibraryLayout>
-      </PropertyGroup>
-      
-      <ItemGroup>
-        <PackageReference Include="MSBuild.Sdk.Extras" Version="1.0.9" PrivateAssets="all" />
-      </ItemGroup>
-    </When>
-  </Choose>
-
   <ItemGroup>
     <PackageReference Include="Nerdbank.GitVersioning" Version="2.0.41" PrivateAssets="all" />
   </ItemGroup>

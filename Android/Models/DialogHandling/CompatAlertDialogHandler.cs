@@ -13,17 +13,21 @@
 using System;
 using Java.Lang;
 using Android.Content;
-using PlatformBindings.Enums;
 using Android.Views;
+using Android.App;
 
 namespace PlatformBindings.Models.DialogHandling
 {
-    public class CompatAlertDialogBuilder : AlertDialogBuilderBase
+    public class CompatAlertDialogHandler : AlertDialogHandlerBase
     {
-        public CompatAlertDialogBuilder(Context Context) : base(Context)
+        public CompatAlertDialogHandler(Context Context) : base(Context)
         {
             Builder = new Android.Support.V7.App.AlertDialog.Builder(Context);
         }
+
+        public override event EventHandler<DialogButtonEventArgs> PrimaryButtonClicked;
+
+        public override event EventHandler<DialogButtonEventArgs> SecondaryButtonClicked;
 
         public override void SetMessage(ICharSequence text)
         {
@@ -32,12 +36,12 @@ namespace PlatformBindings.Models.DialogHandling
 
         public override void SetPrimaryButton(ICharSequence text)
         {
-            Builder.SetPositiveButton(text, new EventHandler<DialogClickEventArgs>((s, e) => Waiter.TrySetResult(DialogResult.Primary)));
+            Builder.SetPositiveButton(text, (IDialogInterfaceOnClickListener)null);
         }
 
         public override void SetSecondaryButton(ICharSequence text)
         {
-            Builder.SetNegativeButton(text, new EventHandler<DialogClickEventArgs>((s, e) => Waiter.TrySetResult(DialogResult.Secondary)));
+            Builder.SetNegativeButton(text, (IDialogInterfaceOnClickListener)null);
         }
 
         public override void SetTitle(ICharSequence text)
@@ -45,21 +49,31 @@ namespace PlatformBindings.Models.DialogHandling
             Builder.SetTitle(text);
         }
 
-        public override void SetView(View view)
+        protected override void SetViewInternal(View view)
         {
             Builder.SetView(view);
         }
 
-        public override void SetView(int LayoutResId)
-        {
-            Builder.SetView(LayoutResId);
-        }
-
         public override void Show()
         {
-            Builder.Show();
+            var log = Builder.Show();
+            _Dialog = log;
+
+            var primary = log.GetButton((int)DialogButtonType.Positive);
+            var secondary = log.GetButton((int)DialogButtonType.Negative);
+
+            var primaryHandler = new AlertDialogButtonHandler(this);
+            primary.SetOnClickListener(primaryHandler);
+            primaryHandler.Click += (s, e) => { PrimaryButtonClicked?.Invoke(this, e); };
+
+            var secondaryHandler = new AlertDialogButtonHandler(this);
+            secondary.SetOnClickListener(secondaryHandler);
+            secondaryHandler.Click += (s, e) => { SecondaryButtonClicked?.Invoke(this, e); };
         }
 
         private Android.Support.V7.App.AlertDialog.Builder Builder { get; }
+
+        public override Dialog Dialog => _Dialog;
+        private Dialog _Dialog;
     }
 }

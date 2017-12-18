@@ -1,4 +1,4 @@
-// ******************************************************************
+﻿// ******************************************************************
 // Copyright (c) William Bradley
 // This code is licensed under the MIT License (MIT).
 // THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
@@ -11,26 +11,27 @@
 // ******************************************************************
 
 using System.Collections.Generic;
+using PlatformBindings.Controls.MenuLayout;
+using Android.Support.V7.Widget;
 using Android.Text;
 using Android.Text.Style;
-using PlatformBindings.Controls.MenuLayout;
 
 namespace PlatformBindings.Models
 {
-    public class AndroidMenuRenderer
+    public class AndroidPopupMenuRenderer
     {
-        private AndroidMenuRenderer()
+        private AndroidPopupMenuRenderer(Menu Menu, AndroidContextMenuBinding Binding)
         {
+            this.Menu = Menu;
+            this.Binding = Binding;
+            DisplayMenu = new PopupMenu(Binding.Activity, Binding.TargetElement);
+            AttachSubElements(Menu, DisplayMenu.Menu);
+            DisplayMenu.Show();
         }
 
-        public static void Attach(Menu Menu, Android.Views.IContextMenu ActivityMenu)
+        public static void Attach(Menu Menu, AndroidContextMenuBinding Binding)
         {
-            var renderer = new AndroidMenuRenderer()
-            {
-                Menu = Menu,
-                ActivityMenu = ActivityMenu
-            };
-            renderer.AttachSubElements(Menu, ActivityMenu);
+            new AndroidPopupMenuRenderer(Menu, Binding);
         }
 
         private void CreateElement(IMenuItem item, Android.Views.IMenu AndroidMenu)
@@ -54,13 +55,12 @@ namespace PlatformBindings.Models
                     break;
 
                 case MenuSeparator sep:
-                    var str = new SpannableString("______________________________");
-                    var length = str.Length();
-                    str.SetSpan(new AlignmentSpanStandard(Layout.Alignment.AlignCenter), 0, length, 0);
-                    //str.SetSpan(new LineHeightSpan(10), 0, length, SpanTypes.ExclusiveExclusive);
-
-                    var separator = AndroidMenu.Add(str);
+                    var separator = AndroidMenu.Add(new Java.Lang.String("______________________________"));
                     separator.SetEnabled(false);
+
+                    SpannableString s = new SpannableString(separator.TitleFormatted);
+                    s.SetSpan(new AlignmentSpanStandard(Layout.Alignment.AlignCenter), 0, s.Length(), 0);
+                    separator.SetTitle(s);
                     break;
             }
         }
@@ -83,8 +83,9 @@ namespace PlatformBindings.Models
             }
         }
 
+        private AndroidContextMenuBinding Binding { get; set; }
         private Menu Menu { get; set; }
-        private Android.Views.IContextMenu ActivityMenu { get; set; }
+        private PopupMenu DisplayMenu { get; }
 
         private class MenuClickHandler : Java.Lang.Object, Android.Views.IMenuItemOnMenuItemClickListener
         {

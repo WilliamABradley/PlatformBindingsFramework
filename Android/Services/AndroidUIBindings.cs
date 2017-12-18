@@ -66,7 +66,7 @@ namespace PlatformBindings.Services
         {
             var activity = AndroidHelpers.GetCurrentActivity(UIBinding);
 
-            var builder = AlertDialogBuilderBase.Pick(activity);
+            var builder = AlertDialogHandlerBase.Pick(activity);
 
             builder.SetTitle(CreateFormattedString(Title));
             builder.SetMessage(CreateFormattedString(Message));
@@ -84,7 +84,7 @@ namespace PlatformBindings.Services
         {
             var activity = AndroidHelpers.GetCurrentActivity(UIBinding);
 
-            var builder = AlertDialogBuilderBase.Pick(activity);
+            var builder = AlertDialogHandlerBase.Pick(activity);
             var entry = new EditText(activity);
 
             builder.SetTitle(CreateFormattedString(Title));

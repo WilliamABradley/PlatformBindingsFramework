@@ -1,13 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>uap10.0</TargetFramework>
-    <UseUwpMetaPackage>true</UseUwpMetaPackage>
+    <TargetFramework>xamarin.ios10</TargetFramework>
     <RootNamespace>PlatformBindings</RootNamespace>
-    <AssemblyName>PlatformBindings-UWP</AssemblyName>
-    <Title>PlatformBindings-UWP</Title>
-    <Description>Universal Windows Platform Head for the .NET Platform Bindings Framework</Description>
-    <PackageTags>.NET CrossPlatform UWP PlatformBindings .NETPlatformBindingsFramework .NETPlatformBindings</PackageTags>
+    <AssemblyName>PlatformBindings-iOS</AssemblyName>
+    <Title>PlatformBindings-iOS</Title>
+    <Description>iOS Head for the .NET Platform Bindings Framework</Description>
+    <PackageTags>.NET CrossPlatform iOS xamarinios Xamarin.iOS Xamarin PlatformBindings .NETPlatformBindingsFramework .NETPlatformBindings</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
