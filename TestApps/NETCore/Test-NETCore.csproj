@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\NETCore\PlatformBindings-NETCore.csproj" />
+    <ProjectReference Include="..\..\Platform\PlatformBindings-Platform.csproj" />
     <ProjectReference Include="..\Tests-Universal\Tests-Universal.csproj" />
   </ItemGroup>
 

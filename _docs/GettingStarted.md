@@ -2,13 +2,14 @@
 
 ## Initialisation
 
-In order to be able to use this Framework, you must first Initalise the AppServices Class at your Application's Startup. This must be in your App's Project, as it requires the Project's Platform.
+In order to be able to use this Framework, you must first call `PlatformBindingsBootstrapper.Initialise()` at your Application's Startup. This must be inside your App's Project, as it requires the Project's Platform.
 
 To see how to Initialise your Platform, see:
 * [UWP](Platform/UWP/UWPRemarks.md#Getting-Started)
 * [Android](Platform/Android/AndroidRemarks.md#Getting-Started)
-* [Xamarin Forms](Platform/XamarinForms/XamarinFormsRemarks.md)
+* [Win32/.NET Framework](Platform/Win32/Win32Remarks.md#Getting-Started)
 * [NETCore](Platform/NETCore/NETCoreRemarks.md#Getting-Started)
+* [Xamarin Forms](Platform/XamarinForms/XamarinFormsRemarks.md)
 
 ### Things to be aware of
 

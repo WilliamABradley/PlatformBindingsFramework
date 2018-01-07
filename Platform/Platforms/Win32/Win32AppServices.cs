@@ -10,3 +10,22 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
+using PlatformBindings.Enums;
+using PlatformBindings.Services;
+
+namespace PlatformBindings
+{
+    public class Win32AppServices : AppServices
+    {
+        internal Win32AppServices(bool HasUI) : base(HasUI, Platform.Win32)
+        {
+            IO = new Win32IOBindings();
+        }
+
+        public override Version GetAppVersion()
+        {
+            throw new NotImplementedException();
+        }
+    }
+}

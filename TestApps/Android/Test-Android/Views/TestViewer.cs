@@ -13,11 +13,11 @@
 using System;
 using Android.App;
 using Android.OS;
-using PlatformBindings.Activities;
 using Tests.Tests;
 using Tests;
 using Test_Android.Services;
 using PlatformBindings;
+using PlatformBindings.Activities;
 
 namespace Test_Android.Views
 {

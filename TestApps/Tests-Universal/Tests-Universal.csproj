@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core\PlatformBindings-Core.csproj" />
+    <ProjectReference Include="..\..\Platform\PlatformBindings-Platform.csproj" />
     <ProjectReference Include="..\..\SMB\PlatformBindings-SMB.csproj" />
   </ItemGroup>
 

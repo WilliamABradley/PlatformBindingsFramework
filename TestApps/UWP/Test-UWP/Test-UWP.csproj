@@ -136,9 +136,9 @@
       <Project>{49819b4e-2d4e-4fab-ba80-4dd2fb2081cf}</Project>
       <Name>PlatformBindings-Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\UWP\PlatformBindings-UWP.csproj">
-      <Project>{6fe4fedb-8c95-4cfb-bca7-06104afdceed}</Project>
-      <Name>PlatformBindings-UWP</Name>
+    <ProjectReference Include="..\..\..\Platform\PlatformBindings-Platform.csproj">
+      <Project>{968bafa2-8cbc-42bc-beb4-6f537e9d272e}</Project>
+      <Name>PlatformBindings-Platform</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Tests-Universal\Tests-Universal.csproj">
       <Project>{d75853e5-f084-4d29-bb6f-26c14ca16f64}</Project>

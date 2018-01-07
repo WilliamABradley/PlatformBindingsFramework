@@ -10,7 +10,7 @@ nuget:
   
 skip_commits:
   files:
-    - 'docs/**/*.*'  
+    - '_docs/**/*.*'  
     - 'README.md'
     
 init:

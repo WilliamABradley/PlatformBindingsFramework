@@ -2,10 +2,10 @@
 
 ## Getting Started
 
-To use the UWP Platform Library, you must first have the `PlatformBindings-UWP` Package installed. Then in your Application Class (App.xaml.cs), Create the AppServices Class Object either in the Constructor or Statically.
+To use the Platform Bindings Framework, you must first have the `PlatformBindings` Package installed. Then in your Application Class (App.xaml.cs), call the Bootstrapper.
 
 ```C#
-public static UWPAppServices Services = new UWPAppServices(true);
+PlatformBindingsBootstrapper.Initialise(true);
 ```
 
 Due to UWP's Design, the Dispatcher isn't available yet, so you will need to attach the Dispatcher when it becomes available, such as in the `OnLaunched` Method. 
@@ -30,7 +30,7 @@ protected override void OnLaunched(LaunchActivatedEventArgs e)
     {
         // Create a Frame to act as the navigation context and navigate to the first page
         rootFrame = new Frame();
-        Services.AttachDispatcher(rootFrame.Dispatcher);
+        PlatformBindingsBootstrapper.AttachDispatcher(rootFrame.Dispatcher);
         Tests.Preparation.Prepare();
 
         rootFrame.NavigationFailed += OnNavigationFailed;

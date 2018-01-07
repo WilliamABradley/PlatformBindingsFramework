@@ -22,7 +22,7 @@ namespace PlatformBindings
     /// </summary>
     public abstract class AppServices
     {
-        public AppServices(bool HasUI, Platform Platform)
+        protected AppServices(bool HasUI, Platform Platform)
         {
             Current = this;
             this.HasUI = HasUI;

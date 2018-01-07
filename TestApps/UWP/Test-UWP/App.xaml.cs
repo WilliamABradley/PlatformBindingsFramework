@@ -10,13 +10,13 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using PlatformBindings;
 using System;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using PlatformBindings;
 
 namespace Test_UWP
 {
@@ -25,14 +25,14 @@ namespace Test_UWP
     /// </summary>
     sealed partial class App : Application
     {
-        private static UWPAppServices Services = new UWPAppServices(true);
-
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
         /// </summary>
         public App()
         {
+            PlatformBindingsBootstrapper.Initialise(true);
+
             this.InitializeComponent();
             this.Suspending += OnSuspending;
         }
@@ -52,7 +52,7 @@ namespace Test_UWP
             {
                 // Create a Frame to act as the navigation context and navigate to the first page
                 rootFrame = new Frame();
-                Services.AttachDispatcher(rootFrame.Dispatcher);
+                PlatformBindingsBootstrapper.AttachDispatcher(rootFrame.Dispatcher);
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)

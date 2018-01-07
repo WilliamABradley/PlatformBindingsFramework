@@ -10,16 +10,21 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using PlatformBindings.Services;
 using System;
-using PlatformBindings.Enums;
 
 namespace PlatformBindings
 {
-    public class IOSAppServices : AppServices
+    public class NETCoreServices : AppServices
     {
-        public IOSAppServices(bool HasUI) : base(HasUI, Platform.iOS)
+        internal NETCoreServices(bool HasUI) : base(HasUI, Enums.Platform.NETCore)
         {
+            IO = new CoreIOBindings();
+            UI = new CoreUIBindings();
+            NetworkUtilities = new NetworkUtilities();
         }
+
+        public static bool UseGlobalAppData = true;
 
         public override Version GetAppVersion()
         {

@@ -15,7 +15,7 @@ using System.Linq;
 using PlatformBindings.Models;
 using Windows.Security.Credentials;
 
-namespace PlatformBindings.Services.Bindings
+namespace PlatformBindings.Services
 {
     public class UWPCredentialManager : ICredentialManager
     {

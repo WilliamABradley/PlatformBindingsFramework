@@ -20,7 +20,7 @@ namespace PlatformBindings
 {
     public class AndroidAppServices : AppServices
     {
-        public AndroidAppServices(bool HasUI, bool UseAppCompatUI) : this(HasUI)
+        internal AndroidAppServices(bool HasUI, bool UseAppCompatUI) : this(HasUI)
         {
             AndroidAppServices.UseAppCompatUI = UseAppCompatUI;
         }

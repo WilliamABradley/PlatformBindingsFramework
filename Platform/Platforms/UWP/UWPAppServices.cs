@@ -14,7 +14,6 @@ using System;
 using PlatformBindings.Services;
 using Windows.UI.Core;
 using Windows.ApplicationModel;
-using PlatformBindings.Services.Bindings;
 using PlatformBindings.Enums;
 
 namespace PlatformBindings
@@ -24,7 +23,7 @@ namespace PlatformBindings
     /// </summary>
     public class UWPAppServices : AppServices
     {
-        public UWPAppServices(bool HasUI) : base(HasUI, Platform.UWP)
+        internal UWPAppServices(bool HasUI) : base(HasUI, Platform.UWP)
         {
             IO = new UWPIOBindings();
             Credentials = new UWPCredentialManager();

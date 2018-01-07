@@ -17,11 +17,10 @@ namespace Test_NETCore
 {
     internal class Program
     {
-        public static NETCoreServices Services { get; private set; }
-
         private static void Main(string[] args)
         {
-            Services = new NETCoreServices();
+            PlatformBindingsBootstrapper.Initialise(true);
+
             AppServices.Current.UI.TitleManager.WindowTitle = "Platform Bindings - Console";
             Init();
             ConsoleHelpers.PreventClose();

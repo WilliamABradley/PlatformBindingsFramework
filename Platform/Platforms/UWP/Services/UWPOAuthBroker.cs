@@ -17,7 +17,7 @@ using PlatformBindings.Models;
 using Windows.Security.Authentication.Web;
 using PlatformBindings.Common;
 
-namespace PlatformBindings.Services.Bindings
+namespace PlatformBindings.Services
 {
     public class UWPOAuthBroker : IOAuthBroker
     {

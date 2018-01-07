@@ -13,14 +13,14 @@
 using Android.App;
 using Android.OS;
 using Test_Android.Views;
-using PlatformBindings;
-using PlatformBindings.Activities;
 using Tests;
 using Test_Android.Services;
-using PlatformBindings.Services;
 using Tests.Tests;
 using Tests.TestGenerator;
 using System.Threading.Tasks;
+using PlatformBindings;
+using PlatformBindings.Activities;
+using PlatformBindings.Services;
 using PlatformBindings.Common;
 
 namespace Test_Android
@@ -28,7 +28,10 @@ namespace Test_Android
     [Activity(Label = "Platform Bindings Test App", MainLauncher = true, Icon = "@drawable/icon")]
     public class MainActivity : PlatformBindingActivity
     {
-        public static AndroidAppServices Services { get; private set; } = new AndroidAppServices(true);
+        public MainActivity()
+        {
+            PlatformBindingsBootstrapper.Initialise(true);
+        }
 
         protected override void OnCreate(Bundle bundle)
         {

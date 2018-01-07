@@ -10,12 +10,9 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using PlatformBindings;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using PlatformBindings;
 
 namespace Test_WPF
 {
@@ -27,7 +24,7 @@ namespace Test_WPF
         [STAThread]
         private static void Main()
         {
-            new Win32AppServices(true);
+            PlatformBindingsBootstrapper.Initialise(true);
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

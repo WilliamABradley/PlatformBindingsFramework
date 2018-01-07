@@ -14,8 +14,8 @@ using System;
 using Test_UWP.Views;
 using Tests;
 using Windows.UI.Xaml.Controls;
-using PlatformBindings.Services;
 using System.Linq;
+using PlatformBindings.Services;
 
 namespace Test_UWP.Services
 {

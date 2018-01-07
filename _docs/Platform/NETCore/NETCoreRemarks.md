@@ -2,17 +2,8 @@
 
 ## Getting Started
 
-To use the NETCore Platform Library, you must first have the `PlatformBindings-NETCore` Package installed. Then Create the AppServices Class Object in your Application's `static void Main(string[] args)` Method.
-This can't be created Statically, as any Calls in the Main Method will come before Static Initialisation.
+To use the Platform Bindings Framework, you must first have the `PlatformBindings` Package installed. Then call the Bootstrapper in your Application's `static void Main(string[] args)` Method.
 
 ```C#
-internal class Program
-{
-    public static NETCoreServices Services { get; private set; }
-
-    private static void Main(string[] args)
-    {
-        Services = new NETCoreServices();
-    }
-}
+PlatformBindingsBootstrapper.Initialise(true);
 ```

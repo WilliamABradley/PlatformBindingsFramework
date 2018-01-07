@@ -10,10 +10,8 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Ookii.Dialogs.Wpf;
@@ -113,6 +111,8 @@ namespace PlatformBindings.Services
             using (var dialog = new SaveFileDialog())
             {
                 ConfigureDialog(dialog, Properties);
+                dialog.OverwritePrompt = true;
+                dialog.CheckPathExists = true;
                 if (Properties != null)
                 {
                     if (!string.IsNullOrWhiteSpace(Properties.SuggestedName))

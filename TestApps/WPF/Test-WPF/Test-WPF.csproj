@@ -83,9 +83,9 @@
       <Project>{49819b4e-2d4e-4fab-ba80-4dd2fb2081cf}</Project>
       <Name>PlatformBindings-Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Win32\PlatformBindings-Win32.csproj">
-      <Project>{ce25568c-58c2-466e-bcfc-92c372d70516}</Project>
-      <Name>PlatformBindings-Win32</Name>
+    <ProjectReference Include="..\..\..\Platform\PlatformBindings-Platform.csproj">
+      <Project>{968bafa2-8cbc-42bc-beb4-6f537e9d272e}</Project>
+      <Name>PlatformBindings-Platform</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

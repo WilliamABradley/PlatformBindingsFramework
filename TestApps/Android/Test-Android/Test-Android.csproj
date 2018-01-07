@@ -83,13 +83,13 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Android\PlatformBindings-Android.csproj">
-      <Project>{35cde811-8ca7-4041-af2b-0dc0606a27dd}</Project>
-      <Name>PlatformBindings-Android</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\Core\PlatformBindings-Core.csproj">
       <Project>{49819b4e-2d4e-4fab-ba80-4dd2fb2081cf}</Project>
       <Name>PlatformBindings-Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Platform\PlatformBindings-Platform.csproj">
+      <Project>{968bafa2-8cbc-42bc-beb4-6f537e9d272e}</Project>
+      <Name>PlatformBindings-Platform</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Tests-Universal\Tests-Universal.csproj">
       <Project>{d75853e5-f084-4d29-bb6f-26c14ca16f64}</Project>

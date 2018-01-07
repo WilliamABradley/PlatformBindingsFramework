@@ -2,7 +2,27 @@
 
 ## Getting Started
 
-To use the Android Platform Library, you must first have the `PlatformBindings-Android` Package installed. 
+To use the Platform Bindings Framework, you must first have the `PlatformBindings` Package installed. 
+In your First Activity, Call the Bootstrapper in the Constructor. It **MUST** be Constructed before `base.OnCreate(Bundle)` is called, as that is when Activity Registration begins.
+
+```C#
+public class MainActivity : PlatformBindingActivity
+{
+    public MainActivity()
+    {
+        PlatformBindingsBootstrapper.Initialise(true);
+    }
+
+
+    protected override void OnCreate(Bundle bundle)
+    {
+        // Build App Services before calling base, to allow binding.
+        base.OnCreate(bundle);
+        StartActivity(typeof(Shell));
+        Finish();
+    }
+}
+```
 
 ### Activity Inheritance
 
@@ -15,23 +35,3 @@ You can Inherit your Activity from `PlatformBindingCompatActivity`, this is a Su
 If you already have your own Activity Super Class, or you inherit from another library, such as MVVMCross, then you can Override the Required Methods yourself to create your own PlatformBinding Supported Activity.
 
 See [here](https://github.com/WilliamABradley/PlatformBindingsFramework/blob/master/Android/Activities/PlatformBindingActivity.cs) for an example Implementation of an ActivityHandler handoff, Activtiy Super Class.
-
-### Initialisation
-
-In your First Activity, Create the AppServices Class Object either in the Constructor. It **MUST** be Constructed before `base.OnCreate(Bundle)` is called, as that is when Activity Registration begins.
-
-```C#
-public class MainActivity : PlatformBindingActivity
-{
-    public static AndroidAppServices Services { get; private set; } = new AndroidAppServices(true);
-
-
-    protected override void OnCreate(Bundle bundle)
-    {
-        // Build App Services before calling base, to allow binding.
-        base.OnCreate(bundle);
-        StartActivity(typeof(Shell));
-        Finish();
-    }
-}
-```

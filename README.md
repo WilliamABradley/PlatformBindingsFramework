@@ -16,7 +16,7 @@ Android is somewhat implemented, while Xamarin.Forms is mostly unimplemented.
 
 ## Documentation
 
-All documentation is accessible on [GitHub](https://github.com/WilliamABradley/PlatformBindingsFramework/tree/master/_docs).
+All documentation is accessible on [GitHub](https://github.com/WilliamABradley/PlatformBindingsFramework/tree/master/docs).
 
 * [Getting Started](_docs/GettingStarted.md)
 * [AppServices](_docs/AppServices.md)
@@ -64,21 +64,10 @@ All documentation is accessible on [GitHub](https://github.com/WilliamABradley/P
 
 ## NuGet Packages
 
-### Platform Libraries
-
 | NuGet Package | Description |
 | --- | --- |
 | [PlatformBindings-Core](https://www.nuget.org/packages/PlatformBindings-Core) | Platform Bindings Framework Core Library and API Surface |
-| [PlatformBindings-UWP](https://www.nuget.org/packages/PlatformBindings-UWP) | Universal Windows Platform Library |
-| [PlatformBindings-Android](https://www.nuget.org/packages/PlatformBindings-Android) | Android Platform Library |
-| [PlatformBindings-Console](https://www.nuget.org/packages/PlatformBindings-Console) | .NET Console Helpers for [System.Console](https://msdn.microsoft.com/en-us/library/system.console(v=vs.110).aspx) |
-| [PlatformBindings-NETCore](https://www.nuget.org/packages/PlatformBindings-NETCore) | .NET Core Application Library |
-| [PlatformBindings-XamarinForms](https://www.nuget.org/packages/PlatformBindings-XamarinForms) | Xamarin Forms Platform Library |
-
-### Extensions
-
-| NuGet Package | Description |
-| --- | --- |
+| [PlatformBindings](https://www.nuget.org/packages/PlatformBindings) | OS Platform Library |
 | [PlatformBindings-SMB](https://www.nuget.org/packages/PlatformBindings-SMB) | SMB/CIFS FileContainer & FolderContainer Extension |
 
 ## Supported SDKs
@@ -104,6 +93,10 @@ Although the Core and Console Libraries are .NET Standard 1.4 Compliant, there i
 **Tested against Xamarin.Forms 2.5.0.77107**
 
 Requires .NET Standard 1.4 support.
+
+### Win32/.NET Framework
+
+Requires .NET Framework 4.6.1 and higher.
 
 ## Feedback and Requests
 

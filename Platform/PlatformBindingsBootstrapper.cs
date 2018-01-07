@@ -11,21 +11,31 @@
 // ******************************************************************
 
 using System;
-using PlatformBindings.Enums;
-using PlatformBindings.Services;
 
 namespace PlatformBindings
 {
-    public class Win32AppServices : AppServices
+    public static class PlatformBindingsBootstrapper
     {
-        public Win32AppServices(bool HasUI) : base(HasUI, Platform.Win32)
+        public static void Initialise(bool HasUI)
         {
-            IO = new Win32IOBindings();
+#if UWP
+            new UWPAppServices(HasUI);
+#elif ANDROID
+            new AndroidAppServices(HasUI);
+#elif WIN32
+            new Win32AppServices(HasUI);
+#elif NETCore
+            new NETCoreServices(HasUI);
+#else
+            throw new NotImplementedException("This platform isn't supported yet.");
+#endif
         }
 
-        public override Version GetAppVersion()
+#if UWP
+        public static void AttachDispatcher(Windows.UI.Core.CoreDispatcher Dispatcher)
         {
-            throw new NotImplementedException();
+            ((UWPAppServices)AppServices.Current).AttachDispatcher(Dispatcher);
         }
+#endif
     }
 }
