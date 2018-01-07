@@ -20,6 +20,7 @@ namespace PlatformBindings
     {
         internal Win32AppServices(bool HasUI) : base(HasUI, Platform.Win32)
         {
+            if (HasUI) UI = new Win32UIBindings();
             IO = new Win32IOBindings();
         }
 

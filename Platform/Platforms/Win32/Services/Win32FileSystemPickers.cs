@@ -11,10 +11,12 @@
 // ******************************************************************
 
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Ookii.Dialogs.Wpf;
+using PlatformBindings.Common;
 using PlatformBindings.Models.FileSystem;
 
 namespace PlatformBindings.Services
@@ -51,86 +53,124 @@ namespace PlatformBindings.Services
 
         private Task<object> OpenPicker(FilePickerProperties Properties, bool Multi = false)
         {
-            using (var dialog = new OpenFileDialog())
+            TaskCompletionSource<object> pickerresult = new TaskCompletionSource<object>();
+
+            PlatformBindingHelpers.OnUIThread(() =>
             {
-                object pickerresult = null;
-                dialog.CheckFileExists = true;
-                dialog.Multiselect = Multi;
-
-                ConfigureDialog(dialog, Properties);
-
-                var result = dialog.ShowDialog();
-                if (result == DialogResult.OK)
+                using (var dialog = new OpenFileDialog())
                 {
-                    if (Multi)
-                    {
-                        if (dialog.FileNames != null)
-                        {
-                            pickerresult = dialog.FileNames
-                                .Select(item => new CoreFileContainer(item))
-                                .ToList();
-                        }
-                    }
-                    else
-                    {
-                        if (!string.IsNullOrWhiteSpace(dialog.FileName))
-                        {
-                            pickerresult = new CoreFileContainer(dialog.FileName);
-                        }
-                    }
-                }
+                    dialog.CheckFileExists = true;
+                    dialog.Multiselect = Multi;
 
-                return Task.FromResult(pickerresult);
-            }
+                    ConfigureDialog(dialog, Properties);
+
+                    object fileresult = null;
+                    var result = dialog.ShowDialog();
+
+                    if (result == DialogResult.OK)
+                    {
+                        if (Multi)
+                        {
+                            if (dialog.FileNames != null)
+                            {
+                                fileresult = dialog.FileNames
+                                    .Select(item => (FileContainer)new CoreFileContainer(item))
+                                    .ToList();
+                            }
+                        }
+                        else
+                        {
+                            if (!string.IsNullOrWhiteSpace(dialog.FileName))
+                            {
+                                fileresult = new CoreFileContainer(dialog.FileName);
+                            }
+                        }
+                    }
+
+                    pickerresult.TrySetResult(fileresult);
+                }
+            });
+
+            return pickerresult.Task;
         }
 
         public override Task<FolderContainer> PickFolder(FolderPickerProperties Properties)
         {
-            var dialog = new VistaFolderBrowserDialog();
-            if (Properties != null)
+            TaskCompletionSource<FolderContainer> pickerresult = new TaskCompletionSource<FolderContainer>();
+
+            PlatformBindingHelpers.OnUIThread(() =>
             {
-                if (Properties.StartingLocation != null)
+                var dialog = new VistaFolderBrowserDialog();
+                if (Properties != null)
                 {
-                    dialog.SelectedPath = AppServices.Current.IO.GetBaseFolder(Properties.StartingLocation.Value).Path;
+                    if (Properties.StartingLocation != null)
+                    {
+                        dialog.SelectedPath = AppServices.Current.IO.GetBaseFolder(Properties.StartingLocation.Value).Path;
+                    }
                 }
-            }
 
-            FolderContainer pickerresult = null;
+                FolderContainer container = null;
 
-            var result = dialog.ShowDialog();
-            if (result == true)
-            {
-                pickerresult = new CoreFolderContainer(dialog.SelectedPath);
-            }
+                var result = dialog.ShowDialog();
+                if (result == true)
+                {
+                    container = new CoreFolderContainer(dialog.SelectedPath);
+                }
 
-            return Task.FromResult(pickerresult);
+                pickerresult.TrySetResult(container);
+            });
+
+            return pickerresult.Task;
         }
 
         public override Task<FileContainer> SaveFile(FileSavePickerProperties Properties)
         {
-            using (var dialog = new SaveFileDialog())
+            TaskCompletionSource<FileContainer> pickerresult = new TaskCompletionSource<FileContainer>();
+
+            PlatformBindingHelpers.OnUIThread(() =>
             {
-                ConfigureDialog(dialog, Properties);
-                dialog.OverwritePrompt = true;
-                dialog.CheckPathExists = true;
-                if (Properties != null)
+                using (var dialog = new SaveFileDialog())
                 {
-                    if (!string.IsNullOrWhiteSpace(Properties.SuggestedName))
+                    ConfigureDialog(dialog, Properties);
+                    dialog.OverwritePrompt = true;
+                    dialog.CheckPathExists = true;
+                    if (Properties != null)
                     {
-                        dialog.FileName = Properties.SuggestedName;
+                        if (!string.IsNullOrWhiteSpace(Properties.DefaultFileExtension))
+                        {
+                            dialog.DefaultExt = Properties.DefaultFileExtension;
+                        }
+
+                        if (Properties.SuggestedFile != null)
+                        {
+                            var path = Properties.SuggestedFile.Path;
+                            if (File.Exists(path))
+                            {
+                                dialog.InitialDirectory = Path.GetDirectoryName(path);
+                            }
+
+                            dialog.FileName = Path.GetFileName(path);
+                        }
+
+                        if (!string.IsNullOrWhiteSpace(Properties.SuggestedName))
+                        {
+                            dialog.FileName = Properties.SuggestedName;
+                        }
                     }
+
+                    FileContainer container = null;
+
+                    var result = dialog.ShowDialog();
+                    if (result == DialogResult.OK)
+                    {
+                        container = new CoreFileContainer(dialog.FileName);
+                    }
+
+                    pickerresult.TrySetResult(container);
                 }
+            });
 
-                FileContainer container = null;
-
-                var result = dialog.ShowDialog();
-                if (result == DialogResult.OK)
-                {
-                    container = new CoreFileContainer(dialog.FileName);
-                }
-
-                return Task.FromResult(container);
-            }
+            return pickerresult.Task;
         }
 
         private void ConfigureDialog(FileDialog Dialog, FilePickerProperties Properties)

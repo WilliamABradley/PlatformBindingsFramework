@@ -23,7 +23,7 @@ namespace Tests
     {
         public static void Register(Navigator<TestNavigationPage> Navigation)
         {
-            SMBService.Register();
+            //SMBService.Register();
             TestService.Navigation = Navigation;
 
             RegisterTest(TestNavigationPage.Home, typeof(NavigationOptions));

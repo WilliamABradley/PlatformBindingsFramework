@@ -100,6 +100,16 @@ namespace PlatformBindings.Services
                             picker.FileTypeChoices.Add(filter, new string[] { filter });
                         }
                     }
+
+                    if (!string.IsNullOrWhiteSpace(Properties.DefaultFileExtension))
+                    {
+                        picker.DefaultFileExtension = Properties.DefaultFileExtension;
+                    }
+
+                    if(Properties.SuggestedFile is UWPFileContainer container)
+                    {
+                        picker.SuggestedSaveFile = container.File;
+                    }
                 }
 
                 var file = await picker.PickSaveFileAsync();

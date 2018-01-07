@@ -46,6 +46,9 @@
     <Compile Include="Platforms\Win32\**\*.cs" />
     <Compile Include="Platforms\NETCore\**\*.cs" />
     <PackageReference Include="Ookii.Dialogs" Version="1.0.0" />
+    <PackageReference Include="WPFCustomMessageBox">
+      <Version>1.0.7</Version>
+    </PackageReference>
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
 

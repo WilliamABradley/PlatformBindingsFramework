@@ -11,29 +11,24 @@
 // ******************************************************************
 
 using PlatformBindings;
-using PlatformBindings.Models.FileSystem;
-using System;
-using System.Windows.Forms;
+using PlatformBindings.Services;
+using System.Windows;
+using Test_WPF.Services;
+using Tests;
 
 namespace Test_WPF
 {
-    public partial class Form1 : Form
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
+    public partial class MainWindow : Window
     {
-        public Form1()
+        public MainWindow()
         {
             InitializeComponent();
-        }
-
-        private async void button1_Click(object sender, EventArgs e)
-        {
-            var props = new FolderPickerProperties();
-            props.FileTypes.Add("*");
-            props.FileTypes.Add(".mkv");
-            props.FileTypes.Add(".wmv");
-            props.StartingLocation = PlatformBindings.Enums.PathRoot.Application;
-
-            var result = await AppServices.Current.IO.Pickers.PickFolder(props);
-            var p = "as";
+            TestService.Register(new TestWPFNavigator(MainFrame));
+            AppServices.Current.UI.NavigationManager = new Win32NavigationManager(TestService.Navigation, MainFrame);
+            TestService.Navigation.Navigate(TestNavigationPage.Home);
         }
     }
 }
