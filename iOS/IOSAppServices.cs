@@ -17,7 +17,7 @@ namespace PlatformBindings
 {
     public class IOSAppServices : AppServices
     {
-        public IOSAppServices(bool HasUI, Platform Platform) : base(HasUI, Platform)
+        public IOSAppServices(bool HasUI) : base(HasUI, Platform.iOS)
         {
         }
 

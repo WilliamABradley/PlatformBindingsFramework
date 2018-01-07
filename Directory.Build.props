@@ -12,13 +12,13 @@
     <IsUwpProject>$(MSBuildProjectName.Contains('UWP'))</IsUwpProject>
     <IsAndroidProject>$(MSBuildProjectName.Contains('Android'))</IsAndroidProject>
     <!-- UWP Config -->
-    <UwpMetaPackageVersion>6.0.1</UwpMetaPackageVersion>
+    <UwpMetaPackageVersion>6.0.5</UwpMetaPackageVersion>
     <DefaultTargetPlatformVersion>16299</DefaultTargetPlatformVersion>
     <DefaultTargetPlatformMinVersion>14393</DefaultTargetPlatformMinVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Nerdbank.GitVersioning" Version="2.0.41" PrivateAssets="all" />
+    <PackageReference Include="Nerdbank.GitVersioning" Version="2.1.11" PrivateAssets="all" />
   </ItemGroup>
 
   <!-- https://github.com/NuGet/Home/issues/4337 -->

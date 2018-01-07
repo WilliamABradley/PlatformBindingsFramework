@@ -26,6 +26,7 @@ namespace PlatformBindings.Services
     {
         public override bool SupportsPickFile => true;
         public override bool SupportsPickFolder => true;
+        public override bool SupportsSaveFile => false;
 
         public override async Task<FileContainer> PickFile(FilePickerProperties Properties)
         {
@@ -73,6 +74,11 @@ namespace PlatformBindings.Services
                 return new AndroidSAFFolderContainer(result.Data.Data);
             }
             else return null;
+        }
+
+        public override Task<FileContainer> SaveFile(FileSavePickerProperties Properties)
+        {
+            throw new System.NotImplementedException();
         }
 
         private async Task<ActivityResult> CreateFilePicker(FilePickerProperties Properties, bool Multiple)

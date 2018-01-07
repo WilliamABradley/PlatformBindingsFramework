@@ -25,6 +25,7 @@ namespace PlatformBindings.Services
     {
         public override bool SupportsPickFile => true;
         public override bool SupportsPickFolder => true;
+        public override bool SupportsSaveFile => true;
 
         public override async Task<FileContainer> PickFile(FilePickerProperties Properties)
         {
@@ -62,7 +63,11 @@ namespace PlatformBindings.Services
                     {
                         picker.FileTypeFilter.Add(property);
                     }
-                    if (Properties.StartingLocation.HasValue) picker.SuggestedStartLocation = GetPickerLocation(Properties.StartingLocation);
+                    if (Properties.StartingLocation.HasValue)
+                    {
+                        var location = GetPickerLocation(Properties.StartingLocation);
+                        if (location != PickerLocationId.Unspecified) picker.SuggestedStartLocation = location;
+                    }
                 }
 
                 if (Properties == null || !Properties.FileTypes.Any()) picker.FileTypeFilter.Add("*");
@@ -71,6 +76,36 @@ namespace PlatformBindings.Services
 
                 waiter.TrySetResult(folder != null ? new UWPFolderContainer(folder) : null);
             });
+            return await waiter.Task;
+        }
+
+        public override async Task<FileContainer> SaveFile(FileSavePickerProperties Properties)
+        {
+            TaskCompletionSource<FileContainer> waiter = new TaskCompletionSource<FileContainer>();
+            PlatformBindingHelpers.OnUIThread(async () =>
+            {
+                FileSavePicker picker = new FileSavePicker();
+
+                if (Properties != null)
+                {
+                    if (!string.IsNullOrWhiteSpace(Properties.SuggestedName))
+                    {
+                        picker.SuggestedFileName = Properties.SuggestedName;
+                    }
+
+                    if (Properties.FileTypes != null)
+                    {
+                        foreach (var filter in Properties.FileTypes.Where(ext => ext != "*"))
+                        {
+                            picker.FileTypeChoices.Add(filter, new string[] { filter });
+                        }
+                    }
+                }
+
+                var file = await picker.PickSaveFileAsync();
+                waiter.TrySetResult(file != null ? new UWPFileContainer(file) : null);
+            });
+
             return await waiter.Task;
         }
 
@@ -83,7 +118,11 @@ namespace PlatformBindings.Services
                 {
                     picker.FileTypeFilter.Add(property);
                 }
-                if (Properties.StartingLocation.HasValue) picker.SuggestedStartLocation = GetPickerLocation(Properties.StartingLocation);
+                if (Properties.StartingLocation.HasValue)
+                {
+                    var location = GetPickerLocation(Properties.StartingLocation);
+                    if (location != PickerLocationId.Unspecified) picker.SuggestedStartLocation = location;
+                }
             }
 
             if (Properties == null || !Properties.FileTypes.Any()) picker.FileTypeFilter.Add("*");

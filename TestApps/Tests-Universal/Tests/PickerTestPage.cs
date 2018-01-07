@@ -13,6 +13,7 @@
 using PlatformBindings;
 using PlatformBindings.Enums;
 using PlatformBindings.Exceptions;
+using PlatformBindings.Models.FileSystem;
 using System;
 using System.Threading.Tasks;
 using Tests.TestGenerator;
@@ -100,6 +101,40 @@ namespace Tests.Tests
                         return null;
                     }
                     else return PickerCancelled;
+                })
+            });
+
+            AddTestItem(new TestTask
+            {
+                Name = "Save File W/ Ext Filters",
+                Test = context => Task.Run(async () =>
+                {
+                    var props = new FileSavePickerProperties();
+                    props.FileTypes.Add("*");
+                    props.FileTypes.Add(".mkv");
+                    props.FileTypes.Add(".wmv");
+                    props.StartingLocation = PathRoot.Application;
+
+                    var result = await AppServices.Current.IO.Pickers.SaveFile(props);
+
+                    return result?.Path;
+                })
+            });
+
+            AddTestItem(new TestTask
+            {
+                Name = "Open File W/ Ext Filters",
+                Test = context => Task.Run(async () =>
+                {
+                    var props = new FilePickerProperties();
+                    props.FileTypes.Add("*");
+                    props.FileTypes.Add(".mkv");
+                    props.FileTypes.Add(".wmv");
+                    props.StartingLocation = PathRoot.Application;
+
+                    var result = await AppServices.Current.IO.Pickers.PickFile(props);
+
+                    return result?.Path;
                 })
             });
         }

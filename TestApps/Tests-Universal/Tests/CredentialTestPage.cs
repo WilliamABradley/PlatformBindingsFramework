@@ -52,7 +52,7 @@ namespace Tests.Tests
                         {
                             return "Success";
                         }
-                        else return "Credential Storage Failed: Retrieved Credential Malformed";
+                        else return "Credential Storage Failed: Retrieved Credential Malformed or Incorrect";
                     }
                     return "Credential Storage Failed";
                 })

@@ -21,7 +21,7 @@ var toolsDir = buildDir + "/tools";
 var Solution = baseDir + "/PlatformBindingsFramework.sln";
 var nupkgDir = buildDir + "/nupkg";
 
-var gitVersioningVersion = "2.0.41";
+var gitVersioningVersion = "2.1.11";
 var versionClient = toolsDir + "/nerdbank.gitversioning/tools/Get-Version.ps1";
 string Version = null;
 
@@ -92,6 +92,7 @@ Task("Verify")
     .Does(() =>
 {
     VerifyHeaders(false);
+    NuGetRestore(Solution);
 });
 
 Task("Version")

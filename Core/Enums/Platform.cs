@@ -16,8 +16,10 @@ namespace PlatformBindings.Enums
     {
         UWP,
         Android,
+        iOS,
         Console,
         NETCore,
+        Win32,
         XamarinForms
     }
 }

@@ -22,14 +22,19 @@ namespace PlatformBindings.Services
     public abstract class FileSystemPickers
     {
         /// <summary>
-        /// Used to Determine if the OS Supports Picking Files using a File Picker.
+        /// Used to Determine if Picking Files is supported using a File Picker.
         /// </summary>
         public abstract bool SupportsPickFile { get; }
 
         /// <summary>
-        /// Used to Determine if the OS Supports Picking Folders using a Folder Picker.
+        /// Used to Determine if Picking Folders is supported using a Folder Picker.
         /// </summary>
         public abstract bool SupportsPickFolder { get; }
+
+        /// <summary>
+        /// Used to Determine if Saving Files is supported using a File Save Picker.
+        /// </summary>
+        public abstract bool SupportsSaveFile { get; }
 
         /// <summary>
         /// Opens a File Picker to Pick Files from the Operating System. See <see cref="SupportsPickFile"/> to ensure that this is Supported.
@@ -78,5 +83,21 @@ namespace PlatformBindings.Services
         /// <param name="Properties">Filters to narrow down the Observable Files.</param>
         /// <returns>A Picked Folder, or <see cref="null"/> if Cancelled</returns>
         public abstract Task<FolderContainer> PickFolder(FolderPickerProperties Properties);
+
+        /// <summary>
+        /// Opens a File Save Picker to save a file from the Operating System. See <see cref="SupportsPickFile"/> to ensure that this is Supported.
+        /// </summary>
+        /// <returns>A saved file, or <see cref="null"/> if Cancelled</returns>
+        public Task<FileContainer> SaveFile()
+        {
+            return SaveFile(null);
+        }
+
+        /// <summary>
+        /// Opens a File Save Picker to save a file from the Operating System. See <see cref="SupportsPickFile"/> to ensure that this is Supported.
+        /// </summary>
+        /// <param name="Properties">Properties for saving the file.</param>
+        /// <returns>A saved file, or <see cref="null"/> if Cancelled</returns>
+        public abstract Task<FileContainer> SaveFile(FileSavePickerProperties Properties);
     }
 }

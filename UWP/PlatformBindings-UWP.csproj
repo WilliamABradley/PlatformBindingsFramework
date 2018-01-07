@@ -11,7 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MSBuild.Sdk.Extras" Version="1.1.0" />
+    <PackageReference Include="MSBuild.Sdk.Extras" Version="1.2.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -19,4 +19,8 @@
   </ItemGroup>
 
   <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
+
+  <ItemGroup>
+    <PackageReference Update="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.0.5" />
+  </ItemGroup>
 </Project>
