@@ -17,7 +17,7 @@ namespace PlatformBindings.Models.FileSystem
 {
     public class SMBPathResolver : IPathResolver
     {
-        public Task<FileSystemContainer> TryResolve(string Path)
+        public Task<StorageContainer> TryResolve(string Path)
         {
             return Task.Run(() =>
             {
@@ -30,7 +30,7 @@ namespace PlatformBindings.Models.FileSystem
                 var url = SMBExtensions.EnsureSafe(Path);
 
                 var item = new SmbFile(url);
-                if (item.IsDirectory()) return (FileSystemContainer)new SMBFolderContainer(item);
+                if (item.IsDirectory()) return (StorageContainer)new SMBFolderContainer(item);
                 else return new SMBFileContainer(item);
             });
         }

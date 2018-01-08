@@ -23,10 +23,5 @@ namespace PlatformBindings.Models.FileSystem
         /// The default file extension to select.
         /// </summary>
         public string DefaultFileExtension { get; set; }
-
-        /// <summary>
-        /// The Suggested file to select for saving.
-        /// </summary>
-        public FileContainer SuggestedFile { get; set; }
     }
 }

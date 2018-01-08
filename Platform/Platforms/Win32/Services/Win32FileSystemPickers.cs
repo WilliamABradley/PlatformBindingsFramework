@@ -107,6 +107,16 @@ namespace PlatformBindings.Services
                     {
                         dialog.SelectedPath = AppServices.Current.IO.GetBaseFolder(Properties.StartingLocation.Value).Path;
                     }
+
+                    if (!string.IsNullOrWhiteSpace(Properties.Title))
+                    {
+                        dialog.Description = Properties.Title;
+                    }
+
+                    if (Properties.SuggestedStorageItem != null)
+                    {
+                        dialog.SelectedPath = Properties.SuggestedStorageItem.Path;
+                    }
                 }
 
                 FolderContainer container = null;
@@ -141,9 +151,9 @@ namespace PlatformBindings.Services
                             dialog.DefaultExt = Properties.DefaultFileExtension;
                         }
 
-                        if (Properties.SuggestedFile != null)
+                        if (Properties.SuggestedStorageItem != null)
                         {
-                            var path = Properties.SuggestedFile.Path;
+                            var path = Properties.SuggestedStorageItem.Path;
                             if (File.Exists(path))
                             {
                                 dialog.InitialDirectory = Path.GetDirectoryName(path);
@@ -223,6 +233,11 @@ namespace PlatformBindings.Services
                 if (Properties.StartingLocation != null)
                 {
                     Dialog.InitialDirectory = AppServices.Current.IO.GetBaseFolder(Properties.StartingLocation.Value).Path;
+                }
+
+                if (!string.IsNullOrWhiteSpace(Properties.Title))
+                {
+                    Dialog.Title = Properties.Title;
                 }
             }
         }

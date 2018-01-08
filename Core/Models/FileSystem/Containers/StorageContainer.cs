@@ -17,7 +17,7 @@ namespace PlatformBindings.Models.FileSystem
     /// <summary>
     /// The File System wrapper for each File/Folder. This Class holds important functions for manipulating File System Items
     /// </summary>
-    public abstract class FileSystemContainer
+    public abstract class StorageContainer
     {
         /// <summary>
         /// Renames the Specifed Item

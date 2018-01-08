@@ -27,14 +27,14 @@ namespace PlatformBindings.Services
         /// </summary>
         /// <param name="Item">File/Folder to get Access Token for.</param>
         /// <returns>Future Access Token.</returns>
-        string GetFutureAccessPermission(FileSystemContainer Item);
+        string GetFutureAccessPermission(StorageContainer Item);
 
         /// <summary>
         /// Returns the
         /// </summary>
         /// <param name="Permission"></param>
         /// <returns></returns>
-        Task<FileSystemContainer> RedeemFutureAccessTokenAsync(string Token);
+        Task<StorageContainer> RedeemFutureAccessTokenAsync(string Token);
 
         /// <summary>
         /// Checks to see if the provided Token is Valid and Redeemable.

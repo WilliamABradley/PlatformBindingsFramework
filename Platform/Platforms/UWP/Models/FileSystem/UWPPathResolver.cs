@@ -18,7 +18,7 @@ namespace PlatformBindings.Models.FileSystem
 {
     public class UWPPathResolver : IPathResolver
     {
-        public async Task<FileSystemContainer> TryResolve(string Path)
+        public async Task<StorageContainer> TryResolve(string Path)
         {
             try
             {

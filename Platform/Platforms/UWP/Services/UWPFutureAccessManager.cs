@@ -22,7 +22,7 @@ namespace PlatformBindings.Services
 {
     public class UWPFutureAccessManager : IFutureAccessManager
     {
-        public string GetFutureAccessPermission(FileSystemContainer Item)
+        public string GetFutureAccessPermission(StorageContainer Item)
         {
             if (FutureAccessFull)
             {
@@ -48,7 +48,7 @@ namespace PlatformBindings.Services
             return null;
         }
 
-        public async Task<FileSystemContainer> RedeemFutureAccessTokenAsync(string Token)
+        public async Task<StorageContainer> RedeemFutureAccessTokenAsync(string Token)
         {
             var result = GetToken(Token);
             var item = await StorageApplicationPermissions.FutureAccessList.GetItemAsync(result.Token);

@@ -84,7 +84,7 @@ namespace PlatformBindings.Services
                 var LaunchOptions = new FolderLauncherOptions();
                 if (Options != null)
                 {
-                    foreach (FileSystemContainer FileSystemItem in Options.ItemsToSelect)
+                    foreach (StorageContainer FileSystemItem in Options.ItemsToSelect)
                     {
                         IStorageItem Item = null;
                         if (FileSystemItem is UWPFolderContainer winfolder) Item = winfolder.Folder;

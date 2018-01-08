@@ -21,7 +21,7 @@ namespace PlatformBindings.Services
 {
     public class AndroidFutureAccessManager : IFutureAccessManager
     {
-        public string GetFutureAccessPermission(FileSystemContainer Item)
+        public string GetFutureAccessPermission(StorageContainer Item)
         {
             var isFolder = Item is AndroidSAFFolderContainer;
             var uri = Item is IAndroidSAFContainer saf ? saf.Uri : null;
@@ -42,9 +42,9 @@ namespace PlatformBindings.Services
             else return null;
         }
 
-        public Task<FileSystemContainer> RedeemFutureAccessTokenAsync(string Token)
+        public Task<StorageContainer> RedeemFutureAccessTokenAsync(string Token)
         {
-            FileSystemContainer item = null;
+            StorageContainer item = null;
 
             var result = GetToken(Token);
 

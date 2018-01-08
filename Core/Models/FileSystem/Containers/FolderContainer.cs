@@ -23,7 +23,7 @@ namespace PlatformBindings.Models.FileSystem
     /// <summary>
     /// The Folder Wrapper for PlatformBindings, use this for Folder/Directory handling on each platform
     /// </summary>
-    public abstract class FolderContainer : FileSystemContainer
+    public abstract class FolderContainer : StorageContainer
     {
         /// <summary>
         /// Gets the Subfolder of a Specified Name if exists
@@ -215,12 +215,12 @@ namespace PlatformBindings.Models.FileSystem
         /// Get all Files and SubFolders for this folder
         /// </summary>
         /// <returns>A List of SubFolders and Files</returns>
-        public virtual async Task<IReadOnlyList<FileSystemContainer>> GetItemsAsync()
+        public virtual async Task<IReadOnlyList<StorageContainer>> GetItemsAsync()
         {
             var folders = await GetFoldersAsync();
             var files = await GetFilesAsync();
 
-            var result = new List<FileSystemContainer>();
+            var result = new List<StorageContainer>();
             result.AddRange(folders);
             result.AddRange(files);
             return result;

@@ -17,13 +17,13 @@ namespace PlatformBindings.Models.FileSystem
 {
     public class CorePathResolver : IPathResolver
     {
-        public Task<FileSystemContainer> TryResolve(string Path)
+        public Task<StorageContainer> TryResolve(string Path)
         {
             return Task.Run(() =>
             {
                 if (File.Exists(Path))
                 {
-                    return (FileSystemContainer)new CoreFileContainer(Path);
+                    return (StorageContainer)new CoreFileContainer(Path);
                 }
                 else if (Directory.Exists(Path))
                 {

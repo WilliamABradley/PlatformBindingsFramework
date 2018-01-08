@@ -16,6 +16,6 @@ namespace PlatformBindings.Models.FileSystem
 {
     public interface IPathResolver
     {
-        Task<FileSystemContainer> TryResolve(string Path);
+        Task<StorageContainer> TryResolve(string Path);
     }
 }

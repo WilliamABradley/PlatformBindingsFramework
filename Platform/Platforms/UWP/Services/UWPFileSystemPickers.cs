@@ -68,6 +68,11 @@ namespace PlatformBindings.Services
                         var location = GetPickerLocation(Properties.StartingLocation);
                         if (location != PickerLocationId.Unspecified) picker.SuggestedStartLocation = location;
                     }
+
+                    if (!string.IsNullOrWhiteSpace(Properties.PickerIdentifier))
+                    {
+                        picker.SettingsIdentifier = Properties.PickerIdentifier;
+                    }
                 }
 
                 if (Properties == null || !Properties.FileTypes.Any()) picker.FileTypeFilter.Add("*");
@@ -106,9 +111,14 @@ namespace PlatformBindings.Services
                         picker.DefaultFileExtension = Properties.DefaultFileExtension;
                     }
 
-                    if(Properties.SuggestedFile is UWPFileContainer container)
+                    if (Properties.SuggestedStorageItem is UWPFileContainer container)
                     {
                         picker.SuggestedSaveFile = container.File;
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(Properties.PickerIdentifier))
+                    {
+                        picker.SettingsIdentifier = Properties.PickerIdentifier;
                     }
                 }
 
@@ -128,10 +138,16 @@ namespace PlatformBindings.Services
                 {
                     picker.FileTypeFilter.Add(property);
                 }
+
                 if (Properties.StartingLocation.HasValue)
                 {
                     var location = GetPickerLocation(Properties.StartingLocation);
                     if (location != PickerLocationId.Unspecified) picker.SuggestedStartLocation = location;
+                }
+
+                if (!string.IsNullOrWhiteSpace(Properties.PickerIdentifier))
+                {
+                    picker.SettingsIdentifier = Properties.PickerIdentifier;
                 }
             }
 

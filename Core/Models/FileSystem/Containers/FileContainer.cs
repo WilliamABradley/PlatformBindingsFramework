@@ -19,7 +19,7 @@ namespace PlatformBindings.Models.FileSystem
     /// <summary>
     /// The File Wrapper for PlatformBindings, use this for File handling on each platform
     /// </summary>
-    public abstract class FileContainer : FileSystemContainer
+    public abstract class FileContainer : StorageContainer
     {
         /// <summary>
         /// Opens the File as a Stream for Reading or Writing.

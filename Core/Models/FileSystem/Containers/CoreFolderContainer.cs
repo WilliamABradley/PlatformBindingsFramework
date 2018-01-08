@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -21,17 +22,13 @@ namespace PlatformBindings.Models.FileSystem
     {
         public CoreFolderContainer(DirectoryInfo Folder)
         {
-            this.Folder = Folder;
+            _Path = Folder.FullName;
         }
 
         public CoreFolderContainer(string Path)
         {
-            Folder = Directory.CreateDirectory(Path);
+            _Path = Path;
         }
-
-        public override string Name => Folder.Name;
-
-        public override string Path => Folder.FullName;
 
         private string GetSubItemPath(string Name)
         {
@@ -81,7 +78,16 @@ namespace PlatformBindings.Models.FileSystem
             {
                 try
                 {
-                    Folder.MoveTo(System.IO.Path.Combine(Folder.Parent.FullName, NewName));
+                    string Parent = System.IO.Path.GetDirectoryName(Path);
+                    var newpath = System.IO.Path.Combine(Parent, NewName);
+
+                    if (Directory.Exists(Path))
+                    {
+                        Folder.MoveTo(System.IO.Path.Combine(Folder.Parent.FullName, NewName));
+                    }
+
+                    _Path = newpath;
+
                     return true;
                 }
                 catch { return false; }
@@ -100,6 +106,10 @@ namespace PlatformBindings.Models.FileSystem
 
         public override bool CanWrite => !((Folder.Attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly);
 
-        public DirectoryInfo Folder { get; }
+        private DirectoryInfo Folder => Directory.CreateDirectory(Path);
+
+        public override string Name => _Path?.Split(new string[] { "\\", "/" }, StringSplitOptions.RemoveEmptyEntries)?.Last();
+        public override string Path => _Path;
+        public string _Path;
     }
 }

@@ -20,12 +20,12 @@ namespace PlatformBindings.Models.FileSystem
         public CoreFileContainer(FileInfo File)
         {
             Name = File.Name;
-            Path = File.FullName;
+            _Path = File.FullName;
         }
 
         public CoreFileContainer(string Path)
         {
-            this.Path = Path;
+            _Path = Path;
             Name = System.IO.Path.GetFileName(Path);
         }
 
@@ -45,7 +45,12 @@ namespace PlatformBindings.Models.FileSystem
                 try
                 {
                     string Directory = System.IO.Path.GetDirectoryName(Path);
-                    File.Move(Path, System.IO.Path.Combine(Directory, NewName));
+                    var newpath = System.IO.Path.Combine(Directory, NewName);
+                    if (File.Exists(Path))
+                    {
+                        File.Move(Path, newpath);
+                    }
+                    _Path = newpath;
                     return true;
                 }
                 catch { return false; }
@@ -65,7 +70,9 @@ namespace PlatformBindings.Models.FileSystem
         }
 
         public override string Name { get; }
-        public override string Path { get; }
+
+        public override string Path => _Path;
+        private string _Path;
 
         public override bool CanWrite => !((File.GetAttributes(Path) & FileAttributes.ReadOnly) == FileAttributes.ReadOnly);
     }

@@ -72,7 +72,7 @@ namespace PlatformBindings.Services
         /// </summary>
         /// <param name="Path">Path to File System Item</param>
         /// <returns>Found Item</returns>
-        public async Task<FileSystemContainer> GetFileSystemItem(string Path)
+        public async Task<StorageContainer> GetFileSystemItem(string Path)
         {
             foreach (var resolver in PathResolvers)
             {

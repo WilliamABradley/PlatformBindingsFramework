@@ -16,6 +16,6 @@ namespace PlatformBindings.Models.FileSystem.Options
 {
     public class FolderOpenOptions
     {
-        public IList<FileSystemContainer> ItemsToSelect { get; } = new List<FileSystemContainer>();
+        public IList<StorageContainer> ItemsToSelect { get; } = new List<StorageContainer>();
     }
 }

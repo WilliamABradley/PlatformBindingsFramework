@@ -70,9 +70,9 @@ namespace PlatformBindings.Models.FileSystem
             return items.OfType<FolderContainer>().ToList();
         }
 
-        public override async Task<IReadOnlyList<FileSystemContainer>> GetItemsAsync()
+        public override async Task<IReadOnlyList<StorageContainer>> GetItemsAsync()
         {
-            List<FileSystemContainer> Items = new List<FileSystemContainer>();
+            List<StorageContainer> Items = new List<StorageContainer>();
             var results = await Folder.ListFilesAsync();
             foreach (var result in results)
             {

@@ -43,11 +43,11 @@ namespace PlatformBindings.Models.FileSystem
             }
         }
 
-        public override Task<IReadOnlyList<FileSystemContainer>> GetItemsAsync()
+        public override Task<IReadOnlyList<StorageContainer>> GetItemsAsync()
         {
             return Task.Run(() =>
             {
-                var Items = new List<FileSystemContainer>();
+                var Items = new List<StorageContainer>();
                 foreach (var item in Folder.ListFiles())
                 {
                     if (item.IsDirectory)
@@ -59,7 +59,7 @@ namespace PlatformBindings.Models.FileSystem
                         Items.Add(new AndroidSAFFileContainer(item));
                     }
                 }
-                return (IReadOnlyList<FileSystemContainer>)Items;
+                return (IReadOnlyList<StorageContainer>)Items;
             });
         }
 

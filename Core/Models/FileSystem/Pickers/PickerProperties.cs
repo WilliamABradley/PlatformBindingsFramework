@@ -29,5 +29,20 @@ namespace PlatformBindings.Models.FileSystem
         /// Starting Location of the Picker, some options might be unavailable on some platforms, this property might have no effect on some platforms.
         /// </summary>
         public PathRoot? StartingLocation { get; set; }
+
+        /// <summary>
+        /// The Suggested file/folder to start with.
+        /// </summary>
+        public StorageContainer SuggestedStorageItem { get; set; }
+
+        /// <summary>
+        /// A Title for the use of the Picker Prompt.
+        /// </summary>
+        public string Title { get; set; }
+
+        /// <summary>
+        /// An identifier for the picker. In UWP, this allows pickers to share a starting location.
+        /// </summary>
+        public string PickerIdentifier { get; set; }
     }
 }
