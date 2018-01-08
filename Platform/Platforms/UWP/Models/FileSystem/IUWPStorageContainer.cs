@@ -14,7 +14,7 @@ using Windows.Storage;
 
 namespace PlatformBindings.Models.FileSystem
 {
-    public interface IUWPFileSystemContainer
+    public interface IUWPStorageContainer
     {
         IStorageItem Item { get; }
     }

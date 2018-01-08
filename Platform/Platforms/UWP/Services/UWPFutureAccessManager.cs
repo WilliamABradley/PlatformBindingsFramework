@@ -30,7 +30,7 @@ namespace PlatformBindings.Services
             }
 
             IStorageItem ItemToStore = null;
-            if (Item is IUWPFileSystemContainer container)
+            if (Item is IUWPStorageContainer container)
             {
                 ItemToStore = container.Item;
             }

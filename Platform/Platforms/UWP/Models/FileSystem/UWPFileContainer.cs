@@ -17,7 +17,7 @@ using Windows.Storage;
 
 namespace PlatformBindings.Models.FileSystem
 {
-    public class UWPFileContainer : FileContainer, IUWPFileSystemContainer
+    public class UWPFileContainer : FileContainer, IUWPStorageContainer
     {
         public UWPFileContainer(StorageFile File)
         {
