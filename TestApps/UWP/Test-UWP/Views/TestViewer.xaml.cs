@@ -48,8 +48,8 @@ namespace Test_UWP.Views
         {
             try
             {
-                var param = TestService.Navigation.Parameter;
-                var type = Type.GetType(param);
+                var param = TestService.Navigation.Parameters;
+                var type = Type.GetType(param["type"]);
                 TestModel = (TestPage)Activator.CreateInstance(type, new UWPTestPageGenerator(this));
                 if (TestModel.PageName != null) AppServices.Current.UI.TitleManager.WindowTitle = TestModel.PageName;
                 TestModel.DisplayTests();

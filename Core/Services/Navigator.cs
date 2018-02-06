@@ -10,6 +10,8 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using PlatformBindings.Models;
+
 namespace PlatformBindings.Services
 {
     /// <summary>
@@ -22,7 +24,10 @@ namespace PlatformBindings.Services
         /// </summary>
         /// <param name="Page">Page to Navigate to.</param>
         /// <returns>Navigation Handled</returns>
-        public abstract bool Navigate(object Page);
+        public bool Navigate(object Page)
+        {
+            return Navigate(Page, null);
+        }
 
         /// <summary>
         /// Navigates to the requested Page, supplying a Parameter.
@@ -30,7 +35,10 @@ namespace PlatformBindings.Services
         /// <param name="Page">Page to Navigate to.</param>
         /// <param name="Parameter">Parameter, can be serialised.</param>
         /// <returns>Navigation Handled</returns>
-        public abstract bool Navigate(object Page, string Parameter);
+        public bool Navigate(object Page, NavigationParameters Parameters)
+        {
+            return Navigate(Page, Parameters, false);
+        }
 
         /// <summary>
         /// Navigates to the requested Page, supplying a Parameter.
@@ -39,12 +47,15 @@ namespace PlatformBindings.Services
         /// <param name="Parameter">Parameter, can be serialised.</param>
         /// <param name="ClearBackStack">Clear the Navigation Back Stack?</param>
         /// <returns>Navigation Handled</returns>
-        public abstract bool Navigate(object Page, string Parameter, bool ClearBackStack);
+        public virtual bool Navigate(object Page, NavigationParameters Parameters, bool ClearBackStack)
+        {
+            return false;
+        }
 
         /// <summary>
         /// Gets the Parameter from the Current Page's Navigation Event.
         /// </summary>
-        public abstract string Parameter { get; }
+        public abstract NavigationParameters Parameters { get; }
     }
 
     /// <summary>
@@ -60,14 +71,25 @@ namespace PlatformBindings.Services
         /// <param name="Parameter">Parameter, can be serialised.</param>
         /// <param name="ClearBackStack">Clear the Navigation Back Stack?</param>
         /// <returns>Navigation Handled</returns>
-        public abstract bool Navigate(TPageIdentifier Page, string Parameter, bool ClearBackStack);
+        public abstract bool Navigate(TPageIdentifier Page, NavigationParameters Parameters, bool ClearBackStack);
 
         /// <summary>
-        /// Checks Casting
+        /// Navigates to the requested Page, supplying a Parameter.
         /// </summary>
-        /// <param name="Page"></param>
-        /// <returns></returns>
-        public override bool Navigate(object Page)
+        /// <param name="Page">Page to Navigate to.</param>
+        /// <param name="Parameter">Parameter, can be serialised.</param>
+        /// <returns>Navigation Handled</returns>
+        public bool Navigate(TPageIdentifier Page, NavigationParameters Parameters)
+        {
+            return Navigate(Page, Parameters, false);
+        }
+
+        /// <summary>
+        /// Navigates to the requested Page, supplying a Parameter.
+        /// </summary>
+        /// <param name="Page">Page to Navigate to.</param>
+        /// <returns>Navigation Handled</returns>
+        public bool Navigate(TPageIdentifier Page)
         {
             return Navigate(Page, null);
         }
@@ -77,30 +99,15 @@ namespace PlatformBindings.Services
         /// </summary>
         /// <param name="Page">Page to Navigate to (Must derrive of Generic)</param>
         /// <param name="Parameter">Page Parameter.</param>
-        /// <returns>Navigation Handled</returns>
-        public override bool Navigate(object Page, string Parameter)
-        {
-            if (Page is TPageIdentifier generic)
-            {
-                return Navigate(generic, Parameter, false);
-            }
-            else return false;
-        }
-
-        /// <summary>
-        /// Checks casting for Valid Navigation.
-        /// </summary>
-        /// <param name="Page">Page to Navigate to (Must derrive of Generic)</param>
-        /// <param name="Parameter">Page Parameter.</param>
         /// <param name="ClearBackStack">Clear the Navigation Back Stack?</param>
         /// <returns>Navigation Handled</returns>
-        public override bool Navigate(object Page, string Parameter, bool ClearBackStack)
+        public override bool Navigate(object Page, NavigationParameters Parameters, bool ClearBackStack)
         {
             if (Page is TPageIdentifier generic)
             {
-                return Navigate(generic, Parameter, ClearBackStack);
+                return Navigate(generic, Parameters, ClearBackStack);
             }
-            else return false;
+            else return base.Navigate(Page, Parameters, ClearBackStack);
         }
     }
 }

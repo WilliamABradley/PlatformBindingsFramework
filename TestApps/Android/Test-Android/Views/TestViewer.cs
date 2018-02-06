@@ -31,8 +31,8 @@ namespace Test_Android.Views
             base.OnCreate(savedInstanceState);
             try
             {
-                var param = TestService.Navigation.Parameter;
-                var type = Type.GetType(param);
+                var param = TestService.Navigation.Parameters;
+                var type = Type.GetType(param["type"]);
                 TestModel = (TestPage)Activator.CreateInstance(type, new AndroidTestPageGenerator(this));
                 if (TestModel.PageName != null) AppServices.Current.UI.TitleManager.PageTitle = TestModel.PageName;
                 TestModel.DisplayTests();

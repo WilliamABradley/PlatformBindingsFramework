@@ -10,10 +10,10 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using Newtonsoft.Json;
 using PlatformBindings.Common;
+using PlatformBindings.Models;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Controls;
 
 namespace PlatformBindings.Services
@@ -28,16 +28,25 @@ namespace PlatformBindings.Services
 
         private void Frame_Navigated(object sender, System.Windows.Navigation.NavigationEventArgs e)
         {
-            _Parameter = (string)e.ExtraData;
+            var param = (string)e.ExtraData;
+            _Parameters = param != null ? JsonConvert.DeserializeObject<NavigationParameters>(param) : null;
         }
 
-        protected virtual bool InternalNavigate(Type Type, string Parameter, bool ShowBackButton = false, bool ClearBackStack = false)
+        protected virtual bool InternalNavigate(Type Type, NavigationParameters Parameters, bool ShowBackButton = false, bool ClearBackStack = false)
         {
             PlatformBindingHelpers.OnUIThread(() =>
             {
                 var page = Activator.CreateInstance(Type);
+                if (Parameters != null)
+                {
+                    var parameterStr = JsonConvert.SerializeObject(Parameters);
+                    Frame.Navigate(page, parameterStr);
+                }
+                else
+                {
+                    Frame.Navigate(page);
+                }
 
-                Frame.Navigate(page, Parameter);
                 AppServices.Current.UI.NavigationManager.ShowBackButton = ShowBackButton;
 
                 if (ClearBackStack)
@@ -51,8 +60,8 @@ namespace PlatformBindings.Services
             return true;
         }
 
-        public override string Parameter => _Parameter;
-        private string _Parameter;
+        public override NavigationParameters Parameters => _Parameters;
+        private NavigationParameters _Parameters;
 
         private Frame Frame { get; }
     }

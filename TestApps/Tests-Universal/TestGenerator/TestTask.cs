@@ -20,8 +20,16 @@ namespace Tests.TestGenerator
     {
         public async void RunTest()
         {
-            var result = await Test(AttachedUI);
-            if (result != null) AppServices.Current.UI.PromptUser("Test Complete", result, "OK");
+            try
+            {
+                var result = await Test(AttachedUI);
+                if (result != null) AppServices.Current.UI.PromptUser("Test Complete", result, "OK");
+            }
+            catch (Exception ex)
+            {
+                var message = $"Test Caused exception: \n{ex.Message}\nStackTrace:\n{ex.StackTrace}";
+                AppServices.Current.UI.PromptUser("Test Failed", message, "OK");
+            }
         }
 
         public string Name { get; set; }

@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using PlatformBindings.Models;
 using PlatformBindings.Services;
 using System;
 using System.Linq;
@@ -25,7 +26,7 @@ namespace Test_WPF.Services
         {
         }
 
-        public override bool Navigate(TestNavigationPage Page, string Parameter, bool ClearBackStack)
+        public override bool Navigate(TestNavigationPage Page, NavigationParameters Parameters, bool ClearBackStack)
         {
             var pageType = TestService.TestRegister.FirstOrDefault(item => item.Value.Key == Page);
             if (pageType.HasValue)
@@ -38,7 +39,12 @@ namespace Test_WPF.Services
 
         protected bool InternalNavigate(Type Type, bool ShowBack)
         {
-            return InternalNavigate(typeof(TestViewer), Type.AssemblyQualifiedName, ShowBack);
+            var param = new NavigationParameters
+            {
+                { "type", Type.AssemblyQualifiedName }
+            };
+
+            return InternalNavigate(typeof(TestViewer), param, ShowBack);
         }
     }
 }

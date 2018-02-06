@@ -12,8 +12,10 @@
 
 using Android.App;
 using Android.Content;
+using Newtonsoft.Json;
 using PlatformBindings.Activities;
 using PlatformBindings.Common;
+using PlatformBindings.Models;
 using System;
 
 namespace PlatformBindings.Services
@@ -37,26 +39,34 @@ namespace PlatformBindings.Services
             }
         }
 
-        protected virtual bool InternalNavigate(Type Type, string Parameter)
+        protected virtual bool InternalNavigate(Type Type)
         {
-            return InternalNavigate(Type, Parameter, true);
+            return InternalNavigate(Type, null, true);
         }
 
-        protected virtual bool InternalNavigate(Type Type, string Parameter, bool ShowBack)
+        protected virtual bool InternalNavigate(Type Type, NavigationParameters Parameters)
         {
-            return InternalNavigate(Type, Parameter, ShowBack, false);
+            return InternalNavigate(Type, Parameters, true);
         }
 
-        protected virtual bool InternalNavigate(Type Type, string Parameter, bool ShowBack, bool ClearBackStack)
+        protected virtual bool InternalNavigate(Type Type, NavigationParameters Parameters, bool ShowBack)
+        {
+            return InternalNavigate(Type, Parameters, ShowBack, false);
+        }
+
+        protected virtual bool InternalNavigate(Type Type, NavigationParameters Parameters, bool ShowBack, bool ClearBackStack)
         {
             var activity = CurrentActivity;
 
             var intent = new Intent(activity, Type);
             intent.PutExtra("ShowBack", ShowBack);
-            if (!string.IsNullOrWhiteSpace(Parameter))
+
+            if (Parameters != null)
             {
-                intent.PutExtra("Parameter", Parameter);
+                var param = JsonConvert.SerializeObject(Parameters);
+                intent.PutExtra(ParameterKey, param);
             }
+
             if (ClearBackStack)
             {
                 intent.AddFlags(ActivityFlags.ClearTop | ActivityFlags.NewTask);
@@ -65,15 +75,25 @@ namespace PlatformBindings.Services
             return true;
         }
 
-        public override string Parameter
+        public override NavigationParameters Parameters
         {
             get
             {
-                var intent = CurrentActivity?.Intent;
-                return intent?.GetStringExtra("Parameter");
+                try
+                {
+                    var intent = CurrentActivity?.Intent;
+                    var param = intent?.GetStringExtra(ParameterKey);
+                    return JsonConvert.DeserializeObject<NavigationParameters>(param);
+                }
+                catch
+                {
+                    return null;
+                }
             }
         }
 
         private Activity CurrentActivity => AndroidHelpers.GetCurrentActivity();
+
+        private const string ParameterKey = "Parameters";
     }
 }

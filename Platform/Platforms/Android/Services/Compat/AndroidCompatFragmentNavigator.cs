@@ -13,6 +13,7 @@
 using Android.Support.V4.App;
 using Android.Support.V7.App;
 using PlatformBindings.Common;
+using PlatformBindings.Models;
 
 namespace PlatformBindings.Services.Compat
 {
@@ -25,10 +26,10 @@ namespace PlatformBindings.Services.Compat
         /// <param name="Parameter">Parameter to remember after the Navigation.</param>
         /// <param name="ClearBackStack">Removes the ability to go to the previous Fragment.</param>
         /// <returns>Navigation Handled</returns>
-        protected bool NavigatePrimaryFragment(Fragment Fragment, string Parameter, bool ClearBackStack)
+        protected bool NavigatePrimaryFragment(Fragment Fragment, NavigationParameters Parameters, bool ClearBackStack)
         {
             var currentNavigationActivity = Manager.PrimaryNavigationFragment;
-            _Parameter = Parameter;
+            _Parameters = Parameters;
 
             var transaction = Manager.BeginTransaction();
             transaction.Replace(currentNavigationActivity.Id, Fragment);
@@ -41,12 +42,12 @@ namespace PlatformBindings.Services.Compat
             return true;
         }
 
-        public override string Parameter => _Parameter;
+        public override NavigationParameters Parameters => _Parameters;
 
         /// <summary>
         /// Parameter Storage, as Fragment Navigation doesn't natively support Parameters that I'm aware of.
         /// </summary>
-        protected string _Parameter { get; set; }
+        protected NavigationParameters _Parameters { get; set; }
 
         public FragmentManager Manager => ((AppCompatActivity)AndroidHelpers.GetCurrentActivity())?.SupportFragmentManager;
     }

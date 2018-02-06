@@ -10,3 +10,11 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System.Collections.Generic;
+
+namespace PlatformBindings.Models
+{
+    public class NavigationParameters : Dictionary<string, string>
+    {
+    }
+}

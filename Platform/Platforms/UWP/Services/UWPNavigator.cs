@@ -10,7 +10,9 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using Newtonsoft.Json;
 using PlatformBindings.Common;
+using PlatformBindings.Models;
 using System;
 using Windows.UI.Xaml.Controls;
 
@@ -26,14 +28,24 @@ namespace PlatformBindings.Services
 
         private void Frame_Navigated(object sender, Windows.UI.Xaml.Navigation.NavigationEventArgs e)
         {
-            _Parameter = (string)e.Parameter;
+            var param = (string)e.Parameter;
+            _Parameters = param != null ? JsonConvert.DeserializeObject<NavigationParameters>(param) : null;
         }
 
-        protected virtual bool InternalNavigate(Type Type, string Parameter, bool ShowBackButton = false, bool ClearBackStack = false)
+        protected virtual bool InternalNavigate(Type Type, NavigationParameters Parameters, bool ShowBackButton = false, bool ClearBackStack = false)
         {
             PlatformBindingHelpers.OnUIThread(() =>
             {
-                Frame.Navigate(Type, Parameter);
+                if (Parameters != null)
+                {
+                    var parameterStr = JsonConvert.SerializeObject(Parameters);
+                    Frame.Navigate(Type, parameterStr);
+                }
+                else
+                {
+                    Frame.Navigate(Type);
+                }
+
                 AppServices.Current.UI.NavigationManager.ShowBackButton = ShowBackButton;
 
                 if (ClearBackStack) Frame.BackStack.Clear();
@@ -41,8 +53,8 @@ namespace PlatformBindings.Services
             return true;
         }
 
-        public override string Parameter => _Parameter;
-        private string _Parameter;
+        public override NavigationParameters Parameters => _Parameters;
+        private NavigationParameters _Parameters;
 
         private Frame Frame { get; }
     }

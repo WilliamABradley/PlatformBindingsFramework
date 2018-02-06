@@ -32,7 +32,9 @@
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <AndroidUseLatestPlatformSdk>True</AndroidUseLatestPlatformSdk>
     <DevInstrumentationEnabled>True</DevInstrumentationEnabled>
-    <AndroidResgenFile>Platforms\Android\Resources\Resource.Designer.cs</AndroidResgenFile>
+    <!-- Not needed yet.
+        <AndroidResgenFile>Platforms\Android\Resources\Resource.Designer.cs</AndroidResgenFile>
+    -->
   </PropertyGroup>
 
   <!-- Platform Requirements -->

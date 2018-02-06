@@ -27,14 +27,14 @@ namespace PlatformBindings.Services
             Navigator.Navigate(Page);
         }
 
-        public void Navigate(object Page, string Parameter)
+        public void Navigate(object Page, NavigationParameters Parameters)
         {
-            Navigator.Navigate(Page, Parameter);
+            Navigator.Navigate(Page, Parameters);
         }
 
-        public void Navigate(object Page, string Parameter, bool ClearBackStack)
+        public void Navigate(object Page, NavigationParameters Parameters, bool ClearBackStack)
         {
-            Navigator.Navigate(Page, Parameter, ClearBackStack);
+            Navigator.Navigate(Page, Parameters, ClearBackStack);
         }
 
         public abstract void GoBack();

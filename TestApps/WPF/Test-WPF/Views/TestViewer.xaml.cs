@@ -35,8 +35,8 @@ namespace Test_WPF.Views
         {
             try
             {
-                var param = TestService.Navigation.Parameter;
-                var type = Type.GetType(param);
+                var param = TestService.Navigation.Parameters;
+                var type = Type.GetType(param["type"]);
                 TestModel = (TestPage)Activator.CreateInstance(type, new WPFTestPageGenerator(this));
                 if (TestModel.PageName != null) Title = TestModel.PageName;
                 TestModel.DisplayTests();

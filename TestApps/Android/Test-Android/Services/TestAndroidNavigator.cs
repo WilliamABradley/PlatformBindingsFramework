@@ -15,12 +15,13 @@ using Test_Android.Views;
 using System;
 using System.Linq;
 using PlatformBindings.Services;
+using PlatformBindings.Models;
 
 namespace Test_Android.Services
 {
     public class TestAndroidNavigator : AndroidActivityNavigator<TestNavigationPage>
     {
-        public override bool Navigate(TestNavigationPage Page, string Parameter, bool ClearBackStack)
+        public override bool Navigate(TestNavigationPage Page, NavigationParameters Parameters, bool ClearBackStack)
         {
             var pageType = TestService.TestRegister.FirstOrDefault(item => item.Value.Key == Page);
             if (pageType.HasValue)
@@ -33,7 +34,12 @@ namespace Test_Android.Services
 
         protected bool InternalNavigate(Type Type, bool ShowBack)
         {
-            return InternalNavigate(typeof(TestViewer), Type.AssemblyQualifiedName, ShowBack);
+            var param = new NavigationParameters
+            {
+                { "type", Type.AssemblyQualifiedName }
+            };
+
+            return InternalNavigate(typeof(TestViewer), param, ShowBack);
         }
     }
 }
