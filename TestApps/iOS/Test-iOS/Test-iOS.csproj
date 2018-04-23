@@ -61,11 +61,15 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
-    <None Include="GettingStarted.Xamarin" />
     <None Include="Info.plist" />
+    <Compile Include="Pages\TestController.cs" />
+    <Compile Include="Pages\TestController.designer.cs">
+      <DependentUpon>TestController.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <InterfaceDefinition Include="Resources\LaunchScreen.xib" />
     <Content Include="Entitlements.plist" />
+    <InterfaceDefinition Include="Pages\TestController.xib" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -83,5 +87,6 @@
       <Name>PlatformBindings-Platform</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>
