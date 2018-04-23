@@ -21,7 +21,7 @@ var toolsDir = buildDir + "/tools";
 var Solution = baseDir + "/PlatformBindingsFramework.sln";
 var nupkgDir = buildDir + "/nupkg";
 
-var gitVersioningVersion = "2.1.11";
+var gitVersioningVersion = "2.1.23";
 var versionClient = toolsDir + "/nerdbank.gitversioning/tools/Get-Version.ps1";
 string Version = null;
 
@@ -120,25 +120,14 @@ Task("Build")
     .Does(() =>
 {
     Information("\nBuilding Solution");
+    EnsureDirectoryExists(nupkgDir);
+
     var buildSettings = new MSBuildSettings
     {
         MaxCpuCount = 0
     }
     .SetConfiguration("Release")
-    .WithTarget("Restore");
-
-    // Force a restore again to get proper version numbers https://github.com/NuGet/Home/issues/4337
-    MSBuild(Solution, buildSettings);
-    MSBuild(Solution, buildSettings);
-
-    EnsureDirectoryExists(nupkgDir);
-
-    buildSettings = new MSBuildSettings
-    {
-        MaxCpuCount = 0
-    }
-    .SetConfiguration("Release")
-    .WithTarget("Build")
+    .WithTarget("Restore;Build")
     .WithProperty("IncludeSource", "true")
     .WithProperty("IncludeSymbols", "true")
     .WithProperty("GenerateLibraryLayout", "true")
