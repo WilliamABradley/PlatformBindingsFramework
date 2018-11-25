@@ -29,7 +29,7 @@ namespace PlatformBindings.Services.Compat
         protected bool NavigatePrimaryFragment(Fragment Fragment, NavigationParameters Parameters, bool ClearBackStack)
         {
             var currentNavigationActivity = Manager.PrimaryNavigationFragment;
-//            _Parameters = Parameters ?? new NavigationParameters();
+            _Parameters = Parameters ?? new NavigationParameters();
 
             var transaction = Manager.BeginTransaction();
             transaction.Replace(currentNavigationActivity.Id, Fragment);
