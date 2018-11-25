@@ -19,6 +19,11 @@ namespace PlatformBindings.Services
     /// </summary>
     public abstract class Navigator
     {
+        public Navigator()
+        {
+            Parameters = new NavigationParameters();
+        }
+
         /// <summary>
         /// Navigates to the Request Page.
         /// </summary>
@@ -55,7 +60,7 @@ namespace PlatformBindings.Services
         /// <summary>
         /// Gets the Parameter from the Current Page's Navigation Event.
         /// </summary>
-        public abstract NavigationParameters Parameters { get; }
+        public abstract NavigationParameters Parameters { get; set; }
     }
 
     /// <summary>

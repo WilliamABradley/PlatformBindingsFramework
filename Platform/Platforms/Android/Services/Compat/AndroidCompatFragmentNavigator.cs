@@ -29,7 +29,7 @@ namespace PlatformBindings.Services.Compat
         protected bool NavigatePrimaryFragment(Fragment Fragment, NavigationParameters Parameters, bool ClearBackStack)
         {
             var currentNavigationActivity = Manager.PrimaryNavigationFragment;
-            _Parameters = Parameters;
+//            _Parameters = Parameters ?? new NavigationParameters();
 
             var transaction = Manager.BeginTransaction();
             transaction.Replace(currentNavigationActivity.Id, Fragment);
@@ -42,12 +42,16 @@ namespace PlatformBindings.Services.Compat
             return true;
         }
 
-        public override NavigationParameters Parameters => _Parameters;
+        public override NavigationParameters Parameters
+        {
+            get { return _Parameters ?? (_Parameters = new NavigationParameters());  }
+            set { _Parameters = value; }
+        }
 
         /// <summary>
         /// Parameter Storage, as Fragment Navigation doesn't natively support Parameters that I'm aware of.
         /// </summary>
-        protected NavigationParameters _Parameters { get; set; }
+        private NavigationParameters _Parameters { get; set; }
 
         public FragmentManager Manager => ((AppCompatActivity)AndroidHelpers.GetCurrentActivity())?.SupportFragmentManager;
     }

@@ -16,5 +16,16 @@ namespace PlatformBindings.Models
 {
     public class NavigationParameters : Dictionary<string, string>
     {
+        public void AddOrSet(string Key, string Value)
+        {
+            if (ContainsKey(Key))
+            {
+                this[Key] = Value;
+            }
+            else
+            {
+                this.Add(Key, Value);
+            }
+        }
     }
 }

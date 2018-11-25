@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.4;netstandard2.0;net461;uap10.0;monoandroid80</TargetFrameworks>
+    <TargetFrameworks>netstandard1.4;netstandard2.0;net461;uap10.0;monoandroid81</TargetFrameworks>
     <RootNamespace>PlatformBindings</RootNamespace>
     <AssemblyName>PlatformBindings</AssemblyName>
     <Title>PlatformBindings</Title>
@@ -27,7 +27,7 @@
     <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(TargetFramework)' == 'monoandroid80'">
+  <PropertyGroup Condition="'$(TargetFramework)' == 'monoandroid81'">
     <DefineConstants>ANDROID</DefineConstants>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <AndroidUseLatestPlatformSdk>True</AndroidUseLatestPlatformSdk>
@@ -63,9 +63,9 @@
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.2.2" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' == 'MonoAndroid80'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'MonoAndroid81'">
     <Compile Include="Platforms\Android\**\*.cs" />
-    <PackageReference Include="Xamarin.Android.Support.v7.AppCompat" Version="26.1.0.1" />
+    <PackageReference Include="Xamarin.Android.Support.v7.AppCompat" Version="27.0.2.1" />
   </ItemGroup>
 
   <!-- End of Platform Definitions -->
